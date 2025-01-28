@@ -62,24 +62,29 @@ class Circle:
 class Polygon:
     def __init__(self, x, y, color, points):
         self.center = Point(x, y)
-        self.lines = []
         if points is not None:
-            prev_point = points[0]
-            for i in range(len(points)):
-                if points[i] != prev_point:
-                    line = Line(prev_point, points[i], color=color)
-                    self.lines.append(line)
-                    prev_point = points[i]
-            line = Line(prev_point, points[0], color=color)
-            self.lines.append(line)
+            self.points = points
         self.color = color
 
     def draw(self, canvas):
         if canvas is None:
             return
-        for line in self.lines:
+        lp = self.points[0]
+        for point in self.points:
+            line = Line(lp, point, color=self.color)
             line.draw(canvas)
-        self.first = False
+            lp = point
+    
+    def area(self):
+        n = len(self.points)
+        area = 0
+
+        for i in range(n):
+            x1, y1 = self.points[i]
+            x2, y2 = self.points[(i+1)%n]
+            area += x1*y2 - y1*x2
+        return abs(area)/2
+
                 
 
 class Switch:
