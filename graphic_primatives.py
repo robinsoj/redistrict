@@ -60,8 +60,7 @@ class Circle:
                            self.p.x + self.r, self.p.y + self.r,
                            fill=self.color)
 class Polygon:
-    def __init__(self, x, y, color, points):
-        self.center = Point(x, y)
+    def __init__(self, color, points):
         if points is not None:
             self.points = points
         self.color = color
@@ -77,13 +76,29 @@ class Polygon:
     
     def area(self):
         n = len(self.points)
-        area = 0
+        area = 0.0
 
         for i in range(n):
             x1, y1 = self.points[i]
             x2, y2 = self.points[(i+1)%n]
             area += x1*y2 - y1*x2
-        return abs(area)/2
+        return abs(area)/2.0
+
+    def divide(self):
+        n = len(self.points)
+        total_area = self.area()
+        half_area = total_area / 2.0
+
+        for i in range(n):
+            for j in range(i+1, n):
+                polygon1_points = self.points[:i+1] + self.points[j:]
+                polygon1 = Polygon(self.color, polygon1_points)
+                area1 = polygon1.area()
+                if abs(area1 - half_area) < 0.001:
+                    polygon2_points = self.points[i:j+1]
+                    polygon2 = Polygon(self.color, polygon2_points)
+                    return polygon1, polygon2
+        return None, None
 
 class Slider:
     def __init__(self, x1, y1, x2, y2, labels, colors):
