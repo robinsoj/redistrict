@@ -85,44 +85,6 @@ class Polygon:
             area += x1*y2 - y1*x2
         return abs(area)/2
 
-                
-
-class Switch:
-    def __init__(self, x1, y1, x2, y2, label, color1, color2):
-        self.p1 = Point(x1, y1)
-        self.p2 = Point(x2, y2)
-        self.label = label
-        self.color1 = color1
-        self.color2 = color2
-        self.status = False
-        self.click = self.on_click
-
-    def on_click(self, event):
-        x1 = min(self.p1.x, self.p2.x)
-        x2 = max(self.p1.x, self.p2.x)
-        y1 = min(self.p1.y, self.p2.y)
-        y2 = max(self.p1.y, self.p2.y)
-        if x1 <= event.x and event.x <= x2 and y1 <= event.y and event.y <= y2:
-            self.status = not self.status
-
-    def draw(self, canvas):
-        if canvas is None:
-            return
-        midx = (self.p1.x + self.p2.x) / 2
-        canvas.create_text(midx, self.p1.y - 15, text=self.label,
-                           font=("Helvetica", 20))
-        canvas.create_rectangle(self.p1.x, self.p1.y,
-                                self.p2.x, self.p2.y,
-                                fill=self.color1)
-        if self.status:
-            canvas.create_rectangle(midx, self.p1.y + 10,
-                                    self.p2.x - 10, self.p2.y - 10,
-                                    fill=self.color2)
-        else:
-            canvas.create_rectangle(self.p1.x + 10, self.p1.y + 10,
-                                    midx, self.p2.y - 10,
-                                    fill=self.color2)
-
 class Slider:
     def __init__(self, x1, y1, x2, y2, labels, colors):
         self.p1 = Point(x1, y1)
@@ -178,30 +140,3 @@ class Slider:
 
     def get_level(self):
         return self.level
-        
-class Turn_Indicator:
-    def __init__(self, x, y, length, width):
-        self.active = True
-        self.label_text = "Turn: "
-        self.x = x
-        self.y = y + width/2
-        self.square = Square(x + 35, y, x + length - 25, y + width, '#000000')
-
-    def draw(self, canvas):
-        canvas.create_text(self.x, self.y, text=self.label_text, anchor="w",
-                           font=("Helvetica", 11))
-        self.square.draw(canvas)
-
-    def flip_turn(self):
-        self.active = not self.active
-        if not self.active:
-            self.square.color = "#FF0000"
-        else:
-            self.square.color = "#000000"
-
-    def on_click(self, event):
-        x = event.x
-        y = event.y
-        if x < self.x or y < self.y or x > self.square.p2.x or y > self.square.p2.y:
-            return None
-        self.flip_turn()
