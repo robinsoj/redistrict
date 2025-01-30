@@ -9,6 +9,9 @@ class Point:
     def __str__(self):
         return f"({self.x}, {self.y})"
 
+    def __iter__(self):
+        return iter((self.x, self.y))
+
 class Line:
     def __init__(self, *args, color="black"):
         if len(args) == 4:
@@ -88,16 +91,24 @@ class Polygon:
         n = len(self.points)
         total_area = self.area()
         half_area = total_area / 2.0
+        print(f"Total Area: {total_area}, Half Area: {half_area}")
 
         for i in range(n):
-            for j in range(i+1, n):
-                polygon1_points = self.points[:i+1] + self.points[j:]
+            for j in range(i + 1, n):
+                polygon1_points = self.points[i:j+1] + [self.points[i]]
+                polygon2_points = self.points[j:] + self.points[:i+1]
+                
                 polygon1 = Polygon(self.color, polygon1_points)
+                polygon2 = Polygon(self.color, polygon2_points)
                 area1 = polygon1.area()
-                if abs(area1 - half_area) < 0.001:
-                    polygon2_points = self.points[i:j+1]
-                    polygon2 = Polygon(self.color, polygon2_points)
+                area2 = polygon2.area()
+
+                print(f"Polygon1 Points: {[str(pt) for pt in polygon1_points]}, Area1: {area1}")
+                print(f"Polygon2 Points: {[str(pt) for pt in polygon2_points]}, Area2: {area2}")
+
+                if abs(area1 - half_area) < 0.001 and abs(area2 - half_area) < 0.001:
                     return polygon1, polygon2
+
         return None, None
 
 class Slider:
