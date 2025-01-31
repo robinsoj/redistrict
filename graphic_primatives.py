@@ -87,6 +87,30 @@ class Polygon:
             area += x1*y2 - y1*x2
         return abs(area)/2.0
 
+    def subdivide(self):
+        new_points = []
+        n = len(self.points)
+
+        for i in range(n):
+            p1 = self.points[i]
+            p2 = self.points[(i+1) % n]
+            midpoint = Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
+            new_points.append(p1)
+            new_points.append(midpoint)
+
+        return Polygon(self.color, new_points)
+        
+    def remove_duplicates(self, points):
+        unique_points = []
+        seen = set()
+
+        for point in points:
+            if (point.x, point.y) not in seen:
+                unique_points.append(point)
+                seen.add((point.x, point.y))
+
+        return unique_points
+
     def divide(self):
         n = len(self.points)
         total_area = self.area()
@@ -97,7 +121,10 @@ class Polygon:
             for j in range(i + 1, n):
                 polygon1_points = self.points[i:j+1] + [self.points[i]]
                 polygon2_points = self.points[j:] + self.points[:i+1]
-                
+
+                polygon1_points = self.remove_duplicates(polygon1_points)
+                polygon2_points = self.remove_duplicates(polygon2_points)
+
                 polygon1 = Polygon(self.color, polygon1_points)
                 polygon2 = Polygon(self.color, polygon2_points)
                 area1 = polygon1.area()

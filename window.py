@@ -60,16 +60,12 @@ class Window:
         print(len(self.__drawables))
 
 def main():
-    pts = [Point(0, 0), Point(2,2), Point(2, 0), Point(0,0)]
-    pg = Polygon("black", pts)
-    p1, p2 = pg.divide()
-    print("Polygon 1: ", p1)
-    print("Polygon 2: ", p2)
     win = Window(800, 600)
     stateData = openJson("counties.json")
     print(stateData["name"], "file was loaded")
+    createCountyPolygons(stateData["counties"][5])
     print("Trying to determine", stateData["districts"], "congressional districts")
-    win.wait_for_close()
+    #win.wait_for_close()
 
 
 if __name__ == '__main__':
