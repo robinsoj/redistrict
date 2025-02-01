@@ -63,9 +63,13 @@ def main():
     win = Window(800, 600)
     stateData = openJson("counties.json")
     print(stateData["name"], "file was loaded")
-    createCountyPolygons(stateData["counties"][5])
+    prescintList = createCountyPolygons(stateData["counties"][5])
     print("Trying to determine", stateData["districts"], "congressional districts")
-    #win.wait_for_close()
+
+    for poly in prescintList:
+        win.register_drawable(poly)
+        
+    win.wait_for_close()
 
 
 if __name__ == '__main__':
