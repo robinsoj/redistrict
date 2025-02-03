@@ -20,7 +20,7 @@ def createCountyPolygons(countyJson):
         points.append(point)
     points.append(points[0])
     pg = Polygon("black", points)
-    prescincts = countyJson["prescints"]
+    prescincts = countyJson["prescints"] - 1
     power = 0
     while (1 << power) < prescincts:
         pg = pg.subdivide()
@@ -28,8 +28,6 @@ def createCountyPolygons(countyJson):
     pq = queue.PriorityQueue()
     pq.put((pg.area()*-1, pg))
     while prescincts > 0:
-        #TODO infinite loop bug.
-        print(prescincts)
         item = pq.get()
         item2 = item[1].subdivide()
         p1, p2 = item2.divide()

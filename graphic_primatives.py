@@ -68,6 +68,12 @@ class Polygon:
             self.points = points
         self.color = color
 
+    def __gt__(self, other):
+        return self.area() > other.area()
+    
+    def __lt__(self, other):
+        return self.area() < other.area()
+
     def draw(self, canvas):
         if canvas is None:
             return
@@ -108,14 +114,13 @@ class Polygon:
             if (point.x, point.y) not in seen:
                 unique_points.append(point)
                 seen.add((point.x, point.y))
-
+        unique_points.append(unique_points[0])
         return unique_points
 
     def divide(self):
         n = len(self.points)
         total_area = self.area()
         half_area = total_area / 2.0
-        #print(f"Total Area: {total_area}, Half Area: {half_area}")
 
         for i in range(n):
             for j in range(i + 1, n):
@@ -130,10 +135,7 @@ class Polygon:
                 area1 = polygon1.area()
                 area2 = polygon2.area()
 
-                #print(f"Polygon1 Points: {[str(pt) for pt in polygon1_points]}, Area1: {area1}")
-                #print(f"Polygon2 Points: {[str(pt) for pt in polygon2_points]}, Area2: {area2}")
-
-                if abs(area1 - half_area) < 0.001 and abs(area2 - half_area) < 0.001:
+                if abs(area1 - half_area) < 100 and abs(area2 - half_area) < 100:
                     return polygon1, polygon2
 
         return None, None

@@ -54,7 +54,8 @@ class Window:
             return
 
         self.__canvas.delete("all")
-        # TODO: draw the prescints
+        for drawable in self.__drawables:
+            drawable.draw(self.__canvas)
 
     def report_drawables(self):
         print(len(self.__drawables))
@@ -63,7 +64,9 @@ def main():
     win = Window(800, 600)
     stateData = openJson("counties.json")
     print(stateData["name"], "file was loaded")
-    prescintList = createCountyPolygons(stateData["counties"][5])
+    prescintList = []
+    for county in stateData["counties"]:
+        prescintList.extend(createCountyPolygons(county))
     print("Trying to determine", stateData["districts"], "congressional districts")
 
     for poly in prescintList:
