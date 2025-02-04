@@ -61,7 +61,7 @@ class Window:
         print(len(self.__drawables))
 
 def main():
-    win = Window(800, 600)
+    win = Window(820, 620)
     stateData = openJson("counties.json")
     print(stateData["name"], "file was loaded")
     prescintList = []

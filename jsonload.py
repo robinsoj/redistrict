@@ -16,7 +16,7 @@ def createCountyPolygons(countyJson):
     print("Processing:", countyJson["county"])
     points = []
     for i in countyJson["boundary"]:
-        point = Point(i["x"], i["y"])
+        point = Point(i["x"]+10, i["y"]+10)
         points.append(point)
     points.append(points[0])
     pg = Polygon("black", points)
@@ -27,15 +27,16 @@ def createCountyPolygons(countyJson):
         power += 1
     pq = queue.PriorityQueue()
     pq.put((pg.area()*-1, pg))
-    while prescincts > 0:
-        item = pq.get()
-        item2 = item[1].subdivide()
-        p1, p2 = item2.divide()
-        if p1 is not None:
-            pq.put((p1.area()*-1, p1))
-        if p2 is not None:
-            pq.put((p2.area()*-1, p2))
-        prescincts -= 1
+#    while prescincts > 0:
+#        item = pq.get()
+#        item2 = item[1].subdivide()
+#        p1, p2 = item2.divide()
+#        if p1 is not None:
+#            pq.put((p1.area()*-1, p1))
+#        if p2 is not None:
+#            pq.put((p2.area()*-1, p2))
+#        prescincts -= 1
+
     ret_list = []
     while not pq.empty():
         ret_list.append(pq.get()[1])
