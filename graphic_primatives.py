@@ -67,6 +67,7 @@ class Polygon:
         if points is not None:
             self.points = points
         self.color = color
+        self.fill_color = "grey"
 
     def __gt__(self, other):
         return self.area() > other.area()
@@ -77,11 +78,8 @@ class Polygon:
     def draw(self, canvas):
         if canvas is None:
             return
-        lp = self.points[0]
-        for point in self.points:
-            line = Line(lp, point, color=self.color)
-            line.draw(canvas)
-            lp = point
+        flat_points = [int(coord) for point in self.points for coord in (point.x, point.y)]
+        canvas.create_polygon(flat_points, outline=self.color, fill=self.fill_color, width=2)
     
     def area(self):
         n = len(self.points)
@@ -121,11 +119,14 @@ class Polygon:
         n = len(self.points)
         total_area = self.area()
         half_area = total_area / 2.0
+        min_diff = float('inf')
+        best_polygon1 = None
+        best_polygon2 = None
 
         for i in range(n):
             for j in range(i + 1, n):
-                polygon1_points = self.points[i:j+1] + [self.points[i]]
-                polygon2_points = self.points[j:] + self.points[:i+1]
+                polygon1_points = self.points[i:j + 1] + [self.points[i]]
+                polygon2_points = self.points[j:] + self.points[:i + 1]
 
                 polygon1_points = self.remove_duplicates(polygon1_points)
                 polygon2_points = self.remove_duplicates(polygon2_points)
@@ -135,10 +136,14 @@ class Polygon:
                 area1 = polygon1.area()
                 area2 = polygon2.area()
 
-                if abs(area1 - half_area) < 100 and abs(area2 - half_area) < 100:
-                    return polygon1, polygon2
+                diff = abs(area1 - half_area) + abs(area2 - half_area)
+                
+                if diff < min_diff:
+                    min_diff = diff
+                    best_polygon1 = polygon1
+                    best_polygon2 = polygon2
 
-        return None, None
+        return best_polygon1, best_polygon2
 
 class Slider:
     def __init__(self, x1, y1, x2, y2, labels, colors):
