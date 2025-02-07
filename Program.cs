@@ -139,6 +139,35 @@ public class State
     public int Districts { get; set; }
 }
 
+// PriorityQueue implementation
+public class PriorityQueue<T>
+{
+    private List<(T Item, double Priority)> elements = new List<(T, double)>();
+
+    public int Count => elements.Count;
+
+    public void Enqueue(T item, double priority)
+    {
+        elements.Add((item, priority));
+    }
+
+    public T Dequeue()
+    {
+        var bestIndex = 0;
+
+        for (var i = 0; i < elements.Count; i++)
+        {
+            if (elements[i].Priority < elements[bestIndex].Priority)
+            {
+                bestIndex = i;
+            }
+        }
+
+        var bestItem = elements[bestIndex];
+        elements.RemoveAt(bestIndex);
+        return bestItem.Item;
+    }
+}
 
 class Program
 {
@@ -157,10 +186,36 @@ class Program
 
         foreach (var county in state.Counties)
         {
+            Console.WriteLine(county.CountyName);
             List<Point> points = county.Boundary.Select(b => new Point(b.X, b.Y )).ToList();
             Polygon polygon = new Polygon(points);
-            List<Polygon> subPolygons = polygon.Divide();
-            Console.WriteLine(county.CountyName);
+            int prescincts = county.Prescints - 1;
+            int power = 0;
+            while ((1 << power) < prescincts)
+            {
+                polygon = polygon.Subdivide();
+                power++;
+			}
+            var pq = new PriorityQueue<Polygon>();
+            pq.Enqueue(polygon, polygon.Area());
+            while (prescincts > 0)
+            {
+                var item = pq.Dequeue();
+                Console.WriteLine("{0}  {1}", prescincts, item.Points.Count);
+                var (p1, p2) = item.Divide();
+
+                if (p1 != null)
+                    pq.Enqueue(p1, -p1.Area());
+                if (p2 != null)
+                    pq.Enqueue(p2, -p2.Area());
+                prescincts--;
+			}
+            List<Polygon> subPolygons = new List<Polygon>();
+            while (pq.Count > 0)
+            {
+                subPolygons.Add(pq.Dequeue());
+			}
+
             var countyJson = new
             {
                 county = county.CountyName,
