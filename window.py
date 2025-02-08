@@ -1,6 +1,7 @@
 from tkinter import Tk, BOTH, Canvas
 from graphic_primatives import *
 from jsonload import *
+from precinct import *
 
 class Window:
     def __init__(self, width, height):
@@ -63,14 +64,15 @@ class Window:
 def main():
     win = Window(820, 620)
     stateData = openJson("counties.json")
-    print(stateData["name"], "file was loaded")
-    prescintList = []
+    print(stateData["Name"], "file was loaded")
+    precintList = []
     for county in stateData["counties"]:
-        prescintList.extend(createCountyPolygons(county))
+        precintList.extend(createCountyPolygons(county))
+    print("There are", len(precintList), "precints in the JSON.")
     print("Trying to determine", stateData["districts"], "congressional districts")
 
-    for poly in prescintList:
-        win.register_drawable(poly)
+    for poly in precintList:
+        win.register_drawable(poly.boundaries)
         
     win.wait_for_close()
 

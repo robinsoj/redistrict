@@ -1,6 +1,7 @@
 import json
 import queue
 from graphic_primatives import *
+from precinct import *
 
 def openJson(stateFile):
     with open(stateFile, 'r') as file:
@@ -14,30 +15,17 @@ def openJson(stateFile):
 
 def createCountyPolygons(countyJson):
     print("Processing:", countyJson["county"])
-    points = []
-    for i in countyJson["boundary"]:
-        point = Point(i["x"]+10, i["y"]+10)
-        points.append(point)
-    #points.append(points[0])
-    pg = Polygon("black", points)
-    prescincts = countyJson["prescints"] - 1
-    power = 0
-    while (1 << power) < prescincts:
-        pg = pg.subdivide()
-        power += 1
-    pq = queue.PriorityQueue()
-    pq.put((pg.area()*-1, pg))
-    while prescincts > 0:
-        item = pq.get()
-        item2 = item[1]#.subdivide()
-        p1, p2 = item2.divide()
-        if p1 is not None:
-            pq.put((p1.area()*-1, p1))
-        if p2 is not None:
-            pq.put((p2.area()*-1, p2))
-        prescincts -= 1
-
     ret_list = []
-    while not pq.empty():
-        ret_list.append(pq.get()[1])
+    precinctCount = len(countyJson["precincts"])
+    rep = round(countyJson["rep"]/precinctCount)
+    dem = round(countyJson["dem"]/precinctCount)
+    oth = round(countyJson["oth"]/precinctCount)
+    for precinct in countyJson["precincts"]:
+        points = []
+        for i in precinct["boundary"]:
+            point = Point(i["x"]+10, i["y"]+10)
+            points.append(point)
+        pg = Polygon("black", points)
+        precinctItem = Precinct(pg, rep, dem, oth, countyJson["county"])
+        ret_list.append(precinctItem)
     return ret_list

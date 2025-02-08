@@ -79,71 +79,8 @@ class Polygon:
         if canvas is None:
             return
         flat_points = [int(coord) for point in self.points for coord in (point.x, point.y)]
-        canvas.create_polygon(flat_points, outline=self.color, fill=self.fill_color, width=2)
+        canvas.create_polygon(flat_points, outline="", fill=self.fill_color, width=.5)
     
-    def area(self):
-        n = len(self.points)
-        area = 0.0
-
-        for i in range(n):
-            x1, y1 = self.points[i]
-            x2, y2 = self.points[(i+1)%n]
-            area += x1*y2 - y1*x2
-        return abs(area)/2.0
-
-    def subdivide(self):
-        new_points = []
-        n = len(self.points)
-
-        for i in range(n):
-            p1 = self.points[i]
-            p2 = self.points[(i+1) % n]
-            midpoint = Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
-            new_points.append(p1)
-            new_points.append(midpoint)
-
-        return Polygon(self.color, new_points)
-        
-    def remove_duplicates(self, points):
-        unique_points = []
-        seen = set()
-
-        for point in points:
-            if (point.x, point.y) not in seen:
-                unique_points.append(point)
-                seen.add((point.x, point.y))
-        unique_points.append(unique_points[0])
-        return unique_points
-
-    def divide(self):
-        n = len(self.points)
-        total_area = self.area()
-        half_area = total_area / 2.0
-        min_diff = float('inf')
-        best_polygon1 = None
-        best_polygon2 = None
-
-        for i in range(n):
-            for j in range(i + 1, n):
-                polygon1_points = self.points[i:j + 1] + [self.points[i]]
-                polygon2_points = self.points[j:] + self.points[:i + 1]
-
-                polygon1_points = self.remove_duplicates(polygon1_points)
-                polygon2_points = self.remove_duplicates(polygon2_points)
-
-                polygon1 = Polygon(self.color, polygon1_points)
-                polygon2 = Polygon(self.color, polygon2_points)
-                area1 = polygon1.area()
-                area2 = polygon2.area()
-
-                diff = abs(area1 - half_area) + abs(area2 - half_area)
-                
-                if diff < min_diff:
-                    min_diff = diff
-                    best_polygon1 = polygon1
-                    best_polygon2 = polygon2
-
-        return best_polygon1, best_polygon2
 
 class Slider:
     def __init__(self, x1, y1, x2, y2, labels, colors):

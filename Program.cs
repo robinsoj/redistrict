@@ -70,31 +70,31 @@ public class Polygon
         Polygon bestPolygon1 = null;
         Polygon bestPolygon2 = null;
 
+        // Precompute areas of sub-polygons
+        double[,] subPolygonAreas = new double[n, n];
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = i; j < n; j++)
+            {
+                List<Point> subPolygonPoints = Points.GetRange(i, j - i + 1);
+                subPolygonAreas[i, j] = new Polygon(subPolygonPoints).Area();
+            }
+        }
+
         for (int i = 0; i < n; i++)
         {
             for (int j = i + 1; j < n; j++)
             {
-                List<Point> polygon1Points = Points.GetRange(i, j - i + 1);
-                polygon1Points.Add(Points[i]);
-                List<Point> polygon2Points = new List<Point>();
-                polygon2Points.AddRange(Points.GetRange(j, n - j));
-                polygon2Points.AddRange(Points.GetRange(0, i + 1));
-
-                polygon1Points = RemoveDuplicates(polygon1Points);
-                polygon2Points = RemoveDuplicates(polygon2Points);
-
-                Polygon polygon1 = new Polygon(polygon1Points);
-                Polygon polygon2 = new Polygon(polygon2Points);
-                double area1 = polygon1.Area();
-                double area2 = polygon2.Area();
+                double area1 = subPolygonAreas[i, j];
+                double area2 = totalArea - area1;
 
                 double diff = Math.Abs(area1 - halfArea) + Math.Abs(area2 - halfArea);
 
                 if (diff < minDiff)
                 {
                     minDiff = diff;
-                    bestPolygon1 = polygon1;
-                    bestPolygon2 = polygon2;
+                    bestPolygon1 = new Polygon(Points.GetRange(i, j - i + 1));
+                    bestPolygon2 = new Polygon(Points.GetRange(j, n - j).Concat(Points.GetRange(0, i + 1)).ToList());
                 }
             }
         }
@@ -191,7 +191,7 @@ class Program
             Polygon polygon = new Polygon(points);
             int prescincts = county.Prescints - 1;
             int power = 0;
-            while ((1 << power) < prescincts)
+            while (((1 << power) < prescincts) && (power < 8))
             {
                 polygon = polygon.Subdivide();
                 power++;
