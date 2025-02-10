@@ -1,7 +1,15 @@
 from graphic_primatives import *
 from enum import Enum
+import random
 
 class Color(Enum):
+    BLUE = "#0000FF"
+    BROWN = "#A52A2A"
+    FOREST_GREEN = "#228B22"
+    GOLD = "#FFD700"
+    ORANGE = "#FFA500"
+    PINK = "#FFC0CB"
+    RED = "#FF0000"
     ALICE_BLUE = "#F0F8FF"
     ANTIQUE_WHITE = "#FAEBD7"
     AQUA = "#00FFFF"
@@ -10,9 +18,7 @@ class Color(Enum):
     BEIGE = "#F5F5DC"
     BISQUE = "#FFE4C4"
     BLANCHED_ALMOND = "#FFEBCD"
-    BLUE = "#0000FF"
     BLUE_VIOLET = "#8A2BE2"
-    BROWN = "#A52A2A"
     BURLY_WOOD = "#DEB887"
     CADET_BLUE = "#5F9EA0"
     CHARTREUSE = "#7FFF00"
@@ -42,11 +48,9 @@ class Color(Enum):
     DODGER_BLUE = "#1E90FF"
     FIREBRICK = "#B22222"
     FLORAL_WHITE = "#FFFAF0"
-    FOREST_GREEN = "#228B22"
     FUCHSIA = "#FF00FF"
     GAINSBORO = "#DCDCDC"
     GHOST_WHITE = "#F8F8FF"
-    GOLD = "#FFD700"
     GOLDENROD = "#DAA520"
     HONEYDEW = "#F0FFF0"
     HOT_PINK = "#FF69B4"
@@ -93,7 +97,6 @@ class Color(Enum):
     OLD_LACE = "#FDF5E6"
     OLIVE = "#808000"
     OLIVE_DRAB = "#6B8E23"
-    ORANGE = "#FFA500"
     ORANGE_RED = "#FF4500"
     ORCHID = "#DA70D6"
     PALE_GOLDENROD = "#EEE8AA"
@@ -103,11 +106,9 @@ class Color(Enum):
     PAPAYA_WHIP = "#FFEFD5"
     PEACH_PUFF = "#FFDAB9"
     PERU = "#CD853F"
-    PINK = "#FFC0CB"
     PLUM = "#DDA0DD"
     POWDER_BLUE = "#B0E0E6"
     PURPLE = "#800080"
-    RED = "#FF0000"
     ROSY_BROWN = "#BC8F8F"
     ROYAL_BLUE = "#4169E1"
     SADDLE_BROWN = "#8B4513"
@@ -120,6 +121,15 @@ class State:
         self.districts = []
         self.precints = presincts
         self.district_count = districts
+        self.district_colors = []
+        for i in range(self.district_count):
+            print(i)
+    
+    def update_district(self, precinct, district_number):
+        for pre in self.precincts:
+            if precinct.boundaries == pre.boundaries:
+                pre.assign_color(list(Color)[district_number].value, district_number)
+                return
 
     def find_border_polygons(self, districtNum):
         def are_polygons_connected(polygon1, polygon2):
@@ -131,22 +141,46 @@ class State:
                     return True
             return False
 
+        if districtNum > len(self.districts):
+            return
+
         # Remove completely internal polygons from set1
-        set1 = [polygon for polygon in set1 if not is_polygon_inside(polygon, self.)]
+        set1 = [polygon for polygon in self.districts[districtNum] if not is_polygon_inside(polygon, self.districts[districtNum])]
 
         border_polygons = []
-        for polygon2 in set2:
+        for polygon2 in self.precints:
             if polygon2 not in set1:
                 for polygon1 in set1:
-                    if are_polygons_connected(polygon1, polygon2):
-                        border_polygons.append(polygon2)
+                    if are_polygons_connected(polygon1, polygon2.boundaries) and polygon2.district == -1:
+                        border_polygons.append(polygon2.boundaries)
                         break
         return border_polygons
+    
+    def seed_initial_district(self):
+        for i in range(self.district_count):
+            dist_list = []
+            while len(dist_list) == 0:
+                random_precinct = random.choice(self.precints)
+                if random_precinct.district == -1:
+                    self.update_district(random_precinct, i)
+                    dist_list.append(random_precinct)
+                    self.districts.append(dist_list)
+
+    def populate_districts(self):
+        curr_district = 0
+        total_precincts = 0
+        for pre in self.precints:
+            if pre.district == -1:
+                total_precincts += 1
+        
+        while total_precincts > 0:
+
 
 def main():
     print("In main")
-    for color in Color:
-        print(color)
+    print(list(Color)[0].value)
+    #for color in Color:
+    #    print(color.value)
 
 if __name__ == "__main__":
     main()
