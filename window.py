@@ -2,6 +2,7 @@ from tkinter import Tk, BOTH, Canvas
 from graphic_primatives import *
 from jsonload import *
 from precinct import *
+from state import *
 
 class Window:
     def __init__(self, width, height):
@@ -73,7 +74,10 @@ def main():
 
     for poly in precintList:
         win.register_drawable(poly.boundaries)
-        
+    state = State(stateData["Name"], stateData["districts"], precintList)
+    state.seed_initial_district()
+    state.populate_districts()
+    
     win.wait_for_close()
 
 
