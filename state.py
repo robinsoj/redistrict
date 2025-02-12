@@ -21,7 +21,7 @@ class State:
 
     def find_border_polygons(self, districtNum):
         def are_polygons_connected(polygon1, polygon2):
-            return any(vertex in polygon2 for vertex in polygon1) #error here
+            return any(vertex in polygon2.points for vertex in polygon1.points)
 
         def is_point_inside_polygon(point, polygon_points):
             x, y = point
@@ -53,12 +53,13 @@ class State:
 
         # Remove completely internal polygons from set1
         set1 = [polygon for polygon in self.districts[districtNum] if not is_polygon_inside(polygon, self.districts[districtNum])]
-
+        if set1 == []:
+            set1 = self.districts[districtNum]
         border_polygons = []
         for polygon2 in self.precincts:
             if polygon2 not in set1:
                 for polygon1 in set1:
-                    if are_polygons_connected(polygon1, polygon2.boundaries) and polygon2.district == -1:
+                    if are_polygons_connected(polygon1.boundaries, polygon2.boundaries) and polygon2.district == -1:
                         border_polygons.append(polygon2.boundaries)
                         break
         return border_polygons
@@ -72,7 +73,9 @@ class State:
                     self.update_district(random_precinct, i)
                     dist_list.append(random_precinct)
                     self.districts.append(dist_list)
-
+    """
+    Rework this logic so that it actually works
+    """
     def populate_districts(self):
         curr_district = 0
         total_precincts = 0
@@ -81,8 +84,9 @@ class State:
                 total_precincts += 1
         
         while total_precincts > 0:
+            target_precints = 0
             target_precints = self.find_border_polygons(curr_district)
-            if target_precints is not None:
+            if target_precints != []:
                 random_precinct = random.choice(target_precints)
                 if random_precinct == -1:
                     total_precincts -= 1
