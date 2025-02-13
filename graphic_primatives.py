@@ -11,6 +11,9 @@ class Point:
 
     def __iter__(self):
         return iter((self.x, self.y))
+    
+    def __eq__(self, point):
+        return self.x == point.x and self.y == point.y
 
 class Line:
     def __init__(self, *args, color="black"):
@@ -80,6 +83,9 @@ class Polygon:
             return
         flat_points = [int(coord) for point in self.points for coord in (point.x, point.y)]
         canvas.create_polygon(flat_points, outline="", fill=self.fill_color, width=.5)
+
+    def sides(self):
+        return [(self.points[i], self.points[i + 1]) for i in range(len(self.points) - 1)]
     
 
 class Slider:
