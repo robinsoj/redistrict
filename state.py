@@ -37,6 +37,9 @@ class State:
         p1x, p1y = polygon_points[0]
         for i in range(n+1):
             p2x, p2y = polygon_points[i % n]
+            if y == p1y == p2y and min(p1x, p2x) <= x <= max(p1x, p2x):
+                return True
+            
             if y > min(p1y, p2y):
                 if y <= max(p1y, p2y):
                     if x <= max(p1x, p2x):
