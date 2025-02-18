@@ -2,8 +2,14 @@ import unittest
 from graphic_primatives import *
 from precinct import *
 from state import *
+import inspect
 
 class Tests(unittest.TestCase):
+    def report_location(self):
+        caller_frame = inspect.stack()[1]
+        caller_name = caller_frame.function
+        print(f"Executing: {caller_name}")
+    
     def set_up_state(self):
         points1 = [Point(0, 0), Point(100, 0), Point(100, 100), Point(0,0)]
         points2 = [Point(0, 0), Point(100, 0), Point(100, -100), Point(0,0)]
@@ -13,6 +19,7 @@ class Tests(unittest.TestCase):
         points6 = [Point(0,0), Point(0, 50), Point(-50, 0), Point(0, 0)]
         points7 = [Point(0, 0), Point(0, -100), Point(-100, 0), Point(0,0)]
         points8 = [Point(-50, 0), Point(-100, 0), Point(0, 100), Point(0, 50), Point(-50, 0)]
+        points9 = [Point(0,0), Point(50, -100), Point(0, -100), Point(0, 0)]
 
         pg1 = Polygon("black", points1)
         pg2 = Polygon("black", points2)
@@ -22,12 +29,14 @@ class Tests(unittest.TestCase):
         pg6 = Polygon("black", points6)
         pg7 = Polygon("black", points7)
         pg8 = Polygon("black", points8)
+        pg9 = Polygon("black", points9)
 
-        precinct = Precinct([pg1, pg2, pg3, pg4, pg5, pg6, pg7, pg8], 0, 0, 0, "Test County")
+        precinct = Precinct([pg1, pg2, pg3, pg4, pg5, pg6, pg7, pg8, pg9], 0, 0, 0, "Test County")
         st = State("Test", 1, precinct)
         return st
     
     def test_are_polygons_connected(self):
+        self.report_location()
         st = self.set_up_state()
 
         pg1 = st.precincts.boundaries[0]
@@ -46,6 +55,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(test4, True)
 
     def test_is_point_inside_polygon(self):
+        self.report_location()
         st = self.set_up_state()
         pg1 = st.precincts.boundaries[0].points
 
@@ -63,6 +73,24 @@ class Tests(unittest.TestCase):
         self.assertEqual(test2, True)
         self.assertEqual(test3, False)
         self.assertEqual(test4, True)
+    
+    def test_is_polygon_inside(self):
+        self.report_location()
+        st = self.set_up_state()
+
+        precinct = Precinct([st.precincts.boundaries[0]], 0, 0, 0, "Test")
+        precinct.boundaries.append(Precinct(st.precincts.boundaries[4], 0, 0, 0, "Test"))
+        precinct.boundaries.append(Precinct([st.precincts.boundaries[5]], 0, 0, 0, "Test"))
+        precinct.boundaries.append(Precinct([st.precincts.boundaries[7]], 0, 0, 0, "Test"))
+
+        pg4 = st.precincts.boundaries[3]
+        pg2 = st.precincts.boundaries[1]
+
+        test1 = st.is_polygon_inside(pg4, precinct) #Should be true
+        test2 = st.is_polygon_inside(pg2, precinct) #Should be false
+
+        self.assertEqual(test1, True)
+        self.assertEqual(test2, False)
 
 if __name__ == '__main__':
     unittest.main()
