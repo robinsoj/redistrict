@@ -19,13 +19,34 @@ class State:
                 pre.assign_color(list(Color)[district_number].value, district_number)
                 return
 
+    def is_point_on_line_segment(self, point, line_start, line_end):
+        cross_product = (point.y - line_start.y) * (line_end.x - line_start.x) - (point.x - line_start.x) * (line_end.y - line_start.y)
+        if abs(cross_product) > 1e-6:  # Use a small tolerance for floating-point comparison
+            return False
+        
+        dot_product = (point.x - line_start.x) * (line_end.x - line_start.x) + (point.y - line_start.y) * (line_end.y - line_start.y)
+        if dot_product < 0:
+            return False
+
+        squared_length = (line_end.x - line_start.x) ** 2 + (line_end.y - line_start.y) ** 2
+        if dot_product > squared_length:
+            return False
+
+        return True
+
     def are_polygons_connected(self, polygon1, polygon2):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
-    
+
         for side1 in pg1_sides:
-            if side1 in pg2_sides or side1[::-1] in pg2_sides:
-                return True
+            for side2 in pg2_sides:
+                if (
+                    side1 == side2 
+                    or side1 == side2[::-1]
+                    or (self.is_point_on_line_segment(side1[0], *side2) and self.is_point_on_line_segment(side1[1], *side2))
+                    or (self.is_point_on_line_segment(side2[0], *side1) and self.is_point_on_line_segment(side2[1], *side1))
+                ):
+                    return True
         return False
 
 
