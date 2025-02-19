@@ -31,18 +31,29 @@ class Tests(unittest.TestCase):
         pg8 = Polygon("black", points8)
         pg9 = Polygon("black", points9)
 
-        precinct = Precinct([pg1, pg2, pg3, pg4, pg5, pg6, pg7, pg8, pg9], 0, 0, 0, "Test County")
-        st = State("Test", 1, precinct)
+        precincts = [
+            Precinct([pg1], 0, 0, 0, "Test County"),
+            Precinct([pg2], 0, 0, 0, "Test County"),
+            Precinct([pg3], 0, 0, 0, "Test County"),
+            Precinct([pg4], 0, 0, 0, "Test County"),
+            Precinct([pg5], 0, 0, 0, "Test County"),
+            Precinct([pg6], 0, 0, 0, "Test County"),
+            Precinct([pg7], 0, 0, 0, "Test County"),
+            Precinct([pg8], 0, 0, 0, "Test County"),
+            Precinct([pg9], 0, 0, 0, "Test County")
+        ]
+    
+        st = State("Test", 1, precincts)
         return st
     
     def test_are_polygons_connected(self):
         self.report_location()
         st = self.set_up_state()
 
-        pg1 = st.precincts.boundaries[0]
-        pg2 = st.precincts.boundaries[1]
-        pg3 = st.precincts.boundaries[2]
-        pg4 = st.precincts.boundaries[3]
+        pg1 = st.precincts[0].boundaries[0]
+        pg2 = st.precincts[1].boundaries[0]
+        pg3 = st.precincts[2].boundaries[0]
+        pg4 = st.precincts[3].boundaries[0]
 
         test1 = st.are_polygons_connected(pg1, pg2) #Should be true
         test2 = st.are_polygons_connected(pg1, pg3) #Should be false
@@ -57,7 +68,7 @@ class Tests(unittest.TestCase):
     def test_is_point_inside_polygon(self):
         self.report_location()
         st = self.set_up_state()
-        pg1 = st.precincts.boundaries[0].points
+        pg1 = st.precincts[0].boundaries[0].points
 
         p1 = Point(50, 25)
         p2 = Point(0,0)
@@ -78,16 +89,20 @@ class Tests(unittest.TestCase):
         self.report_location()
         st = self.set_up_state()
 
-        precinct = Precinct([st.precincts.boundaries[0]], 0, 0, 0, "Test")
-        precinct.boundaries.append(Precinct(st.precincts.boundaries[4], 0, 0, 0, "Test"))
-        precinct.boundaries.append(Precinct([st.precincts.boundaries[5]], 0, 0, 0, "Test"))
-        precinct.boundaries.append(Precinct([st.precincts.boundaries[7]], 0, 0, 0, "Test"))
+        # Create the district with a list of precincts
+        district = [
+            st.precincts[0],  # First precinct
+            Precinct([st.precincts[4].boundaries[0]], 0, 0, 0, "Test"),
+            Precinct([st.precincts[5].boundaries[0]], 0, 0, 0, "Test"),
+            Precinct([st.precincts[7].boundaries[0]], 0, 0, 0, "Test")
+        ]
 
-        pg4 = st.precincts.boundaries[3]
-        pg2 = st.precincts.boundaries[1]
+        pg4 = st.precincts[3].boundaries[0]
+        pg2 = st.precincts[1].boundaries[0]
 
-        test1 = st.is_polygon_inside(pg4, precinct) #Should be true
-        test2 = st.is_polygon_inside(pg2, precinct) #Should be false
+        # Use proper parameters for the is_polygon_inside function
+        test1 = st.is_polygon_inside(pg4, district)  # Should be true
+        test2 = st.is_polygon_inside(pg2, district)  # Should be false
 
         self.assertEqual(test1, True)
         self.assertEqual(test2, False)

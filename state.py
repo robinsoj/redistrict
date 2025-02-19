@@ -72,10 +72,11 @@ class State:
 
         return inside
 
-    def is_polygon_inside(self, polygon, other_polygons):
-        for other in other_polygons:
-            if all(self.is_point_inside_polygon(vertex, other.boundaries.points) for vertex in polygon.boundaries.points):
-                return True
+    def is_polygon_inside(self, polygon, other_precincts):
+        for other in other_precincts:
+            for other_polygon in other.boundaries:
+                if all(self.is_point_inside_polygon(vertex, other_polygon.points) for vertex in polygon.boundaries[0].points):
+                    return True
         return False
         
     def find_border_polygons(self, districtNum):
