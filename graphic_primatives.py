@@ -65,6 +65,7 @@ class Circle:
         canvas.create_oval(self.p.x - self.r, self.p.y - self.r,
                            self.p.x + self.r, self.p.y + self.r,
                            fill=self.color)
+
 class Polygon:
     def __init__(self, color, points):
         if points is not None:
@@ -87,7 +88,6 @@ class Polygon:
     def sides(self):
         return [(self.points[i], self.points[i + 1]) for i in range(len(self.points) - 1)]
     
-
 class Slider:
     def __init__(self, x1, y1, x2, y2, labels, colors):
         self.p1 = Point(x1, y1)
@@ -107,18 +107,18 @@ class Slider:
         x_min = min(self.p1.x, self.p2.x) + 10
         y_min = min(self.p1.y, self.p2.y) + 10
         y_max = max(self.p1.y, self.p2.y) - 10
-        label_font = ("Helcetica", 11)
+        label_font = ("Helvetica", 11)
 
         sq0 = Square(self.p1.x, self.p1.y, self.p2.x, self.p2.y, self.colors[0])
-        sq1 = Square(x_min + 5, y_max, x_min, y_mid, self.colors[1])
-        sq2 = Square(x_min + 5, y_mid, x_min, y_min, self.colors[2])
+        sq1 = Square(x_min, y_max, x_min + 5, y_mid, self.colors[1])
+        sq2 = Square(x_min, y_mid, x_min + 5, y_min, self.colors[2])
 
         sq0.draw(canvas)
         sq1.draw(canvas)
         sq2.draw(canvas)
 
         for y in range(len(self.labels)):
-            if (y <= self.level):
+            if y <= self.level:
                 color = self.colors[1]
             else:
                 color = self.colors[2]
@@ -127,16 +127,23 @@ class Slider:
             circle = Circle(cir_x, cir_y, 10, color)
             circle.draw(canvas)
             label_text = f"{self.labels[y]}"
-            canvas.create_text(x_min + 30, cir_y,
-                               text=label_text, anchor="w",
-                               font=label_font)
+            canvas.create_text(x_min + 30, cir_y, text=label_text, anchor="w", font=label_font)
+
+    def on_click(self, event):
+            for pl in range(len(self.y_levels)):
+                print(event.y, self.y_levels[pl])
+                if event.y < self.y_levels[pl]:
+                    self.level = pl
+                    print("level:", self.level)
+                    break
 
     def on_click(self, event):
         x1 = min(self.p1.x, self.p2.x)
         x2 = max(self.p1.x, self.p2.x)
         y1 = min(self.p1.y, self.p2.y)
         y2 = max(self.p1.y, self.p2.y)
-        if x1 <= event.x and event.x <= x2 and y1 <= event.y and event.y <= y2:
+        print("on_click", self.y_levels)
+        if x1 <= event.x <= x2 and y1 <= event.y <= y2:
             for pl in range(len(self.y_levels)):
                 if (event.y < self.y_levels[pl]):
                     self.level = pl
