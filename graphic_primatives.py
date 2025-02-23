@@ -110,8 +110,8 @@ class Slider:
         label_font = ("Helvetica", 11)
 
         sq0 = Square(self.p1.x, self.p1.y, self.p2.x, self.p2.y, self.colors[0])
-        sq1 = Square(x_min, y_max, x_min + 5, y_mid, self.colors[1])
-        sq2 = Square(x_min, y_mid, x_min + 5, y_min, self.colors[2])
+        sq1 = Square(x_min + 5, y_max, x_min, y_mid, self.colors[1])
+        sq2 = Square(x_min + 5, y_mid, x_min, y_min, self.colors[2])
 
         sq0.draw(canvas)
         sq1.draw(canvas)
@@ -130,19 +130,10 @@ class Slider:
             canvas.create_text(x_min + 30, cir_y, text=label_text, anchor="w", font=label_font)
 
     def on_click(self, event):
-            for pl in range(len(self.y_levels)):
-                print(event.y, self.y_levels[pl])
-                if event.y < self.y_levels[pl]:
-                    self.level = pl
-                    print("level:", self.level)
-                    break
-
-    def on_click(self, event):
         x1 = min(self.p1.x, self.p2.x)
         x2 = max(self.p1.x, self.p2.x)
         y1 = min(self.p1.y, self.p2.y)
         y2 = max(self.p1.y, self.p2.y)
-        print("on_click", self.y_levels)
         if x1 <= event.x <= x2 and y1 <= event.y <= y2:
             for pl in range(len(self.y_levels)):
                 if (event.y < self.y_levels[pl]):

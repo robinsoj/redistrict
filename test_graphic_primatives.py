@@ -207,19 +207,19 @@ class TestSlider(unittest.TestCase):
     def test_init(self):
         labels = ["Low", "Medium", "High"]
         colors = ["red", "yellow", "green"]
-        slider = Slider(0, 0, 0, 100, labels, colors)
-        self.assertEqual(slider.p1, Point(0, 0))
-        self.assertEqual(slider.p2, Point(0, 100))
+        slider = Slider(0, 10, 100, 100, labels, colors)
+        self.assertEqual(slider.p1, Point(0, 10))
+        self.assertEqual(slider.p2, Point(100, 100))
         self.assertEqual(slider.labels, labels)
         self.assertEqual(slider.colors, colors)
         self.assertEqual(slider.level, 0)
-        self.assertEqual(slider.y_delta, 40.0)
-        self.assertEqual(slider.y_levels, [100.0, 60.0, 20.0])
+        self.assertEqual(slider.y_delta, 35.0)
+        self.assertEqual(slider.y_levels, [100.0, 65.0, 30.0])
 
     def test_draw(self):
         labels = ["Low", "Medium", "High"]
         colors = ["red", "yellow", "green"]
-        slider = Slider(0, 0, 0, 100, labels, colors)
+        slider = Slider(0, 10, 100, 100, labels, colors)
         
         class MockCanvas:
             def __init__(self):
@@ -237,31 +237,33 @@ class TestSlider(unittest.TestCase):
         canvas = MockCanvas()
         slider.draw(canvas)
         expected_drawings = [
-            ('rectangle', 0, 0, 0, 100, 'red', None, None),
-            ('rectangle', 10, 90, 15, 100.0, 'yellow', None, None),
-            ('rectangle', 10, 100.0, 15, 10, 'green', None, None),
+            ('rectangle', 0, 10, 100, 100, 'red', None, None),
+            ('rectangle', 15, 90, 10, 100.0, 'yellow', None, None),
+            ('rectangle', 15, 100.0, 10, 20, 'green', None, None),
             ('oval', 2.5, 80.0, 22.5, 100.0, 'yellow'),
             ('text', 40, 90.0, 'Low', 'w', ('Helvetica', 11)),
-            ('oval', 2.5, 40.0, 22.5, 60.0, 'green'),
-            ('text', 40, 50.0, 'Medium', 'w', ('Helvetica', 11)),
-            ('oval', 2.5, 0.0, 22.5, 20.0, 'green'),
-            ('text', 40, 10.0, 'High', 'w', ('Helvetica', 11))
+            ('oval', 2.5, 45.0, 22.5, 65.0, 'green'),
+            ('text', 40, 55.0, 'Medium', 'w', ('Helvetica', 11)),
+            ('oval', 2.5, 10.0, 22.5, 30.0, 'green'),
+            ('text', 40, 20.0, 'High', 'w', ('Helvetica', 11))
         ]
         self.assertEqual(canvas.drawings, expected_drawings)
 
     def test_on_click(self):
         labels = ["Low", "Medium", "High"]
         colors = ["red", "yellow", "green"]
-        slider = Slider(0, 0, 0, 100, labels, colors)
-        slider.on_click(type('Event', (object,), {'x': 0, 'y': 70})())
+        slider = Slider(0, 10, 100, 100, labels, colors)
+        slider.on_click(type('Event', (object,), {'x': 20, 'y': 70})())
+        self.assertEqual(slider.level, 0)
+        slider.on_click(type('Event', (object,), {'x': 20, 'y': 30})())
         self.assertEqual(slider.level, 1)
-        slider.on_click(type('Event', (object,), {'x': 0, 'y': 30})())
+        slider.on_click(type('Event', (object,), {'x': 20, 'y': 15})())
         self.assertEqual(slider.level, 2)
 
     def test_get_level(self):
         labels = ["Low", "Medium", "High"]
         colors = ["red", "yellow", "green"]
-        slider = Slider(0, 0, 0, 100, labels, colors)
+        slider = Slider(0, 10, 100, 100, labels, colors)
         slider.level = 2
         self.assertEqual(slider.get_level(), 2)
 
