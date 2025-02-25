@@ -2,6 +2,8 @@ import unittest
 from graphic_primatives import *
 from precinct import *
 from state import *
+from jsonload import *
+
 import inspect
 
 class Tests(unittest.TestCase):
@@ -85,31 +87,19 @@ class Tests(unittest.TestCase):
         self.assertEqual(test3, False)
         self.assertEqual(test4, True)
     
-    def setUp(self):
-        # Set up some example polygons and precincts
-        self.polygon1 = Polygon("black", [Point(0, 0), Point(4, 0), Point(4, 4), Point(0, 4)]) # A square
-        self.polygon2 = Polygon("black", [Point(1, 1), Point(3, 1), Point(3, 3), Point(1, 3)]) # Smaller square inside polygon1
-        self.polygon3 = Polygon("black", [Point(5, 5), Point(7, 5), Point(7, 7), Point(5, 7)]) # Another square outside polygon1
-
-        self.precinct1 = Precinct([self.polygon1],0, 0, 0, "Test")
-        self.precinct2 = Precinct([self.polygon2],0, 0, 0, "Test")
-        self.precinct3 = Precinct([self.polygon3],0, 0, 0, "Test")
-
-        self.st = State("Test", 1, [self.precinct1, self.precinct2, self.precinct3])
-
     def test_polygon_inside(self):
-        self.assertTrue(self.st.is_polygon_inside(self.polygon2, [self.precinct1]))
-        self.assertFalse(self.st.is_polygon_inside(self.polygon3, [self.precinct1]))
+        stateData = openJson("counties.json")
+        precintList = []
+        for county in stateData["counties"]:
+            precintList.extend(createCountyPolygons(county))
 
-    def test_polygon_outside(self):
-        self.assertFalse(self.st.is_polygon_inside(self.polygon1, [self.precinct2]))
-        self.assertTrue(self.st.is_polygon_inside(self.polygon1, [self.precinct1, self.precinct2]))
-
-    def test_empty_precincts(self):
-        self.assertFalse(self.st.is_polygon_inside(self.polygon1, []))
-
-    def test_empty_polygon(self):
-        self.assertFalse(self.st.is_polygon_inside(Polygon("black", []), [self.precinct1]))
+        state = State(stateData["Name"], 1, precintList)
+        self.assertTrue(state.is_polygon_inside(self.polygon2, [self.precinct1]))
+        self.assertFalse(state.is_polygon_inside(self.polygon3, [self.precinct1]))
+        self.assertFalse(state.is_polygon_inside(self.polygon1, [self.precinct2]))
+        self.assertTrue(state.is_polygon_inside(self.polygon1, [self.precinct1, self.precinct2]))
+        self.assertFalse(state.is_polygon_inside(self.polygon1, []))
+        self.assertFalse(state.is_polygon_inside(Polygon("black", []), [self.precinct1]))
 
 if __name__ == '__main__':
     unittest.main()
