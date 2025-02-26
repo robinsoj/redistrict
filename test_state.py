@@ -88,18 +88,29 @@ class Tests(unittest.TestCase):
         self.assertEqual(test4, True)
     
     def test_polygon_inside(self):
-        stateData = openJson("counties.json")
+        stateData = openJson("test_county.json")
         precintList = []
         for county in stateData["counties"]:
             precintList.extend(createCountyPolygons(county))
 
         state = State(stateData["Name"], 1, precintList)
-        self.assertTrue(state.is_polygon_inside(self.polygon2, [self.precinct1]))
-        self.assertFalse(state.is_polygon_inside(self.polygon3, [self.precinct1]))
-        self.assertFalse(state.is_polygon_inside(self.polygon1, [self.precinct2]))
-        self.assertTrue(state.is_polygon_inside(self.polygon1, [self.precinct1, self.precinct2]))
-        self.assertFalse(state.is_polygon_inside(self.polygon1, []))
-        self.assertFalse(state.is_polygon_inside(Polygon("black", []), [self.precinct1]))
+        polygon1 = Polygon("black", state.precincts[0].boundaries)
+        polygon2 = Polygon("black", state.precincts[1].boundaries)
+        polygon3 = Polygon("black", state.precincts[2].boundaries)
+        polygon4 = Polygon("black", state.precincts[3].boundaries)
+        polygon5 = Polygon("black", state.precincts[4].boundaries)
+
+        state.districts.append([])
+        for precinct in state.precincts:
+            state.update_district(precinct, 0)
+            state.districts[0].append(precinct)
+
+        self.assertTrue(state.is_polygon_inside(polygon2.points, state.districts[0]))
+        self.assertTrue(state.is_polygon_inside(polygon3.points, state.districts[0]))
+        self.assertTrue(state.is_polygon_inside(polygon1.points, state.districts[0]))
+        self.assertFalse(state.is_polygon_inside(polygon1.points, []))
+        nullPolygon = Polygon("black", [])
+        self.assertFalse(state.is_polygon_inside(nullPolygon.points, state.districts[0]))
 
 if __name__ == '__main__':
     unittest.main()
