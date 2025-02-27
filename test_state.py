@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch, MagicMock
 from graphic_primatives import *
 from precinct import *
 from state import *
@@ -47,7 +48,15 @@ class Tests(unittest.TestCase):
     
         st = State("Test", 1, precincts)
         return st
-    
+
+    def setup_jsonload_state(self):
+        stateData = openJson("test_county.json")
+        precintList = []
+        for county in stateData["counties"]:
+            precintList.extend(createCountyPolygons(county))
+        state = State(stateData["Name"], stateData["districts"], precintList)
+        return state
+
     def test_are_polygons_connected(self):
         self.report_location()
         st = self.set_up_state()
@@ -87,18 +96,16 @@ class Tests(unittest.TestCase):
         self.assertEqual(test3, False)
         self.assertEqual(test4, True)
     
-    def test_polygon_inside(self):
-        stateData = openJson("test_county.json")
-        precintList = []
-        for county in stateData["counties"]:
-            precintList.extend(createCountyPolygons(county))
+    def test_is_polygon_inside(self):
+        self.report_location()
+        state = self.setup_jsonload_state()
 
-        state = State(stateData["Name"], 1, precintList)
         polygon1 = Polygon("black", state.precincts[0].boundaries)
         polygon2 = Polygon("black", state.precincts[1].boundaries)
         polygon3 = Polygon("black", state.precincts[2].boundaries)
         polygon4 = Polygon("black", state.precincts[3].boundaries)
         polygon5 = Polygon("black", state.precincts[4].boundaries)
+
 
         state.districts.append([])
         for precinct in state.precincts:
@@ -111,6 +118,34 @@ class Tests(unittest.TestCase):
         self.assertFalse(state.is_polygon_inside(polygon1.points, []))
         nullPolygon = Polygon("black", [])
         self.assertFalse(state.is_polygon_inside(nullPolygon.points, state.districts[0]))
+
+    def test_is_point_on_line_segment(self):
+        self.report_location()
+        point1 = Point(1, 1)
+        point2 = Point(3, 3)
+        point3 = Point(2, 2)
+        point4 = Point(1, 2)
+        point5 = Point(5, 5)
+
+        st = self.set_up_state()
+
+        self.assertTrue(st.is_point_on_line_segment(point3, point1, point2))
+        self.assertFalse(st.is_point_on_line_segment(point4, point1, point2))
+        self.assertFalse(st.is_point_on_line_segment(point1, point3, point2))
+        self.assertFalse(st.is_point_on_line_segment(point5, point1, point2))
+
+    @patch('random.choice')
+    def test_seed_initial_district(self, mock_choice):
+        self.report_location()
+        state = self.setup_jsonload_state()
+        mock_choice.side_effect = [state.precincts[1], state.precincts[2]]
+        state.seed_initial_district()
+
+        self.assertEqual(len(state.districts), 2)
+        self.assertTrue(state.precincts[1] in state.districts[0])
+        self.assertTrue(state.precincts[2] in state.districts[1])
+
+        self.assertFalse(state.precincts[0] in state.districts[1])
 
 if __name__ == '__main__':
     unittest.main()

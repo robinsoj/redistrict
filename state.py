@@ -49,7 +49,6 @@ class State:
                     return True
         return False
 
-
     def is_point_inside_polygon(self, point, polygon_points):
         x, y = point
         n = len(polygon_points)
