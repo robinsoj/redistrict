@@ -147,5 +147,24 @@ class Tests(unittest.TestCase):
 
         self.assertFalse(state.precincts[0] in state.districts[1])
 
+    @patch('random.choice')
+    def test_update_district(self, mock_choice):
+        self.report_location()
+        state = self.setup_jsonload_state()
+        mock_choice.side_effect = [state.precincts[1], state.precincts[2]]
+        state.seed_initial_district()
+
+        state.update_district(state.precincts[4], 0)
+        state.update_district(state.precincts[3], 1)
+        state.update_district(state.precincts[0], 0)
+        colors = [Color.BLUE, Color.BLUE, Color.BROWN, Color.BROWN, Color.BLUE]
+        districts = [0, 0, 1, 1, 0]
+
+        order = 0
+        for pre in state.precincts:
+            self.assertTrue(pre.boundaries.fill_color == colors[order].value)
+            self.assertTrue(pre.district == districts[order])
+            order += 1
+
 if __name__ == '__main__':
     unittest.main()
