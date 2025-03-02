@@ -166,5 +166,13 @@ class Tests(unittest.TestCase):
             self.assertTrue(pre.district == districts[order])
             order += 1
 
+    def test_populate_districts(self):
+        self.report_location()
+        state = self.setup_jsonload_state()
+        state.seed_initial_district()
+        state.populate_districts()
+
+        self.assertTrue(True)
+
 if __name__ == '__main__':
     unittest.main()

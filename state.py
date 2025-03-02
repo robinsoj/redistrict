@@ -86,7 +86,7 @@ class State:
             return
 
         # Remove completely internal polygons from set1
-        set1 = [polygon for polygon in self.districts[districtNum] if not self.is_polygon_inside(polygon, self.districts[districtNum])]
+        set1 = [polygon for polygon in self.districts[districtNum] if not self.is_polygon_inside(polygon, self.districts[districtNum].boundaries)]
         if set1 == []:
             set1 = self.districts[districtNum]
         border_polygons = []
