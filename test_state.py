@@ -166,12 +166,15 @@ class Tests(unittest.TestCase):
             self.assertTrue(pre.district == districts[order])
             order += 1
 
-    def test_populate_districts(self):
+    @patch('random.choice')
+    def test_grab_neighboring_precinct(self, mock_choice):
         self.report_location()
         state = self.setup_jsonload_state()
+        mock_choice.side_effect = [state.precincts[1], state.precincts[2], state.precincts[4], state.precincts[3], state.precincts[0]]
         state.seed_initial_district()
-        state.populate_districts()
-
+        state.grab_neighboring_precinct(0)
+        state.grab_neighboring_precinct(1)
+        state.grab_neighboring_precinct(2)
         self.assertTrue(True)
 
 if __name__ == '__main__':

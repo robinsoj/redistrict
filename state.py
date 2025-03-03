@@ -72,6 +72,7 @@ class State:
         return inside
 
     def is_polygon_inside(self, polygon, other_precincts):
+        
         if not polygon:
             return False
         for other in other_precincts:
@@ -109,11 +110,16 @@ class State:
                     self.districts.append(dist_list)
     
     def grab_neighboring_precinct(self, district):
-        #TODO define this logic
-        #get a list of neighboring precincts
-        #random select one
-        #add it to the specified district
-        return
+        if district > len(self.districts):
+            return
+        
+        border_polygons = self.find_border_polygons(district)
+        if len(border_polygons) == 0:
+            return
+
+        random_precinct = random.choice(border_polygons)
+        self.update_district(random_precinct, district)
+
 
 def main():
     print("In main")
