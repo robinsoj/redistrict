@@ -86,7 +86,7 @@ class State:
             return
 
         # Remove completely internal polygons from set1
-        set1 = [polygon for polygon in self.districts[districtNum] if not self.is_polygon_inside(polygon, self.districts[districtNum].boundaries)]
+        set1 = [polygon for polygon in self.districts[districtNum] if not self.is_polygon_inside(polygon, self.districts[districtNum])]
         if set1 == []:
             set1 = self.districts[districtNum]
         border_polygons = []
@@ -107,29 +107,13 @@ class State:
                     self.update_district(random_precinct, i)
                     dist_list.append(random_precinct)
                     self.districts.append(dist_list)
-    """
-    Rework this logic so that it actually works
-    """
-    def populate_districts(self):
-        curr_district = 0
-        total_precincts = 0
-        for pre in self.precincts:
-            if pre.district == -1:
-                total_precincts += 1
-        
-        while total_precincts > 0:
-            target_precints = 0
-            target_precints = self.find_border_polygons(curr_district)
-            if target_precints != []:
-                random_precinct = random.choice(target_precints)
-                if random_precinct == -1:
-                    total_precincts -= 1
-                    self.update_district(random_precinct, curr_district)
-                    self.districts[curr_district].append(random_precinct)
-            curr_district += 1
-            if curr_district >= self.district_count:
-                curr_district = 0
-
+    
+    def grab_neighboring_precinct(self, district):
+        #TODO define this logic
+        #get a list of neighboring precincts
+        #random select one
+        #add it to the specified district
+        return
 
 def main():
     print("In main")
