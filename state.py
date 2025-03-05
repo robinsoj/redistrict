@@ -10,8 +10,6 @@ class State:
         self.precincts = precincts
         self.district_count = districts
         self.district_colors = []
-        for i in range(self.district_count):
-            print(i)
     
     def update_district(self, precinct, district_number):
         for pre in self.precincts:
@@ -82,23 +80,24 @@ class State:
                 return True
         return False
         
-    def find_border_polygons(self, districtNum):
-        if districtNum > len(self.districts):
-            return
+    def find_border_precincts(self, districtNum):
+        if districtNum >= len(self.districts):
+            return []
 
         # Remove completely internal polygons from set1
-        set1 = [polygon for polygon in self.districts[districtNum] if not self.is_polygon_inside(polygon, self.districts[districtNum])]
-        if set1 == []:
+        set1 = [precinct for precinct in self.districts[districtNum] if not self.is_polygon_inside(precinct.boundaries, self.districts[districtNum])]
+        if not set1:
             set1 = self.districts[districtNum]
-        border_polygons = []
-        for polygon2 in self.precincts:
-            if polygon2 not in set1:
+        
+        border_precincts = []
+        for precinct in self.precincts:
+            if precinct not in set1:
                 for polygon1 in set1:
-                    if self.are_polygons_connected(polygon1.boundaries, polygon2.boundaries) and polygon2.district == -1:
-                        border_polygons.append(polygon2.boundaries)
+                    if self.are_polygons_connected(polygon1.boundaries, precinct.boundaries) and precinct.district == -1:
+                        border_precincts.append(precinct)
                         break
-        return border_polygons
-    
+        return border_precincts
+
     def seed_initial_district(self):
         for i in range(self.district_count):
             dist_list = []
@@ -113,7 +112,7 @@ class State:
         if district > len(self.districts):
             return
         
-        border_polygons = self.find_border_polygons(district)
+        border_polygons = self.find_border_precincts(district)
         if len(border_polygons) == 0:
             return
 

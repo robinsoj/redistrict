@@ -12,3 +12,6 @@ class Precinct:
     def assign_color(self, color, district):
         self.boundaries.fill_color = color
         self.district = district
+    
+    def __eq__(self, value):
+        return self.boundaries == value.boundaries

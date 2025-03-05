@@ -4,6 +4,7 @@ from graphic_primatives import *
 from precinct import *
 from state import *
 from jsonload import *
+import copy
 
 import inspect
 
@@ -174,8 +175,21 @@ class Tests(unittest.TestCase):
         state.seed_initial_district()
         state.grab_neighboring_precinct(0)
         state.grab_neighboring_precinct(1)
-        state.grab_neighboring_precinct(2)
-        self.assertTrue(True)
+        state.grab_neighboring_precinct(0)
+        results = [0, 0, 1, 1, 0]
+        for i in range(len(state.precincts)):
+            self.assertTrue(state.precincts[i].district == results[i])
+    
+    def test_find_border_polygons(self):
+        self.report_location()
+        state = self.setup_jsonload_state()
+        state.precincts[4].assign_color(Color.BLUE, 0)
+        state.districts.append([state.precincts[4]])
+        border_precincts = state.find_border_precincts(0)
+        self.assertTrue(border_precincts[0] in state.precincts)
+        self.assertTrue(border_precincts[1] in state.precincts)
+        self.assertTrue(border_precincts[2] in state.precincts)
+        self.assertFalse(state.precincts[2] in border_precincts)
 
 if __name__ == '__main__':
     unittest.main()
