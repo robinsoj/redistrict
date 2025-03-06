@@ -2,6 +2,7 @@ from graphic_primatives import *
 from enum import Enum
 import random
 from colors import *
+from district_census import *
 
 class State:
     def __init__(self, name, districts, precincts):
@@ -9,12 +10,16 @@ class State:
         self.districts = []
         self.precincts = precincts
         self.district_count = districts
-        self.district_colors = []
+        #self.district_colors = []
+        self.census = []
+        for i in range(self.district_count):
+            self.census.append(District_Census())
     
     def update_district(self, precinct, district_number):
         for pre in self.precincts:
             if precinct.boundaries == pre.boundaries:
                 pre.assign_color(list(Color)[district_number].value, district_number)
+                self.census[district_number].add_precinct(pre)
                 return
 
     def is_point_on_line_segment(self, point, line_start, line_end):
