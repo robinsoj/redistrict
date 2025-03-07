@@ -158,8 +158,9 @@ class Tests(unittest.TestCase):
         state.update_district(state.precincts[4], 0)
         state.update_district(state.precincts[3], 1)
         state.update_district(state.precincts[0], 0)
-        colors = [Color.BLUE, Color.BLUE, Color.BROWN, Color.BROWN, Color.BLUE]
-        districts = [0, 0, 1, 1, 0]
+        state.update_district(state.precincts[5], 1)
+        colors = [Color.BLUE, Color.BLUE, Color.BROWN, Color.BROWN, Color.BLUE, Color.BROWN]
+        districts = [0, 0, 1, 1, 0, 1]
 
         order = 0
         for pre in state.precincts:
@@ -171,12 +172,15 @@ class Tests(unittest.TestCase):
     def test_grab_neighboring_precinct(self, mock_choice):
         self.report_location()
         state = self.setup_jsonload_state()
-        mock_choice.side_effect = [state.precincts[1], state.precincts[2], state.precincts[4], state.precincts[3], state.precincts[0]]
+        mock_choice.side_effect = [state.precincts[1], state.precincts[2],
+                                    state.precincts[4], state.precincts[3],
+                                    state.precincts[0], state.precincts[5]]
         state.seed_initial_district()
         state.grab_neighboring_precinct(0)
         state.grab_neighboring_precinct(1)
         state.grab_neighboring_precinct(0)
-        results = [0, 0, 1, 1, 0]
+        state.grab_neighboring_precinct(1)
+        results = [0, 0, 1, 1, 0, 1]
         for i in range(len(state.precincts)):
             self.assertTrue(state.precincts[i].district == results[i])
     
@@ -191,5 +195,22 @@ class Tests(unittest.TestCase):
         self.assertTrue(border_precincts[2] in state.precincts)
         self.assertFalse(state.precincts[2] in border_precincts)
 
+    @patch('random.choice')
+    def test_find_adjacent_precincts(self, mock_choice):
+        self.report_location()
+        state = self.setup_jsonload_state()
+        mock_choice.side_effect = [state.precincts[1], state.precincts[2],
+                                   state.precincts[4], state.precincts[3],
+                                   state.precincts[0], state.precincts[5]]
+        state.seed_initial_district()
+        state.grab_neighboring_precinct(0)
+        state.grab_neighboring_precinct(1)
+        state.grab_neighboring_precinct(0)
+        state.grab_neighboring_precinct(1)
+        borders = state.find_adjacent_precincts()
+        results = [True, True, True, True, True, False]
+        for i in range(len(state.precincts)):
+            self.assertTrue((state.precincts[i] in borders) == results[i])
+    
 if __name__ == '__main__':
     unittest.main()

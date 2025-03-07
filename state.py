@@ -124,6 +124,17 @@ class State:
         random_precinct = random.choice(border_polygons)
         self.update_district(random_precinct, district)
 
+    def find_adjacent_precincts(self):
+        adjacent_precincts = []
+
+        for precinct in self.precincts:
+            for other_precinct in self.precincts:
+                if precinct.district != other_precinct.district and self.are_polygons_connected(precinct.boundaries, other_precinct.boundaries):
+                    adjacent_precincts.append(precinct)
+                    break
+
+        return adjacent_precincts
+
 
 def main():
     print("In main")
