@@ -135,6 +135,7 @@ class State:
                     break
 
         return adjacent_precincts
+    
     def count_unassigned_precincts(self):
         count = 0
         for precinct in self.precincts:
@@ -148,6 +149,16 @@ class State:
             self.current_district += 1
             if self.current_district == self.district_count:
                 self.current_district = 0
+        else:
+            max = 100000000
+            min_dist = -1
+            for i in range(len(self.census)):
+                voters = self.census[i].total_voters
+                if voters < max:
+                    max = voters
+                    min_dist = i
+            adjacent_precincts = self.find_adjacent_precincts()
+            #todo find a precinct that neighbors one of the precincts in min_dist
 
 def main():
     print("In main")

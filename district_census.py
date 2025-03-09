@@ -15,4 +15,7 @@ class District_Census:
         self.rep -= precinct.rep
         self.dem -= precinct.dem
         self.other -= precinct.oth
+    
+    def total_voters(self):
+        return self.rep + self.dem + self.other
 

@@ -58,13 +58,13 @@ class Window:
     def update_screen(self):
         if not self.running:
             return
+        
+        for updateable in self.__updateables:
+            updateable.update()
 
         self.__canvas.delete("all")
         for drawable in self.__drawables:
             drawable.draw(self.__canvas)
-        
-        for updateable in self.__updateables:
-            updateable.update()
 
     def report_drawables(self):
         print(len(self.__drawables))
