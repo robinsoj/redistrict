@@ -12,6 +12,7 @@ class State:
         self.district_count = districts
         #self.district_colors = []
         self.census = []
+        self.current_district = 0
         for i in range(self.district_count):
             self.census.append(District_Census())
     
@@ -134,7 +135,19 @@ class State:
                     break
 
         return adjacent_precincts
-
+    def count_unassigned_precincts(self):
+        count = 0
+        for precinct in self.precincts:
+            if precinct.district == -1:
+                count += 1
+        return count
+    
+    def update(self):
+        if self.count_unassigned_precincts() > 0:
+            self.grab_neighboring_precinct(self.current_district)
+            self.current_district += 1
+            if self.current_district == self.district_count:
+                self.current_district = 0
 
 def main():
     print("In main")

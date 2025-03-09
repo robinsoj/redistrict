@@ -15,6 +15,7 @@ class Window:
         self.__canvas.pack()
         self.__clickables = []
         self.__drawables = []
+        self.__updateables = []
         self.running = False
 
     def redraw(self):
@@ -50,6 +51,9 @@ class Window:
 
     def register_drawable(self, obj):
         self.__drawables.append(obj)
+    
+    def register_updateable(self, obj):
+        self.__updateables.append(obj)
 
     def update_screen(self):
         if not self.running:
@@ -58,6 +62,9 @@ class Window:
         self.__canvas.delete("all")
         for drawable in self.__drawables:
             drawable.draw(self.__canvas)
+        
+        for updateable in self.__updateables:
+            updateable.update()
 
     def report_drawables(self):
         print(len(self.__drawables))
@@ -77,6 +84,7 @@ def main():
     state = State(stateData["Name"], stateData["districts"], precintList)
     state.seed_initial_district()
     state.populate_districts()
+    win.register_updateable(state)
     
     win.wait_for_close()
 
