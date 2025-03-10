@@ -83,7 +83,7 @@ def main():
         win.register_drawable(poly.boundaries)
     state = State(stateData["Name"], stateData["districts"], precintList)
     state.seed_initial_district()
-    state.populate_districts()
+    #state.populate_districts()
     win.register_updateable(state)
     
     win.wait_for_close()

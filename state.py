@@ -87,6 +87,8 @@ class State:
         return False
         
     def find_border_precincts(self, districtNum):
+        print(districtNum)
+        #unable to find adjacent precincts.  I suspect that the borders are off by too much using float point comparisons.
         if districtNum >= len(self.districts):
             return []
 
@@ -97,11 +99,13 @@ class State:
         
         border_precincts = []
         for precinct in self.precincts:
-            if precinct not in set1:
+            #if precinct not in set1:
+            if precinct.district == -1:
                 for polygon1 in set1:
-                    if self.are_polygons_connected(polygon1.boundaries, precinct.boundaries) and precinct.district == -1:
+                    if self.are_polygons_connected(polygon1.boundaries, precinct.boundaries):
                         border_precincts.append(precinct)
                         break
+        print(border_precincts)
         return border_precincts
 
     def seed_initial_district(self):
@@ -117,22 +121,21 @@ class State:
     def grab_neighboring_precinct(self, district):
         if district > len(self.districts):
             return
-        
         border_polygons = self.find_border_precincts(district)
         if len(border_polygons) == 0:
             return
-
         random_precinct = random.choice(border_polygons)
         self.update_district(random_precinct, district)
 
-    def find_adjacent_precincts(self):
+    def find_adjacent_precincts(self, district):
         adjacent_precincts = []
 
         for precinct in self.precincts:
-            for other_precinct in self.precincts:
-                if precinct.district != other_precinct.district and self.are_polygons_connected(precinct.boundaries, other_precinct.boundaries):
-                    adjacent_precincts.append(precinct)
-                    break
+            if precinct.district == district:
+                for other_precinct in self.precincts:
+                    if precinct.district != other_precinct.district and self.are_polygons_connected(precinct.boundaries, other_precinct.boundaries):
+                        adjacent_precincts.append(precinct)
+                        break
 
         return adjacent_precincts
     
@@ -157,8 +160,10 @@ class State:
                 if voters < max:
                     max = voters
                     min_dist = i
-            adjacent_precincts = self.find_adjacent_precincts()
-            #todo find a precinct that neighbors one of the precincts in min_dist
+            adjacent_precincts = self.find_adjacent_precincts(min_dist)
+            choice = random.choice(adjacent_precincts)
+            self.census[choice.district].remove_precinct(choice)
+            self.update_district(choice, choice)
 
 def main():
     print("In main")

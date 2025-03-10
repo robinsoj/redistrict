@@ -207,8 +207,9 @@ class Tests(unittest.TestCase):
         state.grab_neighboring_precinct(1)
         state.grab_neighboring_precinct(0)
         state.grab_neighboring_precinct(1)
-        borders = state.find_adjacent_precincts()
-        results = [True, True, True, True, True, False]
+        borders = state.find_adjacent_precincts(0)
+        print(borders)
+        results = [True, True, False, False, True, False]
         for i in range(len(state.precincts)):
             self.assertTrue((state.precincts[i] in borders) == results[i])
     

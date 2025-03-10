@@ -13,7 +13,8 @@ class Point:
         return iter((self.x, self.y))
     
     def __eq__(self, point):
-        return self.x == point.x and self.y == point.y
+        tolerance = .1
+        return abs(self.x - point.x) < tolerance and abs(self.y - point.y) < tolerance
 
 class Line:
     def __init__(self, *args, color="black"):
