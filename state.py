@@ -87,7 +87,6 @@ class State:
         return False
         
     def find_border_precincts(self, districtNum):
-        print(districtNum)
         #unable to find adjacent precincts.  I suspect that the borders are off by too much using float point comparisons.
         if districtNum >= len(self.districts):
             return []
@@ -105,7 +104,6 @@ class State:
                     if self.are_polygons_connected(polygon1.boundaries, precinct.boundaries):
                         border_precincts.append(precinct)
                         break
-        print(border_precincts)
         return border_precincts
 
     def seed_initial_district(self):
