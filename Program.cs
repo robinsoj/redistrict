@@ -27,22 +27,47 @@ public class Polygon
         Points = points;
     }
 
-    public Polygon Subdivide()
+    public Polygon Subdivide(int numPoints)
     {
         List<Point> newPoints = new List<Point>();
-        int n = Points.Count;
+        Random rand = new Random();
+        double minX = Points.Min(p => p.X);
+        double maxX = Points.Max(p => p.X);
+        double minY = Points.Min(p => p.Y);
+        double maxY = Points.Max(p => p.Y);
 
-        for (int i = 0; i < n; i++)
+        while (newPoints.Count < numPoints)
         {
-            Point p1 = Points[i];
-            Point p2 = Points[(i + 1) % n];
-            Point midpoint = new Point((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2);
-            newPoints.Add(p1);
-            newPoints.Add(midpoint);
+            double x = minX + rand.NextDouble() * (maxX - minX);
+            double y = minY + rand.NextDouble() * (maxY - minY);
+            Point point = new Point(x, y);
+
+            if (IsInsidePolygon(point))
+            {
+                newPoints.Add(point);
+            }
         }
 
         return new Polygon(newPoints);
     }
+
+    private bool IsInsidePolygon(Point point)
+    {
+        int n = Points.Count;
+        bool result = false;
+        int j = n - 1;
+        for (int i = 0; i < n; i++)
+        {
+            if ((Points[i].Y > point.Y) != (Points[j].Y > point.Y) &&
+                (point.X < (Points[j].X - Points[i].X) * (point.Y - Points[i].Y) / (Points[j].Y - Points[i].Y) + Points[i].X))
+            {
+                result = !result;
+            }
+            j = i;
+        }
+        return result;
+    }
+
 
     public List<Point> RemoveDuplicates(List<Point> points)
     {
@@ -190,12 +215,13 @@ class Program
             List<Point> points = county.Boundary.Select(b => new Point(b.X, b.Y )).ToList();
             Polygon polygon = new Polygon(points);
             int prescincts = county.Prescints - 1;
-            int power = 0;
-            while (((1 << power) < prescincts) && (power < 8))
-            {
-                polygon = polygon.Subdivide();
-                power++;
-			}
+            //int power = 0;
+            //while (((1 << power) < prescincts) && (power < 8))
+            //{
+            //    polygon = polygon.Subdivide();
+            //    power++;
+            //}
+            polygon = polygon.Subdivide(((2*prescincts) - points.Count + 2)/2);
             var pq = new PriorityQueue<Polygon>();
             pq.Enqueue(polygon, polygon.Area());
             while (prescincts > 0)
