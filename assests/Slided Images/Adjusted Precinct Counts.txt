@@ -1,0 +1,15 @@
+Apache		44
+Cochise		
+Coconino	74
+Gila		11
+Graham		
+Greenlee	
+La Paz		
+Maricopa	
+Mojave		
+Navajo		
+Pima		
+Pinal		
+Santa Cruz	
+Yavapai		
+Yuma		
