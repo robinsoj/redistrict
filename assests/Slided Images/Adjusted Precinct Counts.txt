@@ -6,10 +6,10 @@ Graham		22
 Greenlee	8
 La Paz		11
 Maricopa	538
-Mojave		
-Navajo		
-Pima		
-Pinal		
-Santa Cruz	
-Yavapai		
+Mojave		24
+Navajo		44
+Pima		128
+Pinal		120
+Santa Cruz	23
+Yavapai		65
 Yuma		
