@@ -1,11 +1,11 @@
 Apache		44
-Cochise		
+Cochise		49
 Coconino	74
 Gila		11
-Graham		
-Greenlee	
-La Paz		
-Maricopa	
+Graham		22
+Greenlee	8
+La Paz		11
+Maricopa	538
 Mojave		
 Navajo		
 Pima		
