@@ -12,4 +12,4 @@ Pima		128
 Pinal		120
 Santa Cruz	23
 Yavapai		65
-Yuma		
+Yuma		43
