@@ -3,6 +3,20 @@ import numpy as np
 import json
 import os
 
+class CountyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, County):
+            return obj.__dict__
+        return super().default(obj)
+
+class County:
+    def __init__(self, name, rep, dem, oth):
+        self.county = name
+        self.precincts = []
+        self.rep = rep
+        self.dem = dem
+        self.oth = oth
+
 def image_to_json(image_path):
     # Load the PNG image
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
@@ -53,9 +67,11 @@ def image_to_json(image_path):
     """
     precincts = []
     for i, boundary in enumerate(simplified_polygons, start=1):
+        # Call scale_points to adjust the boundary points
+        scaled_boundary = scale_points(boundary, width=max_x, height=max_y, max_x=max_x, max_y=max_y)
         precinct = {
             "id": i,
-            "boundary": [{"x": point[0], "y": point[1]} for point in boundary]
+            "boundary": [{"x": int(x), "y": int(y)} for x, y in scaled_boundary]
         }
         precincts.append(precinct)
 
@@ -70,11 +86,40 @@ def scale_points(points, width, height, max_x, max_y):
         scaled_points.append((scaled_x, scaled_y))
     return scaled_points
 
+
 image_root = "./sliced images/"
+voters = {
+    "apache": {"rep": 5824, "dem": 18016, "oth": 8160},
+    "cochise": {"rep": 37474, "dem": 23206, "oth": 21320},
+    "coconino": {"rep": 24140, "dem": 35020, "oth": 25840},
+    "gila": {"rep": 13188, "dem": 7252, "oth": 7560},
+    "graham": {"rep": 9054, "dem": 3906, "oth": 5040},
+    "greenlee": {"rep": 1910, "dem": 1605, "oth": 1485},
+    "la_paz": {"rep": 4626, "dem": 1827, "oth": 2547},
+    "maricopa": {"rep": 862500, "dem": 780000, "oth": 857500},
+    "mojave": {"rep": 61380, "dem": 18920, "oth": 29700},
+    "navajo": {"rep": 21285, "dem": 18205, "oth": 15510},
+    "pima": {"rep": 176400, "dem": 238800, "oth": 184800},
+    "pinal": {"rep": 85000, "dem": 55000, "oth": 60000},
+    "santa_cruz": {"rep": 5075, "dem": 13175, "oth": 6750},
+    "yavapai": {"rep": 71680, "dem": 30520, "oth": 37800},
+    "yuma": {"rep": 34560, "dem": 30240, "oth": 25200}
+}
+counties = []
 for filename in os.listdir(image_root):
     if filename.endswith(".png"):
+        name_without_extension, extension = os.path.splitext(filename)
         fullname = os.path.join(image_root, filename)
         if os.path.isfile(fullname):
-            print(fullname)
-image_path = "./sliced images/greenlee.png"  # Replace with your image path
-print(json.dumps(image_to_json(image_path), indent=4))
+            county = County(name_without_extension,
+                            voters[name_without_extension]["rep"],
+                            voters[name_without_extension]["dem"],
+                            voters[name_without_extension]["oth"])
+            county.precincts = image_to_json(fullname)["precincts"]
+            counties.append(county)
+json_output = {
+    "Name": "Arizona",
+    "counties": counties,
+    "districts": 8
+}
+print(json.dumps(json_output, cls=CountyEncoder, indent=4))
