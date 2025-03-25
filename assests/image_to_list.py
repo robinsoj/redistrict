@@ -69,10 +69,10 @@ def image_to_json(image_path):
     flattened_polygons = [point for sublist in simplified_polygons for point in sublist]
     max_x = max(pt[0] for pt in flattened_polygons)
     max_y = max(pt[1] for pt in flattened_polygons)
-    print(max_x, max_y)
+    print(image_path, max_x, max_y)
     for i, boundary in enumerate(simplified_polygons, start=1):
         # Call scale_points to adjust the boundary points
-        scaled_boundary = scale_points(boundary, width=600, height=600, max_x=max_x, max_y=max_y)
+        scaled_boundary = scale_points(boundary, width=600, height=600, max_x=947-53, max_y=1240-174)
         precinct = {
             "id": i,
             "boundary": [{"x": int(x), "y": int(y)} for x, y in scaled_boundary]

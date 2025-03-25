@@ -79,8 +79,16 @@ def main():
     print("There are", len(precintList), "precints in the JSON.")
     print("Trying to determine", stateData["districts"], "congressional districts")
 
+    point_list = []
     for poly in precintList:
         win.register_drawable(poly.boundaries)
+        for pt in poly.boundaries.points:
+            point_list.append((pt.x, pt.y))
+    min_x = min(pt[0] for pt in point_list)
+    min_y = min(pt[1] for pt in point_list)
+    max_x = max(pt[0] for pt in point_list)
+    max_y = max(pt[1] for pt in point_list)
+    print(min_x, min_y, max_x, max_y)
     state = State(stateData["Name"], stateData["districts"], precintList)
     state.seed_initial_district()
     #state.populate_districts()
