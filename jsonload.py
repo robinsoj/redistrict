@@ -25,7 +25,7 @@ def createCountyPolygons(countyJson):
         for i in precinct["boundary"]:
             point = Point(i["x"]+10, i["y"]+10)
             points.append(point)
-        pg = Polygon("black", points)
+        pg = Polygon("grey", points)
         precinctItem = Precinct(pg, rep, dem, oth, countyJson["county"])
         ret_list.append(precinctItem)
     return ret_list

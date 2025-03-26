@@ -72,7 +72,7 @@ class Polygon:
         if points is not None:
             self.points = points
         self.color = color
-        self.fill_color = "grey"
+        self.fill_color = color
 
     def __gt__(self, other):
         return self.area() > other.area()
@@ -84,7 +84,7 @@ class Polygon:
         if canvas is None:
             return
         flat_points = [int(coord) for point in self.points for coord in (point.x, point.y)]
-        canvas.create_polygon(flat_points, outline="", fill=self.fill_color, width=.5)
+        canvas.create_polygon(flat_points, outline=self.color, fill=self.fill_color, width=4.5)
 
     def sides(self):
         return [(self.points[i], self.points[i + 1]) for i in range(len(self.points) - 1)]
