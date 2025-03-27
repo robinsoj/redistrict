@@ -75,7 +75,7 @@ def image_to_json(image_path):
         if printit:
             print(i)
         # Call scale_points to adjust the boundary points
-        scaled_boundary = scale_points(boundary, width=600, height=700, max_x=947, max_y=1240, min_x=53, min_y=174, printit=printit)
+        scaled_boundary = scale_points(boundary, width=600, height=700, max_x=947, max_y=1240, min_x=53, min_y=174, printit=printit and i in (3,4,6,7))
         precinct = {
             "id": i,
             "boundary": [{"x": int(x), "y": int(y)} for x, y in scaled_boundary]
@@ -85,13 +85,17 @@ def image_to_json(image_path):
     output = {"precincts": precincts}
     return output
 
-def scale_points(points, width, height, max_x, max_y, min_x, min_y, gap, adjacency_dict, printit):
+def scale_points(points, width, height, max_x, max_y, min_x, min_y, printit):
+    gap = 6
     expanded_points = []
+    adjacency_dict = {
+        "left": False,   # Has a neighboring polygon on the left
+        "top": False,   # No neighboring polygon above
+        "right": True,  # Has a neighboring polygon on the right
+        "bottom": True # No neighboring polygon below
+    }
 
     for x, y in points:
-        if printit:
-            print("Original point:", x, y)
-
         # Scale the points
         scaled_x = ((x - min_x) / max_x) * width
         scaled_y = ((y - min_y) / max_y) * height
@@ -99,32 +103,14 @@ def scale_points(points, width, height, max_x, max_y, min_x, min_y, gap, adjacen
         # Adjust for adjacency (expand flush with neighbors)
         adjustment_x = gap if adjacency_dict.get("left", False) else 0
         adjustment_y = gap if adjacency_dict.get("top", False) else 0
-
         adjusted_x = scaled_x + adjustment_x
         adjusted_y = scaled_y + adjustment_y
 
         expanded_points.append((adjusted_x, adjusted_y))
+        if printit:
+            print(x, y, scaled_x, scaled_y, adjusted_x, adjusted_y)
 
     return expanded_points
-"""
-Key Features:
-adjacency_dict Parameter: This dictionary defines whether a polygon has neighbors on specific sides (e.g., left, top, right, bottom). You can populate it based on the adjacency of each county.
-
-Conditional Expansion: Expansion occurs only where polygons have gaps (i.e., shared edges between counties are "filled").
-
-Outer Border Handling: For polygons at the edges of Arizona, you can exclude gap-based adjustments.
-
-This function relies on knowing the adjacency relationships between counties. To create an adjacency_dict, you can analyze shared edges using your original dataset of boundary points. This ensures precise and flush alignment.
-
-Let me know if you'd like assistance with creating adjacency data or further refinements!
-
-adjacency_dict = {
-    "left": True,   # Has a neighboring polygon on the left
-    "top": False,   # No neighboring polygon above
-    "right": True,  # Has a neighboring polygon on the right
-    "bottom": False # No neighboring polygon below
-}
-"""
 
 image_root = "./sliced images/"
 voters = {
