@@ -86,29 +86,31 @@ def image_to_json(image_path):
     return output
 
 def scale_points(points, width, height, max_x, max_y, min_x, min_y, printit):
-    gap = 6
+    gap = 1.5
     expanded_points = []
-    adjacency_dict = {
-        "left": False,   # Has a neighboring polygon on the left
-        "top": False,   # No neighboring polygon above
-        "right": True,  # Has a neighboring polygon on the right
-        "bottom": True # No neighboring polygon below
-    }
 
+    center_x = 0
+    center_y = 0
+    for x, y in points:
+        center_x += x
+        center_y += y
+    center_x /= len(points)
+    center_y /= len(points)
+    
     for x, y in points:
         # Scale the points
         scaled_x = ((x - min_x) / max_x) * width
         scaled_y = ((y - min_y) / max_y) * height
 
         # Adjust for adjacency (expand flush with neighbors)
-        adjustment_x = gap if adjacency_dict.get("left", False) else 0
-        adjustment_y = gap if adjacency_dict.get("top", False) else 0
+        adjustment_x = -gap if x < center_x else gap
+        adjustment_y = -gap if y < center_y else gap
         adjusted_x = scaled_x + adjustment_x
         adjusted_y = scaled_y + adjustment_y
 
         expanded_points.append((adjusted_x, adjusted_y))
         if printit:
-            print(x, y, scaled_x, scaled_y, adjusted_x, adjusted_y)
+            print(x, y, int(center_x), int(center_y), int(scaled_x), int(scaled_y), adjustment_x, adjustment_y, int(adjusted_x), int(adjusted_y))
 
     return expanded_points
 

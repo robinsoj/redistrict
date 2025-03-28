@@ -88,15 +88,14 @@ def main():
     min_y = min(pt[1] for pt in point_list)
     max_x = max(pt[0] for pt in point_list)
     max_y = max(pt[1] for pt in point_list)
-    print(min_x, min_y, max_x, max_y)
     state = State(stateData["Name"], stateData["districts"], precintList)
     state.seed_initial_district()
     #state.populate_districts()
-    #win.register_updateable(state)
-    neighbors = state.find_adjacent_precincts(state.current_district)
-    print(len(neighbors))
-    for item in neighbors:
-        print(type(item))
+    win.register_updateable(state)
+    #neighbors = state.find_adjacent_precincts(state.current_district)
+    #print(len(neighbors))
+    #for item in neighbors:
+    #    print(type(item))
     win.wait_for_close()
 
 
