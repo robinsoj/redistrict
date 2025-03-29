@@ -86,7 +86,7 @@ def image_to_json(image_path):
     return output
 
 def scale_points(points, width, height, max_x, max_y, min_x, min_y, printit):
-    gap = 1.5
+    gap = 3
     expanded_points = []
 
     center_x = 0
@@ -103,8 +103,8 @@ def scale_points(points, width, height, max_x, max_y, min_x, min_y, printit):
         scaled_y = ((y - min_y) / max_y) * height
 
         # Adjust for adjacency (expand flush with neighbors)
-        adjustment_x = -gap if x < center_x else gap
-        adjustment_y = -gap if y < center_y else gap
+        adjustment_x = 0 if x < center_x else gap
+        adjustment_y = 0 if y < center_y else gap
         adjusted_x = scaled_x + adjustment_x
         adjusted_y = scaled_y + adjustment_y
 
