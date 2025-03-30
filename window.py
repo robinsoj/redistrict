@@ -92,10 +92,7 @@ def main():
     state.seed_initial_district()
     #state.populate_districts()
     #win.register_updateable(state)
-    neighbors = state.find_adjacent_precincts(state.current_district)
-    print(len(neighbors))
-    for item in neighbors:
-        print(type(item))
+    state.grab_neighboring_precinct(state.current_district)
     win.wait_for_close()
 
 

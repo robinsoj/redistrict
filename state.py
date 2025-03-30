@@ -3,6 +3,7 @@ from enum import Enum
 import random
 from colors import *
 from district_census import *
+from math import isclose
 
 class State:
     def __init__(self, name, districts, precincts):
@@ -13,13 +14,16 @@ class State:
         #self.district_colors = []
         self.census = []
         self.current_district = 0
+        random.seed()
         for i in range(self.district_count):
             self.census.append(District_Census())
     
-    def update_district(self, precinct, district_number):
+    def update_district(self, precinct, district_number, color_override = None):
+        if color_override is None:
+            color_override = list(Color)[district_number].value
         for pre in self.precincts:
             if precinct.boundaries == pre.boundaries:
-                pre.assign_color(list(Color)[district_number].value, district_number)
+                pre.assign_color(color_override, district_number)
                 self.census[district_number].add_precinct(pre)
                 return
 
@@ -41,6 +45,10 @@ class State:
     def are_polygons_connected(self, polygon1, polygon2):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
+        tolerance = 4  # Define the fuzzy tolerance for gaps in pixels
+
+        def is_close_enough(point1, point2):
+            return isclose(point1.x, point2.x, abs_tol=tolerance) and isclose(point1.y, point2.y, abs_tol=tolerance)
 
         for side1 in pg1_sides:
             for side2 in pg2_sides:
@@ -49,7 +57,10 @@ class State:
                     or side1 == side2[::-1]
                     or (self.is_point_on_line_segment(side1[0], *side2) and self.is_point_on_line_segment(side1[1], *side2))
                     or (self.is_point_on_line_segment(side2[0], *side1) and self.is_point_on_line_segment(side2[1], *side1))
+                    or (is_close_enough(side1[0], side2[0]) and is_close_enough(side1[1], side2[1]))
+                    or (is_close_enough(side1[0], side2[1]) and is_close_enough(side1[1], side2[0]))
                 ):
+                    #Add logging here.  This is probably where the error is located.
                     return True
         return False
 
@@ -87,20 +98,19 @@ class State:
         return False
         
     def find_border_precincts(self, districtNum):
-        #unable to find adjacent precincts.  I suspect that the borders are off by too much using float point comparisons.
         if districtNum >= len(self.districts):
             return []
 
-        # Remove completely internal polygons from set1
+        # Filter out internal precincts
         set1 = [precinct for precinct in self.districts[districtNum] if not self.is_polygon_inside(precinct.boundaries, self.districts[districtNum])]
         if not set1:
             set1 = self.districts[districtNum]
-        
+
         border_precincts = []
         for precinct in self.precincts:
-            #if precinct not in set1:
-            if precinct.district == -1:
+            if precinct.district == -1:  # Unassigned precinct
                 for polygon1 in set1:
+                    # Check for connections with tolerance
                     if self.are_polygons_connected(polygon1.boundaries, precinct.boundaries):
                         border_precincts.append(precinct)
                         break
@@ -122,8 +132,11 @@ class State:
         border_polygons = self.find_border_precincts(district)
         if len(border_polygons) == 0:
             return
-        random_precinct = random.choice(border_polygons)
-        self.update_district(random_precinct, district)
+        #random_precinct = random.choice(border_polygons)
+        #self.update_district(random_precinct, district)
+        print(len(border_polygons))
+        for poly in border_polygons:
+            self.update_district(poly, district, "#FFFF00")
 
     def find_adjacent_precincts(self, district):
         adjacent_precincts = []
