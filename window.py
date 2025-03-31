@@ -92,6 +92,16 @@ def main():
     state.seed_initial_district()
     #state.populate_districts()
     #win.register_updateable(state)
+    hold_precincts = []
+    for precinct in state.precincts:
+        for pt in precinct.boundaries.points:
+            if 324 <= pt.x <= 359 and 157 <= pt.y <= 180:
+                hold_precincts.append(precinct)
+    review_precincts = []
+    for item in hold_precincts:
+        if item not in review_precincts:
+            review_precincts.append(item)
+    state.review = review_precincts
     state.grab_neighboring_precinct(state.current_district)
     win.wait_for_close()
 

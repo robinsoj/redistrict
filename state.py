@@ -9,12 +9,14 @@ class State:
     def __init__(self, name, districts, precincts):
         self.name = name
         self.districts = []
+        self.review = [] #scaffold code remove when not needed anymore.
+        self.verbose = False #scaffold code remove when not needed anymore.
         self.precincts = precincts
         self.district_count = districts
         #self.district_colors = []
         self.census = []
         self.current_district = 0
-        random.seed()
+        random.seed(2)
         for i in range(self.district_count):
             self.census.append(District_Census())
     
@@ -46,12 +48,19 @@ class State:
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
         tolerance = 4  # Define the fuzzy tolerance for gaps in pixels
-
+        if self.verbose:
+            print(len(pg1_sides), len(pg2_sides))
         def is_close_enough(point1, point2):
             return isclose(point1.x, point2.x, abs_tol=tolerance) and isclose(point1.y, point2.y, abs_tol=tolerance)
 
         for side1 in pg1_sides:
             for side2 in pg2_sides:
+                if self.verbose:
+                    print("side1: ", side1[0], ',', side1[1], 'side2:', side2[0], side2[1], side1==side2, side1 == side2[::-1],
+                           (self.is_point_on_line_segment(side1[0], *side2) and self.is_point_on_line_segment(side1[1], *side2)),
+                          (self.is_point_on_line_segment(side2[0], *side1) and self.is_point_on_line_segment(side2[1], *side1)),
+                          (is_close_enough(side1[0], side2[0]) and is_close_enough(side1[1], side2[1])),
+                          (is_close_enough(side1[0], side2[1]) and is_close_enough(side1[1], side2[0])))
                 if (
                     side1 == side2 
                     or side1 == side2[::-1]
@@ -111,6 +120,11 @@ class State:
             if precinct.district == -1:  # Unassigned precinct
                 for polygon1 in set1:
                     # Check for connections with tolerance
+                    if precinct in self.review:
+                        print(polygon1.name, precinct.name)
+                        self.verbose = True
+                    else:
+                        self.verbose = False
                     if self.are_polygons_connected(polygon1.boundaries, precinct.boundaries):
                         border_precincts.append(precinct)
                         break
@@ -121,6 +135,8 @@ class State:
             dist_list = []
             while len(dist_list) == 0:
                 random_precinct = random.choice(self.precincts)
+                if i == 0:
+                    print(i, random_precinct.boundaries.points)
                 if random_precinct.district == -1:
                     self.update_district(random_precinct, i)
                     dist_list.append(random_precinct)
