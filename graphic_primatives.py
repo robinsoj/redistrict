@@ -90,7 +90,12 @@ class Polygon:
         canvas.create_polygon(flat_points, outline=self.color, fill=self.fill_color, width=4.5)
 
     def sides(self):
-        return [(self.points[i], self.points[i + 1]) for i in range(len(self.points) - 1)]
+        ret_val = []
+        for i in range(len(self.points)-1):
+            ret_val.append((self.points[i], self.points[i+1]))
+        ret_val.append((self.points[-1], self.points[0]))
+        #return [(self.points[i], self.points[i + 1]) for i in range(len(self.points) - 1)]
+        return ret_val
     
 class Slider:
     def __init__(self, x1, y1, x2, y2, labels, colors):

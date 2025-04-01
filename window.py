@@ -90,19 +90,9 @@ def main():
     max_y = max(pt[1] for pt in point_list)
     state = State(stateData["Name"], stateData["districts"], precintList)
     state.seed_initial_district()
-    #state.populate_districts()
-    #win.register_updateable(state)
-    hold_precincts = []
-    for precinct in state.precincts:
-        for pt in precinct.boundaries.points:
-            if 324 <= pt.x <= 359 and 157 <= pt.y <= 180:
-                hold_precincts.append(precinct)
-    review_precincts = []
-    for item in hold_precincts:
-        if item not in review_precincts:
-            review_precincts.append(item)
-    state.review = review_precincts
-    state.grab_neighboring_precinct(state.current_district)
+    #state.grab_neighboring_precinct(1)
+    #state.grab_neighboring_precinct(1)
+    win.register_updateable(state)
     win.wait_for_close()
 
 
