@@ -14,6 +14,10 @@ class State:
         #self.district_colors = []
         self.census = []
         self.current_district = 0
+        self.unassigned_precincts = []
+        for name in precincts.keys():
+            self.unassigned_precincts.append(name)
+        self.neighbor_map = {}
         random.seed(2)
         for i in range(self.district_count):
             self.census.append(District_Census())
@@ -21,11 +25,13 @@ class State:
     def update_district(self, precinct, district_number, color_override = None):
         if color_override is None:
             color_override = list(Color)[district_number].value
-        for pre in self.precincts:
-            if precinct.name == pre.name:
-                pre.assign_color(color_override, district_number)
-                self.census[district_number].add_precinct(pre)
-                return
+        #for pre in self.precincts:
+        #    if precinct.name == pre.name:
+        #        pre.assign_color(color_override, district_number)
+        #        self.census[district_number].add_precinct(pre)
+        #        return
+        self.precincts[precinct.name].assign_color(color_override, district_number)
+        self.census[district_number].add_precinct(self.precincts[precinct.name])
 
     def is_point_on_line_segment(self, point, line_start, line_end):
         cross_product = (point.y - line_start.y) * (line_end.x - line_start.x) - (point.x - line_start.x) * (line_end.y - line_start.y)
@@ -97,11 +103,15 @@ class State:
         return False
         
     def find_border_precincts(self, districtNum):
-        if districtNum >= len(self.districts):
-            return []
+        #refactor this to handle the maps
+        print('find_border_precincts')
+        #if districtNum >= len(self.districts):
+        #    return []
 
         # Filter out internal precincts
+        print("before set1")
         set1 = [precinct for precinct in self.districts[districtNum] if not self.is_polygon_inside(precinct.boundaries, self.districts[districtNum])]
+        print(type(set1))
         if not set1:
             set1 = self.districts[districtNum]
 
@@ -116,14 +126,19 @@ class State:
         return border_precincts
 
     def seed_initial_district(self):
+        for precinct in self.precincts.values():
+            neighbors = self.find_border_precincts(1)
+            self.neighbor_map[precinct.name] = []#neighbors
+
         for i in range(self.district_count):
             dist_list = []
             while len(dist_list) == 0:
-                random_precinct = random.choice(self.precincts)
+                random_precinct = random.choice(list(self.precincts.values()))
                 if random_precinct.district == -1:
                     self.update_district(random_precinct, i)
-                    dist_list.append(random_precinct)
+                    dist_list.append(random_precinct.name)
                     self.districts.append(dist_list)
+        print(self.neighbor_map)
     
     def grab_neighboring_precinct(self, district):
         if district > len(self.districts):
@@ -146,17 +161,11 @@ class State:
                         break
 
         return adjacent_precincts
-    
-    def count_unassigned_precincts(self):
-        count = 0
-        for precinct in self.precincts:
-            if precinct.district == -1:
-                count += 1
-        return count
+
     
     def update(self):
-        if self.count_unassigned_precincts() > 0:
-            print(self.count_unassigned_precincts(), len(self.districts[0]),len(self.districts[1]),
+        if len(self.unassigned_precincts) > 0:
+            print(len(self.unassigned_precincts), len(self.districts[0]),len(self.districts[1]),
                   len(self.districts[2]),len(self.districts[3]),len(self.districts[4]),
                   len(self.districts[5]),len(self.districts[6]),len(self.districts[7]))
             self.grab_neighboring_precinct(self.current_district)

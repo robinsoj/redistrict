@@ -15,7 +15,7 @@ def openJson(stateFile):
 
 def createCountyPolygons(countyJson):
     print("Processing:", countyJson["county"])
-    ret_list = []
+    ret_map = {}
     precinctCount = len(countyJson["precincts"])
     rep = round(countyJson["rep"]/precinctCount)
     dem = round(countyJson["dem"]/precinctCount)
@@ -27,5 +27,5 @@ def createCountyPolygons(countyJson):
             points.append(point)
         pg = Polygon("grey", points)
         precinctItem = Precinct(pg, rep, dem, oth, countyJson["county"] + str(precinct["id"]))
-        ret_list.append(precinctItem)
-    return ret_list
+        ret_map[precinctItem.name] = precinctItem
+    return ret_map

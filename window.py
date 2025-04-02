@@ -73,22 +73,22 @@ def main():
     win = Window(820, 620)
     stateData = openJson("counties.json")
     print(stateData["Name"], "file was loaded")
-    precintList = []
+    precintMap = {}
     for county in stateData["counties"]:
-        precintList.extend(createCountyPolygons(county))
-    print("There are", len(precintList), "precints in the JSON.")
+        precintMap.update(createCountyPolygons(county))
+    print("There are", len(precintMap), "precints in the JSON.")
     print("Trying to determine", stateData["districts"], "congressional districts")
 
     point_list = []
-    for poly in precintList:
-        win.register_drawable(poly.boundaries)
-        for pt in poly.boundaries.points:
+    for k, v in precintMap.items():
+        win.register_drawable(v.boundaries)
+        for pt in v.boundaries.points:
             point_list.append((pt.x, pt.y))
     min_x = min(pt[0] for pt in point_list)
     min_y = min(pt[1] for pt in point_list)
     max_x = max(pt[0] for pt in point_list)
     max_y = max(pt[1] for pt in point_list)
-    state = State(stateData["Name"], stateData["districts"], precintList)
+    state = State(stateData["Name"], stateData["districts"], precintMap)
     state.seed_initial_district()
     #state.grab_neighboring_precinct(1)
     #state.grab_neighboring_precinct(1)
