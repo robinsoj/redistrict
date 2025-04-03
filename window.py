@@ -77,7 +77,6 @@ def main():
     for county in stateData["counties"]:
         precintMap.update(createCountyPolygons(county))
     print("There are", len(precintMap), "precints in the JSON.")
-    print("Trying to determine", stateData["districts"], "congressional districts")
 
     point_list = []
     for k, v in precintMap.items():
@@ -93,6 +92,7 @@ def main():
     #state.grab_neighboring_precinct(1)
     #state.grab_neighboring_precinct(1)
     win.register_updateable(state)
+    print("Trying to determine", stateData["districts"], "congressional districts")
     win.wait_for_close()
 
 
