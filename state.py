@@ -145,7 +145,7 @@ class State:
             count += 1
             neighbors = self.build_neighbor_map(precinct)
             self.neighbor_map[precinct.name] = neighbors
-
+        print(self.neighbor_map)
         for i in range(self.district_count):
             dist_list = []
             while len(dist_list) == 0:
@@ -170,37 +170,36 @@ class State:
     def find_adjacent_precincts(self, district):
         adjacent_precincts = []
 
-        for precinct in self.precincts:
-            if precinct.district == district:
-                for other_precinct in self.precincts:
-                    if precinct.district != other_precinct.district and self.are_polygons_connected(precinct.boundaries, other_precinct.boundaries):
-                        adjacent_precincts.append(precinct)
-                        break
+        for precinct in self.districts[district]:
+            for other_precinct in self.neighbor_map[precinct]:
+                if self.precincts[other_precinct].district != district:
+                    adjacent_precincts.append(other_precinct)
 
         return adjacent_precincts
 
+    def select_district(self):
+        max_voters = 100000000
+        min_dist = -1
+        for i in range(len(self.census)):
+            voters = self.census[i].total_voters()
+            if voters < max_voters:
+                max_voters = voters
+                min_dist = i
+        return min_dist
     
     def update(self):
         if len(self.unassigned_precincts) > 0:
-            print(len(self.unassigned_precincts), len(self.districts[0]),len(self.districts[1]),
-                  len(self.districts[2]),len(self.districts[3]),len(self.districts[4]),
-                  len(self.districts[5]),len(self.districts[6]),len(self.districts[7]))
             self.grab_neighboring_precinct(self.current_district)
             self.current_district += 1
             if self.current_district == self.district_count:
                 self.current_district = 0
         else:
-            max_voters = 100000000
-            min_dist = -1
-            for i in range(len(self.census)):
-                voters = self.census[i].total_voters()
-                if voters < max_voters:
-                    max_voters = voters
-                    min_dist = i
+            min_dist = self.select_district()
+            print(min_dist, self.census[min_dist].total_voters())
             adjacent_precincts = self.find_adjacent_precincts(min_dist)
             choice = random.choice(adjacent_precincts)
-            self.census[choice.district].remove_precinct(choice)
-            self.update_district(choice, choice)
+            self.census[self.precincts[choice].district].remove_precinct(self.precincts[choice])
+            self.update_district(choice, min_dist)
 
 def main():
     print("In main")
