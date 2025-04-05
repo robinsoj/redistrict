@@ -74,8 +74,13 @@ def main():
     stateData = openJson("counties.json")
     print(stateData["Name"], "file was loaded")
     precintMap = {}
+    load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
+                     'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
+    #load_counties = ['apache']
+    #stateData['districts'] = 1
     for county in stateData["counties"]:
-        precintMap.update(createCountyPolygons(county))
+        if county["county"] in load_counties:
+            precintMap.update(createCountyPolygons(county))
     print("There are", len(precintMap), "precints in the JSON.")
 
     point_list = []
@@ -83,16 +88,21 @@ def main():
         win.register_drawable(v.boundaries)
         for pt in v.boundaries.points:
             point_list.append((pt.x, pt.y))
-    min_x = min(pt[0] for pt in point_list)
-    min_y = min(pt[1] for pt in point_list)
-    max_x = max(pt[0] for pt in point_list)
-    max_y = max(pt[1] for pt in point_list)
+    #min_x = min(pt[0] for pt in point_list)
+    #min_y = min(pt[1] for pt in point_list)
+    #max_x = max(pt[0] for pt in point_list)
+    #max_y = max(pt[1] for pt in point_list)
     state = State(stateData["Name"], stateData["districts"], precintMap)
-    state.seed_initial_district()
+    for precinct in state.precincts.values():
+        if len(precinct.boundaries.points) < 3:
+            precinct.assign_color(Color.DARK_MAGENTA.value, 10)
+            print(precinct.name, len(precinct.boundaries.points))
+    #state.seed_initial_district()
     #state.grab_neighboring_precinct(1)
     #state.grab_neighboring_precinct(1)
-    win.register_updateable(state)
+    #win.register_updateable(state)
     print("Trying to determine", stateData["districts"], "congressional districts")
+    #print(state.precincts['apache1'].boundaries.points)
     win.wait_for_close()
 
 

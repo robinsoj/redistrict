@@ -133,7 +133,9 @@ class State:
     def build_neighbor_map(self, precinct):
         ret_val = []
         for p2 in self.precincts:
-            if self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries):
+            #if precinct.name == 'apache2':
+            #    print(precinct.name, p2, self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries))
+            if precinct.name != p2 and self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries):
                 ret_val.append(p2)
         return ret_val
 
@@ -145,7 +147,7 @@ class State:
             count += 1
             neighbors = self.build_neighbor_map(precinct)
             self.neighbor_map[precinct.name] = neighbors
-        print(self.neighbor_map)
+        #print(self.neighbor_map)
         for i in range(self.district_count):
             dist_list = []
             while len(dist_list) == 0:
@@ -194,6 +196,7 @@ class State:
             if self.current_district == self.district_count:
                 self.current_district = 0
         else:
+            return
             min_dist = self.select_district()
             print(min_dist, self.census[min_dist].total_voters())
             adjacent_precincts = self.find_adjacent_precincts(min_dist)
