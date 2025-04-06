@@ -3,6 +3,7 @@ from graphic_primatives import *
 from jsonload import *
 from precinct import *
 from state import *
+from test_map import *
 
 class Window:
     def __init__(self, width, height):
@@ -76,7 +77,9 @@ def main():
     precintMap = {}
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
-    #load_counties = ['apache']
+    load_counties = ['coconino']
+    test_map = createTestMap()
+
     #stateData['districts'] = 1
     for county in stateData["counties"]:
         if county["county"] in load_counties:
@@ -93,17 +96,24 @@ def main():
     #max_x = max(pt[0] for pt in point_list)
     #max_y = max(pt[1] for pt in point_list)
     state = State(stateData["Name"], stateData["districts"], precintMap)
-    for precinct in state.precincts.values():
-        if len(precinct.boundaries.points) < 3:
-            precinct.assign_color(Color.DARK_MAGENTA.value, 10)
-            print(precinct.name, len(precinct.boundaries.points))
-    #state.seed_initial_district()
+    #for precinct in state.precincts.values():
+    #    if len(precinct.boundaries.points) < 3:
+    #        precinct.assign_color(Color.DARK_MAGENTA.value, 10)
+    #        print(precinct.name, len(precinct.boundaries.points))
+    state.seed_initial_district()
+    for k in test_map.keys():
+        if k[:7] == 'coconino':
+            if (state.neighbor_map[k] != test_map[k]):
+                print(k, state.neighbor_map[k], test_map[k])
+    #print(state.neighbor_map['apache1'] == test_map['apache1'])
+    #for i in range(len(test_map['apache1'])):
+    #    print(state.neighbor_map['apache1'][i] == test_map['apache1'][i])
     #state.grab_neighboring_precinct(1)
     #state.grab_neighboring_precinct(1)
     #win.register_updateable(state)
     print("Trying to determine", stateData["districts"], "congressional districts")
     #print(state.precincts['apache1'].boundaries.points)
-    win.wait_for_close()
+    #win.wait_for_close()
 
 
 if __name__ == '__main__':
