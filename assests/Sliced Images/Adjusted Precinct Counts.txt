@@ -5,7 +5,7 @@ Gila		11
 Graham		22
 Greenlee	8
 La Paz		11
-Maricopa	538
+Maricopa	534
 Mojave		24
 Navajo		44
 Pima		128

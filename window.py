@@ -77,7 +77,8 @@ def main():
     precintMap = {}
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
-    load_counties = ['coconino']
+    test_county = 'coconino'
+    load_counties = [test_county]
     test_map = createTestMap()
 
     #stateData['districts'] = 1
@@ -102,7 +103,7 @@ def main():
     #        print(precinct.name, len(precinct.boundaries.points))
     state.seed_initial_district()
     for k in test_map.keys():
-        if k[:7] == 'coconino':
+        if k[:len(test_county)] == test_county:
             if (state.neighbor_map[k] != test_map[k]):
                 print(k, state.neighbor_map[k], test_map[k])
     #print(state.neighbor_map['apache1'] == test_map['apache1'])
