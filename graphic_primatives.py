@@ -87,7 +87,7 @@ class Polygon:
         if canvas is None:
             return
         flat_points = [int(coord) for point in self.points for coord in (point.x, point.y)]
-        canvas.create_polygon(flat_points, outline=self.color, fill=self.fill_color, width=4.5)
+        canvas.create_polygon(flat_points, outline=self.color, fill=self.fill_color, width=0)
 
     def sides(self):
         ret_val = []

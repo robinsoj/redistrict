@@ -77,7 +77,7 @@ def main():
     precintMap = {}
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
-    test_county = 'pinal'
+    test_county = 'coconino'
     load_counties = [test_county]
     test_map = createTestMap()
 
@@ -87,25 +87,27 @@ def main():
             precintMap.update(createCountyPolygons(county))
     print("There are", len(precintMap), "precints in the JSON.")
 
-    point_list = []
     for k, v in precintMap.items():
         win.register_drawable(v.boundaries)
-        for pt in v.boundaries.points:
-            point_list.append((pt.x, pt.y))
-    #min_x = min(pt[0] for pt in point_list)
-    #min_y = min(pt[1] for pt in point_list)
-    #max_x = max(pt[0] for pt in point_list)
-    #max_y = max(pt[1] for pt in point_list)
+
     state = State(stateData["Name"], stateData["districts"], precintMap)
     #for precinct in state.precincts.values():
     #    if len(precinct.boundaries.points) < 3:
     #        precinct.assign_color(Color.DARK_MAGENTA.value, 10)
     #        print(precinct.name, len(precinct.boundaries.points))
-    state.seed_initial_district()
-    for k in test_map.keys():
-        if k[:len(test_county)] == test_county:
-            if (state.neighbor_map[k] != test_map[k]):
-                print(k, state.neighbor_map[k], test_map[k])
+    #state.process_precincts()
+    count = 0
+    for precinct in state.precincts:
+        if precinct[:len(test_county)] == test_county:
+            state.precincts[precinct].assign_color(list(VGAColor)[count].value, count)
+            count += 1
+            if count > 9:
+                count = 0
+    #state.seed_initial_district()
+    #for k in test_map.keys():
+    #    if k[:len(test_county)] == test_county:
+    #        if (state.neighbor_map[k] != test_map[k]):
+    #            print(f"{k}, {state.neighbor_map[k]}, {test_map[k]}")
     #print(state.neighbor_map['apache1'] == test_map['apache1'])
     #for i in range(len(test_map['apache1'])):
     #    print(state.neighbor_map['apache1'][i] == test_map['apache1'][i])
@@ -114,6 +116,11 @@ def main():
     #win.register_updateable(state)
     print("Trying to determine", stateData["districts"], "congressional districts")
     #print(state.precincts['apache1'].boundaries.points)
+    c6 = state.precincts['coconino6'].boundaries.sides()
+    c9 = state.precincts['coconino9'].boundaries.sides()
+    print(c6[12][0], c9[1], c6[12][1], c9[1], c6[12] == c9[1][::-1],
+          (state.is_point_on_line_segment(c6[12][0], *c9[1]) and state.is_point_on_line_segment(c6[21][1], *c9[1])),
+          (state.is_point_on_line_segment(c9[1][0], *c6[12]) and state.is_point_on_line_segment(c9[1][1], *c6[12])))
     #win.wait_for_close()
 
 

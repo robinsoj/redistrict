@@ -139,7 +139,7 @@ class State:
                 ret_val.append(p2)
         return ret_val
 
-    def seed_initial_district(self):
+    def process_precincts(self):
         count = 0
         for precinct in self.precincts.values():
             if count % 100 == 0:
@@ -148,6 +148,8 @@ class State:
             neighbors = self.build_neighbor_map(precinct)
             self.neighbor_map[precinct.name] = neighbors
         #print(self.neighbor_map)
+        
+    def seed_initial_district(self):
         for i in range(self.district_count):
             dist_list = []
             while len(dist_list) == 0:

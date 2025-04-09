@@ -112,3 +112,16 @@ class Color(Enum):
     SADDLE_BROWN = "#8B4513"
     SALMON = "#FA8072"
     SANDY_BROWN = "#F4A460"
+
+class VGAColor(Enum):
+    RED = '#FF0000'
+    GREEN = '#00FF00'
+    BLUE = '#0000FF'
+    YELLOW = '#FFFF00'
+    CYAN = '#00FFFF'
+    MAGENTA = '#FF00FF'
+    SILVER = '#C0C0C0'
+    GRAY = '#808080'
+    MAROON = '#800000'
+    OLIVE = '#808000'
+
