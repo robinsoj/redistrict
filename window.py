@@ -95,7 +95,7 @@ def main():
     #    if len(precinct.boundaries.points) < 3:
     #        precinct.assign_color(Color.DARK_MAGENTA.value, 10)
     #        print(precinct.name, len(precinct.boundaries.points))
-    #state.process_precincts()
+    state.process_precincts()
     count = 0
     for precinct in state.precincts:
         if precinct[:len(test_county)] == test_county:
@@ -104,10 +104,10 @@ def main():
             if count > 9:
                 count = 0
     #state.seed_initial_district()
-    #for k in test_map.keys():
-    #    if k[:len(test_county)] == test_county:
-    #        if (state.neighbor_map[k] != test_map[k]):
-    #            print(f"{k}, {state.neighbor_map[k]}, {test_map[k]}")
+    for k in test_map.keys():
+        if k[:len(test_county)] == test_county:
+            if (state.neighbor_map[k] != test_map[k]):
+                print(f"{k}, {state.neighbor_map[k]}, {test_map[k]}")
     #print(state.neighbor_map['apache1'] == test_map['apache1'])
     #for i in range(len(test_map['apache1'])):
     #    print(state.neighbor_map['apache1'][i] == test_map['apache1'][i])
@@ -116,11 +116,15 @@ def main():
     #win.register_updateable(state)
     print("Trying to determine", stateData["districts"], "congressional districts")
     #print(state.precincts['apache1'].boundaries.points)
-    c6 = state.precincts['coconino6'].boundaries.sides()
-    c9 = state.precincts['coconino9'].boundaries.sides()
-    print(c6[12][0], c9[1], c6[12][1], c9[1], c6[12] == c9[1][::-1],
-          (state.is_point_on_line_segment(c6[12][0], *c9[1]) and state.is_point_on_line_segment(c6[21][1], *c9[1])),
-          (state.is_point_on_line_segment(c9[1][0], *c6[12]) and state.is_point_on_line_segment(c9[1][1], *c6[12])))
+    precinct1 = 'coconino12'
+    precinct2 = 'coconino18'
+    c1 = state.precincts[precinct1].boundaries.sides()
+    c2 = state.precincts[precinct2].boundaries.sides()
+    print(c1)
+    print(c2)
+    print(state.are_polygons_connected(state.precincts[precinct1].boundaries, state.precincts[precinct2].boundaries))
+    #print(state.is_point_on_line_segment(c6[12][0], *c9[1]), state.is_point_on_line_segment(c6[12][1], *c9[1]),
+    #      state.is_point_on_line_segment(c9[1][0], *c6[12]), state.is_point_on_line_segment(c9[1][1], *c6[12]))
     #win.wait_for_close()
 
 

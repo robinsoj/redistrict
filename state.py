@@ -3,7 +3,6 @@ from enum import Enum
 import random
 from colors import *
 from district_census import *
-from math import isclose
 
 class State:
     def __init__(self, name, districts, precincts):
@@ -35,11 +34,11 @@ class State:
 
     def is_point_on_line_segment(self, point, line_start, line_end):
         cross_product = (point.y - line_start.y) * (line_end.x - line_start.x) - (point.x - line_start.x) * (line_end.y - line_start.y)
-        if abs(cross_product) >= 0:  # Use a small tolerance for floating-point comparison
+        if abs(cross_product) > 1e-6:  # Use a small tolerance for floating-point comparison
             return False
         
         dot_product = (point.x - line_start.x) * (line_end.x - line_start.x) + (point.y - line_start.y) * (line_end.y - line_start.y)
-        if dot_product <= 0:
+        if dot_product < 0:
             return False
 
         squared_length = (line_end.x - line_start.x) ** 2 + (line_end.y - line_start.y) ** 2
@@ -54,15 +53,19 @@ class State:
         tolerance = 4  # Define the fuzzy tolerance for gaps in pixels
 
         def is_close_enough(point1, point2):
-            return isclose(point1.x, point2.x, abs_tol=tolerance) and isclose(point1.y, point2.y, abs_tol=tolerance)
+            return (abs(point1[0] - point2[0]) <= tolerance and
+                    abs(point1[1] - point2[1]) <= tolerance)
+        
+        def normalize_point(point):
+            return (round(point.x, 6), round(point.y, 6))
 
         for side1 in pg1_sides:
+            side1 = (normalize_point(side1[0]), normalize_point(side1[1]))
             for side2 in pg2_sides:
+                side2 = (normalize_point(side2[0]), normalize_point(side2[1]))
                 if (
                     side1 == side2 
                     or side1 == side2[::-1]
-                    or (self.is_point_on_line_segment(side1[0], *side2) and self.is_point_on_line_segment(side1[1], *side2))
-                    or (self.is_point_on_line_segment(side2[0], *side1) and self.is_point_on_line_segment(side2[1], *side1))
                     or (is_close_enough(side1[0], side2[0]) and is_close_enough(side1[1], side2[1]))
                     or (is_close_enough(side1[0], side2[1]) and is_close_enough(side1[1], side2[0]))
                 ):

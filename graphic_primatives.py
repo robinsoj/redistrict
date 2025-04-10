@@ -18,6 +18,16 @@ class Point:
     def __eq__(self, point):
         tolerance = .1
         return abs(self.x - point.x) < tolerance and abs(self.y - point.y) < tolerance
+    
+    def __lt__(self, point):
+        if self.x == point.x:
+            return self.y < point.y
+        return self.x < self.x
+
+    def __gt__(self, point):
+        if self.x == point.x:
+            return self.y > point.y
+        return self.x > self.x
 
 class Line:
     def __init__(self, *args, color="black"):
