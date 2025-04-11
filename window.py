@@ -122,7 +122,8 @@ def main():
     c2 = state.precincts[precinct2].boundaries.sides()
     print(c1)
     print(c2)
-    print(state.are_polygons_connected(state.precincts[precinct1].boundaries, state.precincts[precinct2].boundaries))
+    #print(state.are_polygons_connected(state.precincts[precinct1].boundaries, state.precincts[precinct2].boundaries))
+    print(state.is_point_on_line_segment(state.normalize_point(c1[3][0]), state.normalize_point(c2[3][0]), state.normalize_point(c2[3][1])))
     #print(state.is_point_on_line_segment(c6[12][0], *c9[1]), state.is_point_on_line_segment(c6[12][1], *c9[1]),
     #      state.is_point_on_line_segment(c9[1][0], *c6[12]), state.is_point_on_line_segment(c9[1][1], *c6[12]))
     #win.wait_for_close()

@@ -33,8 +33,13 @@ class State:
         self.census[district_number].add_precinct(self.precincts[precinct])
 
     def is_point_on_line_segment(self, point, line_start, line_end):
+        print(point)
+        print(line_start)
+        print(line_end)
+        tolerance = .1
         cross_product = (point.y - line_start.y) * (line_end.x - line_start.x) - (point.x - line_start.x) * (line_end.y - line_start.y)
-        if abs(cross_product) > 1e-6:  # Use a small tolerance for floating-point comparison
+        print((point.y - line_start.y), (line_end.x - line_start.x), (point.x - line_start.x), (line_end.y - line_start.y), cross_product)
+        if abs(cross_product) > tolerance:  # Use a small tolerance for floating-point comparison
             return False
         
         dot_product = (point.x - line_start.x) * (line_end.x - line_start.x) + (point.y - line_start.y) * (line_end.y - line_start.y)
@@ -47,27 +52,28 @@ class State:
 
         return True
 
+    def is_close_enough(point1, point2, tolerance):
+        return (abs(point1[0] - point2[0]) <= tolerance and
+            abs(point1[1] - point2[1]) <= tolerance)
+        
+    def normalize_point(point):
+        return (round(point.x, 6), round(point.y, 6))
+        
     def are_polygons_connected(self, polygon1, polygon2):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
         tolerance = 4  # Define the fuzzy tolerance for gaps in pixels
 
-        def is_close_enough(point1, point2):
-            return (abs(point1[0] - point2[0]) <= tolerance and
-                    abs(point1[1] - point2[1]) <= tolerance)
-        
-        def normalize_point(point):
-            return (round(point.x, 6), round(point.y, 6))
-
         for side1 in pg1_sides:
-            side1 = (normalize_point(side1[0]), normalize_point(side1[1]))
+            print(side1)
+            side1 = (self.normalize_point(side1[0]), self.normalize_point(side1[1]))
             for side2 in pg2_sides:
-                side2 = (normalize_point(side2[0]), normalize_point(side2[1]))
+                side2 = (self.normalize_point(side2[0]), self.normalize_point(side2[1]))
                 if (
                     side1 == side2 
                     or side1 == side2[::-1]
-                    or (is_close_enough(side1[0], side2[0]) and is_close_enough(side1[1], side2[1]))
-                    or (is_close_enough(side1[0], side2[1]) and is_close_enough(side1[1], side2[0]))
+                    or (self.is_close_enough(side1[0], side2[0], tolerance) and self.is_close_enough(side1[1], side2[1], tolerance))
+                    or (self.is_close_enough(side1[0], side2[1], tolerance) and self.is_close_enough(side1[1], side2[0], tolerance))
                 ):
                     return True
         return False
