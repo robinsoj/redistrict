@@ -32,49 +32,31 @@ class State:
         self.precincts[precinct].assign_color(color_override, district_number)
         self.census[district_number].add_precinct(self.precincts[precinct])
 
-    def is_point_on_line_segment(self, point, line_start, line_end):
-        print(point)
-        print(line_start)
-        print(line_end)
-        tolerance = .1
-        cross_product = (point.y - line_start.y) * (line_end.x - line_start.x) - (point.x - line_start.x) * (line_end.y - line_start.y)
-        print((point.y - line_start.y), (line_end.x - line_start.x), (point.x - line_start.x), (line_end.y - line_start.y), cross_product)
-        if abs(cross_product) > tolerance:  # Use a small tolerance for floating-point comparison
-            return False
-        
-        dot_product = (point.x - line_start.x) * (line_end.x - line_start.x) + (point.y - line_start.y) * (line_end.y - line_start.y)
-        if dot_product < 0:
-            return False
-
-        squared_length = (line_end.x - line_start.x) ** 2 + (line_end.y - line_start.y) ** 2
-        if dot_product >= squared_length:
-            return False
-
-        return True
-
-    def is_close_enough(point1, point2, tolerance):
-        return (abs(point1[0] - point2[0]) <= tolerance and
-            abs(point1[1] - point2[1]) <= tolerance)
-        
-    def normalize_point(point):
-        return (round(point.x, 6), round(point.y, 6))
+    def normalize_point(self, pt):
+        return Point(round(pt.x, 6), round(pt.y, 6))
         
     def are_polygons_connected(self, polygon1, polygon2):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
-        tolerance = 4  # Define the fuzzy tolerance for gaps in pixels
+        tolerance = .00004  # Define the fuzzy tolerance for gaps in pixels
 
         for side1 in pg1_sides:
-            print(side1)
             side1 = (self.normalize_point(side1[0]), self.normalize_point(side1[1]))
             for side2 in pg2_sides:
                 side2 = (self.normalize_point(side2[0]), self.normalize_point(side2[1]))
-                if (
-                    side1 == side2 
-                    or side1 == side2[::-1]
-                    or (self.is_close_enough(side1[0], side2[0], tolerance) and self.is_close_enough(side1[1], side2[1], tolerance))
-                    or (self.is_close_enough(side1[0], side2[1], tolerance) and self.is_close_enough(side1[1], side2[0], tolerance))
-                ):
+
+                # Find bounds of both line segments
+                min_x1, max_x1 = min(side1[0].x, side1[1].x), max(side1[0].x, side1[1].x)
+                min_x2, max_x2 = min(side2[0].x, side2[1].x), max(side2[0].x, side2[1].x)
+                min_y1, max_y1 = min(side1[0].y, side1[1].y), max(side1[0].y, side1[1].y)
+                min_y2, max_y2 = min(side2[0].y, side2[1].y), max(side2[0].y, side2[1].y)
+
+                # Check for overlap in x and y directions
+                x_overlap = max(0, min(max_x1, max_x2) - max(min_x1, min_x2))
+                y_overlap = max(0, min(max_y1, max_y2) - max(min_y1, min_y2))
+
+                # Ensure that the overlapping region has measurable length
+                if x_overlap > tolerance or y_overlap > tolerance:
                     return True
         return False
 

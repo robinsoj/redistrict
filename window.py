@@ -116,17 +116,20 @@ def main():
     #win.register_updateable(state)
     print("Trying to determine", stateData["districts"], "congressional districts")
     #print(state.precincts['apache1'].boundaries.points)
-    precinct1 = 'coconino12'
-    precinct2 = 'coconino18'
-    c1 = state.precincts[precinct1].boundaries.sides()
-    c2 = state.precincts[precinct2].boundaries.sides()
-    print(c1)
-    print(c2)
+    #precinct1 = 'coconino7'
+    #precinct2 = 'coconino53'
+    #c1 = state.precincts[precinct1].boundaries.sides()
+    #c2 = state.precincts[precinct2].boundaries.sides()
+    #print(c1)
+    #print(c2)
+    #for i in range(1,75):
+    #    prec = f'coconino{i}'
+    #    print(i, state.precincts[prec].boundaries.sides())
     #print(state.are_polygons_connected(state.precincts[precinct1].boundaries, state.precincts[precinct2].boundaries))
-    print(state.is_point_on_line_segment(state.normalize_point(c1[3][0]), state.normalize_point(c2[3][0]), state.normalize_point(c2[3][1])))
+    #print(state.is_point_on_line_segment(state.normalize_point(c1[3][0]), state.normalize_point(c2[3][0]), state.normalize_point(c2[3][1]), 4))
     #print(state.is_point_on_line_segment(c6[12][0], *c9[1]), state.is_point_on_line_segment(c6[12][1], *c9[1]),
     #      state.is_point_on_line_segment(c9[1][0], *c6[12]), state.is_point_on_line_segment(c9[1][1], *c6[12]))
-    #win.wait_for_close()
+    win.wait_for_close()
 
 
 if __name__ == '__main__':
