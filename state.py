@@ -38,7 +38,8 @@ class State:
     def are_polygons_connected(self, polygon1, polygon2):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
-        tolerance = .00004  # Define the fuzzy tolerance for gaps in pixels
+        tolerance = .4  # Define the fuzzy tolerance for gaps in pixels
+        tolerance2 = .000004
 
         for side1 in pg1_sides:
             side1 = (self.normalize_point(side1[0]), self.normalize_point(side1[1]))
@@ -56,7 +57,7 @@ class State:
                 y_overlap = max(0, min(max_y1, max_y2) - max(min_y1, min_y2))
 
                 # Ensure that the overlapping region has measurable length
-                if x_overlap > tolerance or y_overlap > tolerance:
+                if x_overlap > tolerance2 or y_overlap > tolerance2:
                     return True
         return False
 
