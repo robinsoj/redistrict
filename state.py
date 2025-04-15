@@ -38,15 +38,14 @@ class State:
     def are_polygons_connected(self, polygon1, polygon2, report = False):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
-        tolerance = .4  # Define the fuzzy tolerance for gaps in pixels
-        tolerance2 = .000004
+        tolerance = Point(1,1)  # Define the fuzzy tolerance for gaps in pixels
+        tolerance2 = .5
 
         for side1 in pg1_sides:
             side1 = (self.normalize_point(side1[0]), self.normalize_point(side1[1]))
             for side2 in pg2_sides:
                 side2 = (self.normalize_point(side2[0]), self.normalize_point(side2[1]))
-                if report:
-                    print(report)
+
                 # Find bounds of both line segments
                 min_x1, max_x1 = min(side1[0].x, side1[1].x), max(side1[0].x, side1[1].x)
                 min_x2, max_x2 = min(side2[0].x, side2[1].x), max(side2[0].x, side2[1].x)
@@ -56,9 +55,14 @@ class State:
                 # Check for overlap in x and y directions
                 x_overlap = max(0, min(max_x1, max_x2) - max(min_x1, min_x2))
                 y_overlap = max(0, min(max_y1, max_y2) - max(min_y1, min_y2))
+                if (side1[0] - side2[0] > tolerance or side1[1] - side2[1] > tolerance or side1[0] - side2[1] > tolerance
+                    or side1[1] - side2[0] > tolerance):
+                    continue  # Skip if they only share a corner
 
+                if report:
+                    print(side1, side2, x_overlap, y_overlap)
                 # Ensure that the overlapping region has measurable length
-                if x_overlap > tolerance2 or y_overlap > tolerance2:
+                if x_overlap > tolerance2 and y_overlap > tolerance2:
                     return True
         return False
 
@@ -128,7 +132,8 @@ class State:
         for p2 in self.precincts:
             #if precinct.name == 'apache2':
             #    print(precinct.name, p2, self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries))
-            if precinct.name != p2 and self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries):
+            if precinct.name != p2 and self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries
+                                                                   , precinct.name == 'coconino14' and p2 == 'coconino15'):
                 ret_val.append(p2)
         return ret_val
 
