@@ -35,7 +35,7 @@ class State:
     def normalize_point(self, pt):
         return Point(round(pt.x, 6), round(pt.y, 6))
         
-    def are_polygons_connected(self, polygon1, polygon2):
+    def are_polygons_connected(self, polygon1, polygon2, report = False):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
         tolerance = .4  # Define the fuzzy tolerance for gaps in pixels
@@ -45,7 +45,8 @@ class State:
             side1 = (self.normalize_point(side1[0]), self.normalize_point(side1[1]))
             for side2 in pg2_sides:
                 side2 = (self.normalize_point(side2[0]), self.normalize_point(side2[1]))
-
+                if report:
+                    print(report)
                 # Find bounds of both line segments
                 min_x1, max_x1 = min(side1[0].x, side1[1].x), max(side1[0].x, side1[1].x)
                 min_x2, max_x2 = min(side2[0].x, side2[1].x), max(side2[0].x, side2[1].x)
