@@ -20,17 +20,13 @@ class Point:
         return abs(self.x - point.x) < tolerance and abs(self.y - point.y) < tolerance
     
     def __lt__(self, point):
-        if self.x == point.x:
-            return self.y < point.y
-        return self.x < point.x
+        return self.x < point.x and self.y < point.y
 
     def __gt__(self, point):
-        if self.x == point.x:
-            return self.y > point.y
-        return self.x > point.x
+        return self.x > point.x and self.y > point.y
     
     def __sub__(self, point):
-        return Point(self.x - point.x, self.y - point.y)
+        return Point(abs(self.x - point.x), abs(self.y - point.y))
 
 class Line:
     def __init__(self, *args, color="black"):

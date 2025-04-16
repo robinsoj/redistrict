@@ -34,12 +34,14 @@ class State:
 
     def normalize_point(self, pt):
         return Point(round(pt.x, 6), round(pt.y, 6))
-        
+
+    def two_true(self, a, b, c, d):
+        return (a + b + c + d) == 2
+    
     def are_polygons_connected(self, polygon1, polygon2, report = False):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
         tolerance = Point(1,1)  # Define the fuzzy tolerance for gaps in pixels
-        tolerance2 = .5
 
         for side1 in pg1_sides:
             side1 = (self.normalize_point(side1[0]), self.normalize_point(side1[1]))
@@ -52,17 +54,28 @@ class State:
                 min_y1, max_y1 = min(side1[0].y, side1[1].y), max(side1[0].y, side1[1].y)
                 min_y2, max_y2 = min(side2[0].y, side2[1].y), max(side2[0].y, side2[1].y)
 
-                # Check for overlap in x and y directions
-                x_overlap = max(0, min(max_x1, max_x2) - max(min_x1, min_x2))
-                y_overlap = max(0, min(max_y1, max_y2) - max(min_y1, min_y2))
-                if (side1[0] - side2[0] > tolerance or side1[1] - side2[1] > tolerance or side1[0] - side2[1] > tolerance
-                    or side1[1] - side2[0] > tolerance):
+                if report:
+                    print(side1, 
+                          side2,
+                          side1[0] - side2[0],
+                          side1[1] - side2[0],
+                          side1[0] - side2[0] < tolerance,
+                          side1[1] - side2[1] < tolerance,
+                          side1[0] - side2[1] < tolerance,
+                          side1[1] - side2[0] < tolerance,
+                          self.two_true((side1[0] - side2[0] < tolerance),
+                                        (side1[1] - side2[1] < tolerance),
+                                        (side1[0] - side2[1] < tolerance),
+                                        (side1[1] - side2[0] < tolerance)))
+                if ((side1[0] - side2[0] < tolerance) ^ (side1[1] - side2[1] < tolerance) ^ (side1[0] - side2[1] < tolerance)
+                    ^ (side1[1] - side2[0] < tolerance)):
                     continue  # Skip if they only share a corner
 
-                if report:
-                    print(side1, side2, x_overlap, y_overlap)
                 # Ensure that the overlapping region has measurable length
-                if x_overlap > tolerance2 and y_overlap > tolerance2:
+                if self.two_true((side1[0] - side2[0] < tolerance), 
+                                 (side1[1] - side2[1] < tolerance),
+                                 (side1[0] - side2[1] < tolerance),
+                                 (side1[1] - side2[0] < tolerance)):
                     return True
         return False
 
@@ -133,7 +146,7 @@ class State:
             #if precinct.name == 'apache2':
             #    print(precinct.name, p2, self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries))
             if precinct.name != p2 and self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries
-                                                                   , precinct.name == 'coconino14' and p2 == 'coconino15'):
+                                                                   , precinct.name == 'coconino1' and p2 == 'coconino7'):
                 ret_val.append(p2)
         return ret_val
 
