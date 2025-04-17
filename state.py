@@ -41,8 +41,12 @@ class State:
     def are_polygons_connected(self, polygon1, polygon2, report = False):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
-        tolerance = Point(1,1)  # Define the fuzzy tolerance for gaps in pixels
+        t = 5.1
+        tolerance = Point(t, t)  # Define the fuzzy tolerance for gaps in pixels
 
+        if report:
+            print(pg1_sides)
+            print(pg2_sides)
         for side1 in pg1_sides:
             side1 = (self.normalize_point(side1[0]), self.normalize_point(side1[1]))
             for side2 in pg2_sides:
@@ -58,6 +62,8 @@ class State:
                     print(side1, 
                           side2,
                           side1[0] - side2[0],
+                          side1[1] - side2[1],
+                          side1[0] - side2[1],
                           side1[1] - side2[0],
                           side1[0] - side2[0] < tolerance,
                           side1[1] - side2[1] < tolerance,
@@ -146,7 +152,7 @@ class State:
             #if precinct.name == 'apache2':
             #    print(precinct.name, p2, self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries))
             if precinct.name != p2 and self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries
-                                                                   , precinct.name == 'coconino1' and p2 == 'coconino7'):
+                                                                   , precinct.name == 'coconino52' and p2 == 'coconino60'):
                 ret_val.append(p2)
         return ret_val
 
