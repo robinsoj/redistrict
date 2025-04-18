@@ -77,7 +77,7 @@ def main():
     precintMap = {}
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
-    test_county = 'coconino'
+    test_county = 'maricopa'
     load_counties = [test_county]
     test_map = createTestMap()
 
@@ -129,7 +129,7 @@ def main():
     #print(state.is_point_on_line_segment(state.normalize_point(c1[3][0]), state.normalize_point(c2[3][0]), state.normalize_point(c2[3][1]), 4))
     #print(state.is_point_on_line_segment(c6[12][0], *c9[1]), state.is_point_on_line_segment(c6[12][1], *c9[1]),
     #      state.is_point_on_line_segment(c9[1][0], *c6[12]), state.is_point_on_line_segment(c9[1][1], *c6[12]))
-    #win.wait_for_close()
+    win.wait_for_close()
 
 
 if __name__ == '__main__':
