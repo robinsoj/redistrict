@@ -582,12 +582,12 @@ maricopa534, ['maricopa507', 'maricopa508', 'maricopa533'], ['maricopa517', 'mar
 *mohave21, ['mohave22'], ['mohave17', 'mohave22']
 *mohave24, ['mohave23'], ['mohave20', 'mohave23']
 
-navajo1, [], ['navajo2', 'navajo3']
-navajo2, ['navajo3', 'navajo9'], ['navajo1', 'navajo3', 'navajo9']
-navajo3, ['navajo2', 'navajo4', 'navajo10'], ['navajo1', 'navajo2', 'navajo4', 'navajo10']
-navajo23, ['navajo16', 'navajo24', 'navajo30'], ['navajo16', 'navajo24']
-navajo25, ['navajo18', 'navajo24', 'navajo26'], ['navajo18', 'navajo24', 'navajo26', 'navajo30']
-navajo30, ['navajo23', 'navajo24', 'navajo31', 'navajo35'], ['navajo24', 'navajo25', 'navajo31', 'navajo35']
+*navajo1, [], ['navajo2', 'navajo3']
+*navajo2, ['navajo3', 'navajo9'], ['navajo1', 'navajo3', 'navajo9']
+*navajo3, ['navajo2', 'navajo4', 'navajo10'], ['navajo1', 'navajo2', 'navajo4', 'navajo10']      
+*navajo24, ['navajo17', 'navajo23', 'navajo25'], ['navajo17', 'navajo23', 'navajo25', 'navajo30']
+*navajo25, ['navajo18', 'navajo24', 'navajo26'], ['navajo18', 'navajo24', 'navajo26', 'navajo30']
+*navajo30, ['navajo31', 'navajo35'], ['navajo24', 'navajo25', 'navajo31', 'navajo35']
 
 pima1, ['pima4', 'pima5'], ['pima4']
 pima2, ['pima3', 'pima7', 'pima8'], ['pima3', 'pima7']
