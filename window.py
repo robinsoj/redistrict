@@ -77,7 +77,7 @@ def main():
     precintMap = {}
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
-    test_county = 'pima'
+    test_county = 'pinal'
     load_counties = [test_county]
     test_map = createTestMap()
 
