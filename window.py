@@ -4,13 +4,15 @@ from jsonload import *
 from precinct import *
 from state import *
 from test_map import *
+import re
 
 class Window:
     def __init__(self, width, height):
         self.__root = Tk()
         self.__root.title = "Congressional Redistricting"
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
-        self.__canvas = Canvas(self.__root, width=width, height=height)
+        #self.__canvas = Canvas(self.__root, width=width, height=height)
+        self.__canvas = Canvas(self.__root, width=width, height=height, background="black")
         self.__canvas.bind("<Button-1>", self.on_click)
         self.__canvas.bind("<B1-Motion>", self.on_drag)
         self.__canvas.pack()
@@ -77,7 +79,7 @@ def main():
     precintMap = {}
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
-    test_county = 'maricopa'
+    test_county = 'pima'
     load_counties = [test_county]
     test_map = createTestMap()
 
@@ -88,6 +90,12 @@ def main():
     print("There are", len(precintMap), "precints in the JSON.")
 
     for k, v in precintMap.items():
+        #match = re.search(r'\d+$', k)
+        #if match:
+        #    number = int(match.group())
+        #    #if number >= 142 and number <= 158:
+        #    if number in (142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158):
+        #        win.register_drawable(v.boundaries)
         win.register_drawable(v.boundaries)
 
     state = State(stateData["Name"], stateData["districts"], precintMap)
@@ -106,7 +114,7 @@ def main():
     #state.seed_initial_district()
     for k in test_map.keys():
         if k[:len(test_county)] == test_county:
-            if (state.neighbor_map[k] != test_map[k]):
+           if (state.neighbor_map[k] != test_map[k]):
                 print(f"{k}, {state.neighbor_map[k]}, {test_map[k]}")
     #print(state.neighbor_map['apache1'] == test_map['apache1'])
     #for i in range(len(test_map['apache1'])):
