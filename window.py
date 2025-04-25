@@ -79,7 +79,7 @@ def main():
     precintMap = {}
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
-    test_county = 'pima'
+    test_county = 'coconino'
     load_counties = [test_county]
     test_map = createTestMap()
 
@@ -90,13 +90,15 @@ def main():
     print("There are", len(precintMap), "precints in the JSON.")
 
     for k, v in precintMap.items():
-        #match = re.search(r'\d+$', k)
-        #if match:
-        #    number = int(match.group())
-        #    #if number >= 142 and number <= 158:
-        #    if number in (142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158):
-        #        win.register_drawable(v.boundaries)
-        win.register_drawable(v.boundaries)
+        match = re.search(r'\d+$', k)
+        if match:
+            number = int(match.group())
+            #if number >= 27 and number <= 33:
+            if number in (3, 6):
+                for pt in v.boundaries.points:
+                    print(f"{k},{pt.x},-{pt.y}")
+                win.register_drawable(v.boundaries)
+    #    win.register_drawable(v.boundaries)
 
     state = State(stateData["Name"], stateData["districts"], precintMap)
     #for precinct in state.precincts.values():
