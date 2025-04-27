@@ -151,7 +151,8 @@ class State:
         for p2 in self.precincts:
             #if precinct.name == 'apache2':
             #    print(precinct.name, p2, self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries))
-            if precinct.name != p2 and self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries):
+            if precinct.name != p2 and self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries,
+                                                                   precinct.name== 'greenlee2' and p2 == 'greenlee5' and False):
                 ret_val.append(p2)
         return ret_val
 

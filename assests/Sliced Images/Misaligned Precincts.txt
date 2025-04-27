@@ -1,24 +1,6 @@
 + = Corner connecton
 * = Realign polygon
 
-*gila4, ['gila1', 'gila3', 'gila8'], ['gila1', 'gila3', 'gila7', 'gila8']
-*gila6, ['gila3', 'gila5', 'gila7'], ['gila3', 'gila5', 'gila7', 'gila9']
-*gila7, ['gila6', 'gila8', 'gila10'], ['gila4', 'gila6', 'gila8', 'gila10']
-*gila9, [], ['gila6', 'gila10']
-*gila10, ['gila7', 'gila11'], ['gila7', 'gila9', 'gila11']
-
-*graham6, ['graham1'], ['graham1', 'graham7']
-*graham7, ['graham2', 'graham8', 'graham11'], ['graham2', 'graham6', 'graham8', 'graham11']
-*graham11, ['graham7', 'graham12'], ['graham7', 'graham12', 'graham15']
-*graham15, ['graham16', 'graham19'], ['graham11', 'graham16', 'graham19']
-*graham18, ['graham14', 'graham17'], ['graham14', 'graham17', 'graham22']
-*graham21, ['graham17', 'graham20'], ['graham17', 'graham20', 'graham22']
-*graham22, [], ['graham18', 'graham21']
-
-*greenlee1, ['greenlee3'], ['greenlee2', 'greenlee3']
-*greenlee2, ['greenlee4', 'greenlee5'], ['greenlee1', 'greenlee4']
-*greenlee5, ['greenlee2', 'greenlee4', 'greenlee8'], ['greenlee4', 'greenlee8']
-
 *la_paz1, [], ['la_paz4', 'la_paz5']
 *la_paz3, ['la_paz2', 'la_paz7'], ['la_paz2', 'la_paz4', 'la_paz7']
 *la_paz4, ['la_paz5'], ['la_paz1', 'la_paz3', 'la_paz5', 'la_paz8']
