@@ -1,16 +1,6 @@
 + = Corner connecton
 * = Realign polygon
 
-*coconino6, ['coconino5'], ['coconino3', 'coconino5', 'coconino9', 'coconino10']
-*coconino9, ['coconino8', 'coconino10', 'coconino15'], ['coconino6', 'coconino8', 'coconino10', 'coconino15']
-*coconino10, ['coconino9', 'coconino16'], ['coconino6', 'coconino9', 'coconino11', 'coconino16']
-*coconino11, ['coconino12', 'coconino17'], ['coconino10', 'coconino12', 'coconino17']
-*coconino18, ['coconino12', 'coconino17', 'coconino26'], ['coconino12', 'coconino17', 'coconino19', 'coconino26']
-*coconino19, ['coconino27'], ['coconino18', 'coconino20', 'coconino27']
-*coconino20, ['coconino28'], ['coconino19', 'coconino28']
-*coconino59, ['coconino51', 'coconino58', 'coconino67'], ['coconino51', 'coconino58', 'coconino60', 'coconino67']
-*coconino60, ['coconino52'], ['coconino52', 'coconino59']
-
 *gila4, ['gila1', 'gila3', 'gila8'], ['gila1', 'gila3', 'gila7', 'gila8']
 *gila6, ['gila3', 'gila5', 'gila7'], ['gila3', 'gila5', 'gila7', 'gila9']
 *gila7, ['gila6', 'gila8', 'gila10'], ['gila4', 'gila6', 'gila8', 'gila10']
