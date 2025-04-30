@@ -1,12 +1,6 @@
 + = Corner connecton
 * = Realign polygon
 
-*la_paz1, [], ['la_paz4', 'la_paz5']
-*la_paz3, ['la_paz2', 'la_paz7'], ['la_paz2', 'la_paz4', 'la_paz7']
-*la_paz4, ['la_paz5'], ['la_paz1', 'la_paz3', 'la_paz5', 'la_paz8']
-*la_paz5, ['la_paz4'], ['la_paz1', 'la_paz4', 'la_paz8']
-*la_paz8, ['la_paz7', 'la_paz11'], ['la_paz4', 'la_paz5', 'la_paz7', 'la_paz11']
-
 *maricopa188, ['maricopa187', 'maricopa209', 'maricopa210'], ['maricopa187', 'maricopa209']
 *maricopa203, [], ['maricopa204', 'maricopa225']
 *maricopa204, ['maricopa183', 'maricopa205', 'maricopa226'], ['maricopa183', 'maricopa203', 'maricopa205', 'maricopa226']
@@ -50,10 +44,6 @@
 *maricopa526, ['maricopa506', 'maricopa525'], ['maricopa505', 'maricopa506', 'maricopa525']
 *maricopa527, ['maricopa528'], ['maricopa510', 'maricopa528']
 
-*mohave8, ['mohave4', 'mohave7'], ['mohave4', 'mohave7', 'mohave12']
-*mohave9, ['mohave5', 'mohave10'], ['mohave5', 'mohave10', 'mohave13']
-*mohave12, ['mohave11', 'mohave16'], ['mohave8', 'mohave11', 'mohave16']
-*mohave13, ['mohave14', 'mohave18'], ['mohave9', 'mohave14', 'mohave18']
 *mohave15, ['mohave11', 'mohave14', 'mohave20'], ['mohave11', 'mohave14', 'mohave16', 'mohave20']
 *mohave16, ['mohave12'], ['mohave12', 'mohave15']
 *mohave17, [], ['mohave18', 'mohave21']
