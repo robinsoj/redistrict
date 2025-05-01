@@ -79,7 +79,7 @@ def main():
     precintMap = {}
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
-    test_county = 'navajo'
+    test_county = 'pima'
     load_counties = [test_county]
     test_map = createTestMap()
 
@@ -94,7 +94,7 @@ def main():
         if match:
             number = int(match.group())
             #if number >= 27 and number <= 33:
-            if number in (23, 24):
+            if number in (40, 55):
                 for pt in v.boundaries.points:
                     print(f"{k},{pt.x},-{pt.y}")
                 win.register_drawable(v.boundaries)
