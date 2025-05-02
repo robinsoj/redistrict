@@ -1114,7 +1114,7 @@ def createTestMap():
     test_map['pinal74'] = ['pinal62', 'pinal73', 'pinal75', 'pinal87']
     test_map['pinal75'] = ['pinal63', 'pinal74']
     test_map['pinal76'] = ['pinal63', 'pinal77', 'pinal88']
-    test_map['pinal77'] = ['pinal64', 'pinal75', 'pinal78', 'pinal88']
+    test_map['pinal77'] = ['pinal64', 'pinal76', 'pinal78', 'pinal88']
     test_map['pinal78'] = ['pinal65', 'pinal77', 'pinal79', 'pinal89']
     test_map['pinal79'] = ['pinal66', 'pinal78', 'pinal80', 'pinal90']
     test_map['pinal80'] = ['pinal67', 'pinal79', 'pinal81', 'pinal91']
