@@ -1,19 +1,8 @@
 + = Corner connecton
 * = Realign polygon
 
-maricopa225, ['maricopa203', 'maricopa247'], ['maricopa203', 'maricopa226', 'maricopa247']
-maricopa226, ['maricopa204', 'maricopa227', 'maricopa248'], ['maricopa204', 'maricopa225', 'maricopa227', 'maricopa248']
-maricopa247, ['maricopa225'], ['maricopa225', 'maricopa248', 'maricopa269']
-maricopa248, ['maricopa226', 'maricopa249', 'maricopa270'], ['maricopa226', 'maricopa247', 'maricopa249', 'maricopa270']
-maricopa269, ['maricopa270'], ['maricopa247', 'maricopa270', 'maricopa297']
-maricopa291, ['maricopa292'], ['maricopa292', 'maricopa319']
-maricopa297, ['maricopa296', 'maricopa298', 'maricopa325'], ['maricopa269', 'maricopa296', 'maricopa298', 'maricopa325']
-maricopa319, ['maricopa320', 'maricopa347', 'maricopa348'], ['maricopa291', 'maricopa320', 'maricopa347']
-maricopa320, ['maricopa292', 'maricopa319', 'maricopa321', 'maricopa348', 'maricopa349'], ['maricopa292', 'maricopa319', 'maricopa321', 'maricopa348']
-maricopa347, ['maricopa319'], ['maricopa319', 'maricopa348']
-maricopa348, ['maricopa319', 'maricopa320', 'maricopa349'], ['maricopa320', 'maricopa347', 'maricopa349', 'maricopa375']
-maricopa349, ['maricopa320', 'maricopa321', 'maricopa348', 'maricopa350', 'maricopa376'], ['maricopa321', 'maricopa348', 'maricopa350']
-maricopa375, [], ['maricopa348']
+maricopa349, ['maricopa321', 'maricopa348', 'maricopa350', 'maricopa376'],
+	     ['maricopa321', 'maricopa348', 'maricopa350']
 maricopa376, ['maricopa349', 'maricopa350', 'maricopa425'], ['maricopa350', 'maricopa377', 'maricopa401']
 maricopa377, ['maricopa351', 'maricopa378', 'maricopa401'], ['maricopa351', 'maricopa376', 'maricopa378', 'maricopa401']
 maricopa401, ['maricopa377', 'maricopa402', 'maricopa425'], ['maricopa376', 'maricopa377', 'maricopa402', 'maricopa425']

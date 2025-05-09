@@ -94,7 +94,7 @@ def main():
         if match:
             number = int(match.group())
             #if number >= 27 and number <= 33:
-            if number in (210, 211, 233):
+            if number in (348, 321):
                 for pt in v.boundaries.points:
                     print(f"{k},{pt.x},-{pt.y}")
                 win.register_drawable(v.boundaries)
