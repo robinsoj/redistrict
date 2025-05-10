@@ -1,19 +1,8 @@
 + = Corner connecton
 * = Realign polygon
 
-maricopa349, ['maricopa321', 'maricopa348', 'maricopa350', 'maricopa376'],
-	     ['maricopa321', 'maricopa348', 'maricopa350']
-maricopa376, ['maricopa349', 'maricopa350', 'maricopa425'], ['maricopa350', 'maricopa377', 'maricopa401']
-maricopa377, ['maricopa351', 'maricopa378', 'maricopa401'], ['maricopa351', 'maricopa376', 'maricopa378', 'maricopa401']
-maricopa401, ['maricopa377', 'maricopa402', 'maricopa425'], ['maricopa376', 'maricopa377', 'maricopa402', 'maricopa425']
-maricopa425, ['maricopa376', 'maricopa401', 'maricopa426', 'maricopa449'], ['maricopa401', 'maricopa426', 'maricopa449']
-maricopa449, ['maricopa425', 'maricopa450'], ['maricopa425', 'maricopa450', 'maricopa473']
-maricopa459, ['maricopa435', 'maricopa458', 'maricopa460', 'maricopa483', 'maricopa484'], ['maricopa435', 'maricopa458', 'maricopa460', 'maricopa483']
-maricopa460, ['maricopa436', 'maricopa459', 'maricopa461', 'maricopa483', 'maricopa484'], ['maricopa436', 'maricopa459', 'maricopa461', 'maricopa484']
-maricopa473, ['maricopa474', 'maricopa497'], ['maricopa449', 'maricopa474', 'maricopa497']
-maricopa483, ['maricopa459', 'maricopa460', 'maricopa482', 'maricopa484', 'maricopa506'], ['maricopa459', 'maricopa482', 'maricopa484', 'maricopa506']
-maricopa484, ['maricopa459', 'maricopa460', 'maricopa483', 'maricopa485'], ['maricopa460', 'maricopa483', 'maricopa485']
-maricopa486, ['maricopa462', 'maricopa485', 'maricopa487', 'maricopa508'], ['maricopa462', 'maricopa485', 'maricopa487', 'maricopa507']
+maricopa486, ['maricopa462', 'maricopa485', 'maricopa487', 'maricopa508'],
+	     ['maricopa462', 'maricopa485', 'maricopa487', 'maricopa507']
 maricopa499, ['maricopa476', 'maricopa498', 'maricopa500', 'maricopa519', 'maricopa520'], ['maricopa476', 'maricopa498', 'maricopa500', 'maricopa520']
 maricopa500, ['maricopa477', 'maricopa499', 'maricopa501', 'maricopa521', 'maricopa522'], ['maricopa477', 'maricopa499', 'maricopa501', 'maricopa521']
 maricopa505, ['maricopa482', 'maricopa504', 'maricopa506'], ['maricopa482', 'maricopa504', 'maricopa506', 'maricopa526']
