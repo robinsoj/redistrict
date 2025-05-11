@@ -1,17 +1,12 @@
 + = Corner connecton
 * = Realign polygon
 
-maricopa486, ['maricopa462', 'maricopa485', 'maricopa487', 'maricopa508'],
-	     ['maricopa462', 'maricopa485', 'maricopa487', 'maricopa507']
-maricopa499, ['maricopa476', 'maricopa498', 'maricopa500', 'maricopa519', 'maricopa520'], ['maricopa476', 'maricopa498', 'maricopa500', 'maricopa520']
-maricopa500, ['maricopa477', 'maricopa499', 'maricopa501', 'maricopa521', 'maricopa522'], ['maricopa477', 'maricopa499', 'maricopa501', 'maricopa521']
-maricopa505, ['maricopa482', 'maricopa504', 'maricopa506'], ['maricopa482', 'maricopa504', 'maricopa506', 'maricopa526']
-maricopa507, ['maricopa508'], ['maricopa486', 'maricopa508']
-maricopa508, ['maricopa486', 'maricopa487', 'maricopa507', 'maricopa509'], ['maricopa487', 'maricopa507', 'maricopa509']
-maricopa510, ['maricopa489', 'maricopa509', 'maricopa511'], ['maricopa489', 'maricopa509', 'maricopa511', 'maricopa527']
-maricopa519, ['maricopa498', 'maricopa499', 'maricopa518', 'maricopa520'], ['maricopa498', 'maricopa518', 'maricopa520']
-maricopa520, ['maricopa499', 'maricopa519'], ['maricopa499', 'maricopa519', 'maricopa521']
-maricopa521, ['maricopa500', 'maricopa522'], ['maricopa500', 'maricopa520', 'maricopa522']
-maricopa522, ['maricopa500', 'maricopa501', 'maricopa521', 'maricopa523'], ['maricopa501', 'maricopa521', 'maricopa523']
-maricopa526, ['maricopa506', 'maricopa525'], ['maricopa505', 'maricopa506', 'maricopa525']
-maricopa527, ['maricopa528'], ['maricopa510', 'maricopa528']
+apache = graham, greenlee, navajo
+cochise = graham, greenlee, pima, santa_cruz
+coconino = gila, mohave, navajo, yavapai
+gila = graham, maricopa, navajo, pinal, yavapai
+graham = greenlee, navajo, pima, pinal
+la_paz = maricopa, mohave, yavapai, yuma
+maricopa = pima, pinal, yavapai, yuma
+mohave = yavapai
+pima = pinal, santa_cruz, yuma
