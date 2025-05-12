@@ -2,8 +2,6 @@
 * = Realign polygon
 
 1	apache = navajo
-apache16, ['apache12', 'apache15', 'apache20', 'navajo2', 'navajo9'],
-	  ['apache12', 'apache15', 'apache20', 'navajo9']
 apache20, ['apache16', 'apache19', 'apache24'],
 	  ['apache16', 'apache19', 'apache24', 'navajo16', 'navajo9']
 apache24, ['apache20', 'apache23', 'apache28'],
