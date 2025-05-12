@@ -2,50 +2,50 @@ def createTestMap():
     test_map = {}
 
     #Apache County
-    test_map['apache1'] = sorted(['apache5','apache2'])
-    test_map['apache2'] = sorted(['apache6','apache1','apache3'])
-    test_map['apache3'] = sorted(['apache7','apache2','apache4'])
-    test_map['apache4'] = sorted(['apache8','apache3'])
+    test_map['apache1'] = sorted(['apache5','apache2','greenlee6', 'greenlee7'])
+    test_map['apache2'] = sorted(['apache6','apache1','apache3','graham19', 'greenlee8'])
+    test_map['apache3'] = sorted(['apache7','apache2','apache4','graham19','graham20'])
+    test_map['apache4'] = sorted(['apache8','apache3','graham20','navajo1'])
     test_map['apache5'] = sorted(['apache9','apache1','apache6'])
     test_map['apache6'] = ['apache2','apache5','apache7','apache10']
     test_map['apache7'] = ['apache3','apache6','apache8','apache11']
-    test_map['apache8'] = ['apache4','apache7','apache12']
+    test_map['apache8'] = ['apache4','apache7','apache12','navajo1', 'navajo2']
     test_map['apache9'] = ['apache5','apache10','apache13']
     test_map['apache10'] = ['apache6','apache9','apache11','apache14']
     test_map['apache11'] = ['apache7','apache10','apache12','apache15']
-    test_map['apache12'] = ['apache8','apache11','apache16']
+    test_map['apache12'] = ['apache8','apache11','apache16','navajo2']
     test_map['apache13'] = ['apache9','apache14','apache17']
     test_map['apache14'] = sorted(['apache18','apache13','apache10','apache15'])
     test_map['apache15'] = sorted(['apache19','apache14','apache11','apache16'])
-    test_map['apache16'] = sorted(['apache20','apache15','apache12'])
+    test_map['apache16'] = sorted(['apache20','apache15','apache12','navajo9'])
     test_map['apache17'] = sorted(['apache21','apache13','apache18'])
     test_map['apache18'] = sorted(['apache22','apache17','apache14','apache19'])
     test_map['apache19'] = sorted(['apache23','apache18','apache15','apache20'])
-    test_map['apache20'] = sorted(['apache24','apache19','apache16'])
+    test_map['apache20'] = sorted(['apache24','apache19','apache16','navajo9', 'navajo16'])
     test_map['apache21'] = sorted(['apache25','apache17','apache22'])
     test_map['apache22'] = sorted(['apache26','apache21','apache18','apache23'])
     test_map['apache23'] = sorted(['apache27','apache22','apache19','apache24'])
-    test_map['apache24'] = sorted(['apache28','apache23','apache20'])
+    test_map['apache24'] = sorted(['apache28','apache23','apache20','navajo16', 'navajo23'])
     test_map['apache25'] = sorted(['apache29','apache21','apache26'])
     test_map['apache26'] = sorted(['apache30','apache25','apache22','apache27'])
     test_map['apache27'] = sorted(['apache31','apache26','apache23','apache28'])
-    test_map['apache28'] = sorted(['apache32','apache27','apache24'])
+    test_map['apache28'] = sorted(['apache32','apache27','apache24','navajo23'])
     test_map['apache29'] = sorted(['apache33','apache25','apache30'])
     test_map['apache30'] = sorted(['apache34','apache29','apache26','apache31'])
     test_map['apache31'] = sorted(['apache35','apache30','apache27','apache32'])
-    test_map['apache32'] = sorted(['apache36','apache31','apache28'])
+    test_map['apache32'] = sorted(['apache36','apache31','apache28','navajo23', 'navajo24', 'navajo30'])
     test_map['apache33'] = sorted(['apache37','apache29','apache34'])
     test_map['apache34'] = sorted(['apache38','apache33','apache30','apache35'])
     test_map['apache35'] = sorted(['apache39','apache34','apache31','apache36'])
-    test_map['apache36'] = sorted(['apache40','apache35','apache32'])
+    test_map['apache36'] = sorted(['apache40','apache35','apache32','navajo30', 'navajo35'])
     test_map['apache37'] = sorted(['apache41','apache33','apache38'])
     test_map['apache38'] = sorted(['apache42','apache37','apache34','apache39'])
     test_map['apache39'] = sorted(['apache43','apache38','apache35','apache40'])
-    test_map['apache40'] = sorted(['apache44','apache39','apache36'])
+    test_map['apache40'] = sorted(['apache44','apache39','apache36','navajo35', 'navajo41'])
     test_map['apache41'] = sorted(['apache37','apache42'])
     test_map['apache42'] = sorted(['apache41','apache38','apache43'])
     test_map['apache43'] = sorted(['apache42','apache39','apache44'])
-    test_map['apache44'] = sorted(['apache43','apache40'])
+    test_map['apache44'] = sorted(['apache43','apache40','navajo41'])
 
     #Cochise County
     test_map['cochise1'] = ['cochise2','cochise8']
@@ -99,9 +99,6 @@ def createTestMap():
     test_map['cochise49'] = ['cochise42','cochise48']
 
     #Coconino County
-    #Broken coconino6, coconino9, coconino12, coconino18, coconino45, coconino46, coconino47, coconino48,
-    #coconino49, coconino50, coconino51, coconino52, coconino53, coconino54, coconino55, coconino56, coconino57,
-    #coconino58, coconino59, coconino60, coconino61, coconino62, coconino63, coconino64, coconino65, coconino66, coconino67
     test_map['coconino1'] = ['coconino2', 'coconino4']
     test_map['coconino2'] = ['coconino1', 'coconino3', 'coconino5']
     test_map['coconino3'] = ['coconino2', 'coconino6']
@@ -178,7 +175,6 @@ def createTestMap():
     test_map['coconino74'] = ['coconino67', 'coconino73']
 
     #Gila County
-    #Broken gila1, gila3, gila4, gila7, gila8, gila9, gila10, gila11
     test_map['gila1'] = ['gila3', 'gila4']
     test_map['gila2'] = ['gila3', 'gila5']
     test_map['gila3'] = ['gila1', 'gila2', 'gila4', 'gila6']
@@ -192,7 +188,6 @@ def createTestMap():
     test_map['gila11'] = ['gila8', 'gila10']
 
     #Graham County
-    #Broken graham6, graham11, graham15, graham18, graham19, graham20, graham21, graham22
     test_map['graham1'] = ['graham2', 'graham6']
     test_map['graham2'] = ['graham1', 'graham3', 'graham7']
     test_map['graham3'] = ['graham2', 'graham4', 'graham8']
@@ -211,24 +206,22 @@ def createTestMap():
     test_map['graham16'] = ['graham12', 'graham15', 'graham17', 'graham20']
     test_map['graham17'] = ['graham13', 'graham16', 'graham18', 'graham21']
     test_map['graham18'] = ['graham14', 'graham17', 'graham22']
-    test_map['graham19'] = ['graham15', 'graham20']
-    test_map['graham20'] = ['graham16', 'graham19', 'graham21']
+    test_map['graham19'] = ['apache2', 'apache3', 'graham15', 'graham20']
+    test_map['graham20'] = ['apache3', 'apache4', 'graham16', 'graham19', 'graham21']
     test_map['graham21'] = ['graham17', 'graham20', 'graham22']
     test_map['graham22'] = ['graham18', 'graham21']
 
     #Greenlee County
-    #Broken greenlee1, greenlee2, greenlee5
     test_map['greenlee1'] = ['greenlee2', 'greenlee3']
     test_map['greenlee2'] = ['greenlee1', 'greenlee4']
     test_map['greenlee3'] = ['greenlee1', 'greenlee4', 'greenlee6']
     test_map['greenlee4'] = ['greenlee2', 'greenlee3', 'greenlee5', 'greenlee7']
     test_map['greenlee5'] = ['greenlee4', 'greenlee8']
-    test_map['greenlee6'] = ['greenlee3', 'greenlee7']
-    test_map['greenlee7'] = ['greenlee4', 'greenlee6', 'greenlee8']
-    test_map['greenlee8'] = ['greenlee5', 'greenlee7']
+    test_map['greenlee6'] = ['apache1', 'greenlee3', 'greenlee7']
+    test_map['greenlee7'] = ['apache1', 'greenlee4', 'greenlee6', 'greenlee8']
+    test_map['greenlee8'] = ['apache2', 'greenlee5', 'greenlee7']
 
     #La Paz County
-    #Broken la_paz1, la_paz4, la_paz6, la_paz7, la_paz8, la_paz9, la_paz10, la_paz11
     test_map['la_paz1'] = ['la_paz4', 'la_paz5']
     test_map['la_paz2'] = ['la_paz3', 'la_paz6']
     test_map['la_paz3'] = ['la_paz2', 'la_paz4', 'la_paz7']
@@ -242,25 +235,6 @@ def createTestMap():
     test_map['la_paz11'] = ['la_paz8', 'la_paz10']
 
     #Maricopa County
-    #Broken maricopa188, maricopa203, maricopa210, maricopa225, maricopa247, maricopa269, maricopa297, maricopa347, 
-    #maricopa348, maricopa349, maricopa350, maricopa351, maricopa352, maricopa353, maricopa354, maricopa355, 
-    #maricopa356, maricopa357, maricopa358, maricopa359, maricopa360, maricopa361, maricopa362, maricopa363, 
-    #maricopa364, maricopa365, maricopa366, maricopa367, maricopa368, maricopa369, maricopa370, maricopa371, 
-    #maricopa372, maricopa373, maricopa374, maricopa375, maricopa376, maricopa377, maricopa378, maricopa379, 
-    #maricopa380, maricopa381, maricopa382, maricopa383, maricopa384, maricopa385, maricopa386, maricopa387, 
-    #maricopa388, maricopa389, maricopa390, maricopa391, maricopa392, maricopa393, maricopa394, maricopa395, 
-    #maricopa396, maricopa397, maricopa398, maricopa399, maricopa400, maricopa401, maricopa402, maricopa403, 
-    #maricopa404, maricopa405, maricopa406, maricopa407, maricopa408, maricopa409, maricopa410, maricopa411, 
-    #maricopa412, maricopa413, maricopa414, maricopa415, maricopa416, maricopa417, maricopa418, maricopa419, 
-    #maricopa420, maricopa421, maricopa422, maricopa423, maricopa424, maricopa425, maricopa449, maricopa450, 
-    #maricopa451, maricopa452, maricopa453, maricopa454, maricopa455, maricopa456, maricopa457, maricopa458, 
-    #maricopa459, maricopa460, maricopa473, maricopa474, maricopa475, maricopa476, maricopa477, maricopa478, 
-    #maricopa479, maricopa480, maricopa481, maricopa482, maricopa483, maricopa484, maricopa485, maricopa486, 
-    #maricopa487, maricopa497, maricopa498, maricopa499, maricopa500, maricopa501, maricopa502, maricopa503, 
-    #maricopa504, maricopa505, maricopa506, maricopa507, maricopa508, maricopa509, maricopa510, maricopa511, 
-    #maricopa512, maricopa513, maricopa514, maricopa515, maricopa516, maricopa517, maricopa518, maricopa519, 
-    #maricopa520, maricopa521, maricopa522, maricopa523, maricopa524, maricopa525, maricopa526, maricopa527, 
-    #maricopa528, maricopa529, maricopa530, maricopa531, maricopa532, maricopa533, maricopa534
     test_map['maricopa1'] = ['maricopa2', 'maricopa15']
     test_map['maricopa2'] = ['maricopa1', 'maricopa3', 'maricopa16']
     test_map['maricopa3'] = ['maricopa2', 'maricopa4', 'maricopa17']
@@ -823,57 +797,52 @@ def createTestMap():
     test_map['mohave24'] = ['mohave20', 'mohave23']
 
     #Navajo County
-    #Broken navajo1, navajo2, navajo3, navajo24, navajo25, navajo30
-    test_map['navajo1'] = ['navajo2', 'navajo3']
-    test_map['navajo2'] = ['navajo1', 'navajo3', 'navajo9']
+    test_map['navajo1'] = ['apache4', 'apache8','navajo2', 'navajo3']
+    test_map['navajo2'] = ['apache8', 'apache12','navajo1', 'navajo3', 'navajo9']
     test_map['navajo3'] = ['navajo1', 'navajo2', 'navajo4', 'navajo10']
     test_map['navajo4'] = ['navajo3', 'navajo5', 'navajo11']
     test_map['navajo5'] = ['navajo4', 'navajo6', 'navajo12']
     test_map['navajo6'] = ['navajo5', 'navajo7', 'navajo13']
     test_map['navajo7'] = ['navajo6', 'navajo8', 'navajo14']
     test_map['navajo8'] = ['navajo7', 'navajo15']
-    test_map['navajo9'] = ['navajo2', 'navajo10', 'navajo16']
+    test_map['navajo9'] = ['apache16', 'apache20','navajo2', 'navajo10', 'navajo16']
     test_map['navajo10'] = ['navajo3', 'navajo9', 'navajo11', 'navajo17']
     test_map['navajo11'] = ['navajo4', 'navajo10', 'navajo12', 'navajo18']
     test_map['navajo12'] = ['navajo5', 'navajo11', 'navajo13', 'navajo19']
     test_map['navajo13'] = ['navajo6', 'navajo12', 'navajo14', 'navajo20']
     test_map['navajo14'] = ['navajo7', 'navajo13', 'navajo15', 'navajo21']
     test_map['navajo15'] = ['navajo8', 'navajo14', 'navajo22']
-    test_map['navajo16'] = ['navajo9', 'navajo17', 'navajo23']
+    test_map['navajo16'] = ['apache20', 'apache24','navajo9', 'navajo17', 'navajo23']
     test_map['navajo17'] = ['navajo10', 'navajo16', 'navajo18', 'navajo24']
     test_map['navajo18'] = ['navajo11', 'navajo17', 'navajo19', 'navajo25']
     test_map['navajo19'] = ['navajo12', 'navajo18', 'navajo20', 'navajo26']
     test_map['navajo20'] = ['navajo13', 'navajo19', 'navajo21', 'navajo27']
     test_map['navajo21'] = ['navajo14', 'navajo20', 'navajo22', 'navajo28']
     test_map['navajo22'] = ['navajo15', 'navajo21', 'navajo29']
-    test_map['navajo23'] = ['navajo16', 'navajo24']
-    test_map['navajo24'] = ['navajo17', 'navajo23', 'navajo25', 'navajo30']
+    test_map['navajo23'] = ['apache24', 'apache28', 'apache32','navajo16', 'navajo24']
+    test_map['navajo24'] = ['apache32','navajo17', 'navajo23', 'navajo25', 'navajo30']
     test_map['navajo25'] = ['navajo18', 'navajo24', 'navajo26', 'navajo30']
     test_map['navajo26'] = ['navajo19', 'navajo25', 'navajo27', 'navajo31']
     test_map['navajo27'] = ['navajo20', 'navajo26', 'navajo28', 'navajo32']
     test_map['navajo28'] = ['navajo21', 'navajo27', 'navajo29', 'navajo33']
     test_map['navajo29'] = ['navajo22', 'navajo28', 'navajo34']
-    test_map['navajo30'] = ['navajo24', 'navajo25', 'navajo31', 'navajo35']
+    test_map['navajo30'] = ['apache32', 'apache36','navajo24', 'navajo25', 'navajo31', 'navajo35']
     test_map['navajo31'] = ['navajo26', 'navajo30', 'navajo32', 'navajo36']
     test_map['navajo32'] = ['navajo27', 'navajo31', 'navajo33', 'navajo37']
     test_map['navajo33'] = ['navajo28', 'navajo32', 'navajo34', 'navajo38']
     test_map['navajo34'] = ['navajo29', 'navajo33', 'navajo39']
-    test_map['navajo35'] = ['navajo30', 'navajo36', 'navajo40']
+    test_map['navajo35'] = ['apache36', 'apache40','navajo30', 'navajo36', 'navajo40']
     test_map['navajo36'] = ['navajo31', 'navajo35', 'navajo37', 'navajo41']
     test_map['navajo37'] = ['navajo32', 'navajo36', 'navajo38', 'navajo42']
     test_map['navajo38'] = ['navajo33', 'navajo37', 'navajo39', 'navajo43']
     test_map['navajo39'] = ['navajo34', 'navajo38', 'navajo44']
     test_map['navajo40'] = ['navajo35', 'navajo41']
-    test_map['navajo41'] = ['navajo36', 'navajo40', 'navajo42']
+    test_map['navajo41'] = ['apache40', 'apache44','navajo36', 'navajo40', 'navajo42']
     test_map['navajo42'] = ['navajo37', 'navajo41', 'navajo43']
     test_map['navajo43'] = ['navajo38', 'navajo42', 'navajo44']
     test_map['navajo44'] = ['navajo39', 'navajo43']
 
     #Pima County
-    #Broken pima6, pima12, pima13, pima24, pima26, pima39, pima56, pima73, pima125, pima126, pima127, pima128,
-    #pima129, pima130, pima131, pima132, pima133, pima134, pima135, pima136, pima137, pima138, pima139,
-    #pima140, pima141, pima142, pima143, pima144, pima145, pima146, pima147, pima148, pima149, pima150,
-    #pima151, pima152, pima153, pima154, pima155, pima156, pima157, pima158
     test_map['pima1'] = ['pima4']
     test_map['pima2'] = ['pima3', 'pima7']
     test_map['pima3'] = ['pima2', 'pima4', 'pima8']
@@ -1034,10 +1003,6 @@ def createTestMap():
     test_map['pima158'] = ['pima141', 'pima157']
 
     #Pinal County
-    #Broken pinal61, pinal62, pinal63, pinal73, pinal74, pinal75, pinal76, pinal77, pinal86, pinal87, pinal88, pinal89,
-    #pinal90, pinal91, pinal92, pinal93, pinal94, pinal95, pinal98, pinal99, pinal100, pinal101, pinal102,
-    #pinal103, pinal104, pinal105, pinal106, pinal107, pinal108, pinal109, pinal110, pinal111, pinal112,
-    #pinal113, pinal114, pinal115, pinal116, pinal117
     test_map['pinal1'] = ['pinal2', 'pinal13']
     test_map['pinal2'] = ['pinal1', 'pinal3', 'pinal14']
     test_map['pinal3'] = ['pinal2', 'pinal4', 'pinal15']
@@ -1161,8 +1126,6 @@ def createTestMap():
     test_map['pinal121'] = ['pinal117', 'pinal120']
 
     #Santa Cruz County
-    #Broken santa_cruz5, santa_cruz6, santa_cruz7, santa_cruz8, santa_cruz9, santa_cruz10, santa_cruz11, santa_cruz12,
-    #santa_cruz13, santa_cruz14, santa_cruz15, santa_cruz16, santa_cruz17, santa_cruz18, santa_cruz19
     test_map['santa_cruz1'] = ['santa_cruz2', 'santa_cruz6']
     test_map['santa_cruz2'] = ['santa_cruz1', 'santa_cruz3', 'santa_cruz7']
     test_map['santa_cruz3'] = ['santa_cruz2', 'santa_cruz4', 'santa_cruz8']
@@ -1188,7 +1151,6 @@ def createTestMap():
     test_map['santa_cruz23'] = ['santa_cruz19', 'santa_cruz22']
 
     #Yavapai County
-    #Broken yavapai3, yavapai4, yavapai10, yavapai13, yavapai19, yavapai20, yavapai38, yavapai46
     test_map['yavapai1'] = ['yavapai2', 'yavapai10']
     test_map['yavapai2'] = ['yavapai1', 'yavapai3', 'yavapai11']
     test_map['yavapai3'] = ['yavapai2', 'yavapai12', 'yavapai13']
@@ -1256,9 +1218,6 @@ def createTestMap():
     test_map['yavapai65'] = ['yavapai63', 'yavapai64']
 
     #Yuma County
-    #Broken yuma3, yuma6, yuma7, yuma11, yuma12, yuma13, yuma14, yuma15, yuma16, yuma17, yuma18, yuma19,
-    #yuma20, yuma21, yuma22, yuma23, yuma24, yuma25, yuma26, yuma27, yuma28, yuma29, yuma30, yuma31,
-    #yuma32, yuma33, yuma34, yuma35, yuma36, yuma37, yuma38
     test_map['yuma1'] = ['yuma2', 'yuma4']
     test_map['yuma2'] = ['yuma1', 'yuma3', 'yuma5']
     test_map['yuma3'] = ['yuma2', 'yuma6', 'yuma7']
