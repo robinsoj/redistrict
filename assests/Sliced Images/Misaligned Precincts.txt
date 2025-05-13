@@ -1,38 +1,6 @@
 + = Corner connecton
 * = Realign polygon
 
-1	apache = navajo
-apache20, ['apache16', 'apache19', 'apache24'],
-	  ['apache16', 'apache19', 'apache24', 'navajo16', 'navajo9']
-apache24, ['apache20', 'apache23', 'apache28'],
-	  ['apache20', 'apache23', 'apache28', 'navajo16', 'navajo23']
-apache28, ['apache24', 'apache27', 'apache32'],
-	  ['apache24', 'apache27', 'apache32', 'navajo23']
-apache32, ['apache28', 'apache31', 'apache36'],
-	  ['apache28', 'apache31', 'apache36', 'navajo23', 'navajo24', 'navajo30']
-apache36, ['apache32', 'apache35', 'apache40'],
-	  ['apache32', 'apache35', 'apache40', 'navajo30', 'navajo35']
-apache40, ['apache36', 'apache39', 'apache44'],
-	  ['apache36', 'apache39', 'apache44', 'navajo35', 'navajo41']
-apache44, ['apache40', 'apache43'],
-	  ['apache40', 'apache43', 'navajo41']
-navajo2, ['apache12', 'apache16', 'navajo1', 'navajo3', 'navajo9'],
-	 ['apache8', 'apache12', 'navajo1', 'navajo3', 'navajo9']
-navajo9, ['apache16', 'navajo2', 'navajo10', 'navajo16'],
-	 ['apache16', 'apache20', 'navajo2', 'navajo10', 'navajo16']
-navajo16, ['navajo9', 'navajo17', 'navajo23'],
-	  ['apache20', 'apache24', 'navajo9', 'navajo17', 'navajo23']
-navajo23, ['navajo16', 'navajo24'],
-	  ['apache24', 'apache28', 'apache32', 'navajo16', 'navajo24']
-navajo24, ['navajo17', 'navajo23', 'navajo25', 'navajo30'],
-	  ['apache32', 'navajo17', 'navajo23', 'navajo25', 'navajo30']
-navajo30, ['navajo24', 'navajo25', 'navajo31', 'navajo35'],
-	  ['apache32', 'apache36', 'navajo24', 'navajo25', 'navajo31', 'navajo35']
-navajo35, ['navajo30', 'navajo36', 'navajo40'],
-	  ['apache36', 'apache40', 'navajo30', 'navajo36', 'navajo40']
-navajo41, ['navajo36', 'navajo40', 'navajo42'],
-	  ['apache40', 'apache44', 'navajo36', 'navajo40', 'navajo42']
-
 4	cochise = graham, greenlee, pima, santa_cruz
 4	coconino = gila, mohave, navajo, yavapai
 5	gila = graham, maricopa, navajo, pinal, yavapai
@@ -41,4 +9,4 @@ navajo41, ['navajo36', 'navajo40', 'navajo42'],
 4	maricopa = pima, pinal, yavapai, yuma
 2	mohave = yavapai
 3	pima = pinal, santa_cruz, yuma
-33	Total
+30	Total

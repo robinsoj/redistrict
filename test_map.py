@@ -21,7 +21,7 @@ def createTestMap():
     test_map['apache17'] = sorted(['apache21','apache13','apache18'])
     test_map['apache18'] = sorted(['apache22','apache17','apache14','apache19'])
     test_map['apache19'] = sorted(['apache23','apache18','apache15','apache20'])
-    test_map['apache20'] = sorted(['apache24','apache19','apache16','navajo9', 'navajo16'])
+    test_map['apache20'] = ['apache16','apache19','apache24','navajo9', 'navajo16']
     test_map['apache21'] = sorted(['apache25','apache17','apache22'])
     test_map['apache22'] = sorted(['apache26','apache21','apache18','apache23'])
     test_map['apache23'] = sorted(['apache27','apache22','apache19','apache24'])
@@ -41,11 +41,11 @@ def createTestMap():
     test_map['apache37'] = sorted(['apache41','apache33','apache38'])
     test_map['apache38'] = sorted(['apache42','apache37','apache34','apache39'])
     test_map['apache39'] = sorted(['apache43','apache38','apache35','apache40'])
-    test_map['apache40'] = sorted(['apache44','apache39','apache36','navajo35', 'navajo41'])
+    test_map['apache40'] = sorted(['apache44','apache39','apache36','navajo35', 'navajo40'])
     test_map['apache41'] = sorted(['apache37','apache42'])
     test_map['apache42'] = sorted(['apache41','apache38','apache43'])
     test_map['apache43'] = sorted(['apache42','apache39','apache44'])
-    test_map['apache44'] = sorted(['apache43','apache40','navajo41'])
+    test_map['apache44'] = sorted(['apache43','apache40','navajo40'])
 
     #Cochise County
     test_map['cochise1'] = ['cochise2','cochise8']
@@ -836,8 +836,8 @@ def createTestMap():
     test_map['navajo37'] = ['navajo32', 'navajo36', 'navajo38', 'navajo42']
     test_map['navajo38'] = ['navajo33', 'navajo37', 'navajo39', 'navajo43']
     test_map['navajo39'] = ['navajo34', 'navajo38', 'navajo44']
-    test_map['navajo40'] = ['navajo35', 'navajo41']
-    test_map['navajo41'] = ['apache40', 'apache44','navajo36', 'navajo40', 'navajo42']
+    test_map['navajo40'] = ['apache40', 'apache44', 'navajo35', 'navajo41']
+    test_map['navajo41'] = ['navajo36', 'navajo40', 'navajo42']
     test_map['navajo42'] = ['navajo37', 'navajo41', 'navajo43']
     test_map['navajo43'] = ['navajo38', 'navajo42', 'navajo44']
     test_map['navajo44'] = ['navajo39', 'navajo43']
