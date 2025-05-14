@@ -90,13 +90,13 @@ def createTestMap():
     test_map['cochise40'] = ['cochise33','cochise39','cochise41','cochise47']
     test_map['cochise41'] = ['cochise34','cochise40','cochise42','cochise48']
     test_map['cochise42'] = ['cochise35','cochise41','cochise49']
-    test_map['cochise43'] = ['cochise36','cochise44']
-    test_map['cochise44'] = ['cochise37','cochise43','cochise45']
-    test_map['cochise45'] = ['cochise38','cochise44','cochise46']
-    test_map['cochise46'] = ['cochise39','cochise45','cochise47']
-    test_map['cochise47'] = ['cochise40','cochise46','cochise48']
-    test_map['cochise48'] = ['cochise41','cochise47','cochise49']
-    test_map['cochise49'] = ['cochise42','cochise48']
+    test_map['cochise43'] = ['cochise36','cochise44', 'graham1', 'greenlee1']
+    test_map['cochise44'] = ['cochise37','cochise43','cochise45', 'graham1', 'graham2']
+    test_map['cochise45'] = ['cochise38','cochise44','cochise46', 'graham2']
+    test_map['cochise46'] = ['cochise39','cochise45','cochise47', 'graham2', 'graham3']
+    test_map['cochise47'] = ['cochise40','cochise46','cochise48', 'graham3', 'graham4']
+    test_map['cochise48'] = ['cochise41','cochise47','cochise49', 'graham4', 'graham5']
+    test_map['cochise49'] = ['cochise42','cochise48', 'graham5']
 
     #Coconino County
     test_map['coconino1'] = ['coconino2', 'coconino4']
@@ -188,11 +188,11 @@ def createTestMap():
     test_map['gila11'] = ['gila8', 'gila10']
 
     #Graham County
-    test_map['graham1'] = ['graham2', 'graham6']
-    test_map['graham2'] = ['graham1', 'graham3', 'graham7']
-    test_map['graham3'] = ['graham2', 'graham4', 'graham8']
-    test_map['graham4'] = ['graham3', 'graham5', 'graham9']
-    test_map['graham5'] = ['graham4', 'graham10']
+    test_map['graham1'] = ['cochise43', 'cochise44','graham2', 'graham6']
+    test_map['graham2'] = ['cochise44', 'cochise45', 'cochise46', 'graham1', 'graham3', 'graham7']
+    test_map['graham3'] = ['cochise46', 'cochise47', 'graham2', 'graham4', 'graham8']
+    test_map['graham4'] = ['cochise47', 'cochise48','graham3', 'graham5', 'graham9']
+    test_map['graham5'] = ['cochise48', 'cochise49', 'graham4', 'graham10']
     test_map['graham6'] = ['graham1', 'graham7']
     test_map['graham7'] = ['graham2', 'graham6', 'graham8', 'graham11']
     test_map['graham8'] = ['graham3', 'graham7', 'graham9', 'graham12']
@@ -212,7 +212,7 @@ def createTestMap():
     test_map['graham22'] = ['graham18', 'graham21']
 
     #Greenlee County
-    test_map['greenlee1'] = ['greenlee2', 'greenlee3']
+    test_map['greenlee1'] = ['cochise43', 'greenlee2', 'greenlee3']
     test_map['greenlee2'] = ['greenlee1', 'greenlee4']
     test_map['greenlee3'] = ['greenlee1', 'greenlee4', 'greenlee6']
     test_map['greenlee4'] = ['greenlee2', 'greenlee3', 'greenlee5', 'greenlee7']
