@@ -1,7 +1,10 @@
 + = Corner connecton
 * = Realign polygon
 
-4	coconino = gila, mohave, navajo, yavapai
+4	coconino = navajo, yavapai
+
+
+
 5	gila = graham, maricopa, navajo, pinal, yavapai
 4	graham = greenlee, navajo, pima, pinal
 4	la_paz = maricopa, mohave, yavapai, yuma
