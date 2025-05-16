@@ -79,7 +79,7 @@ def main():
     precintMap = {}
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
-    test_county = ['cochise', 'pima']
+    test_county = ['coconino', 'gila']
     load_counties = test_county
     test_map = createTestMap()
 
@@ -90,7 +90,7 @@ def main():
     print("There are", len(precintMap), "precints in the JSON.")
 
     for k, v in precintMap.items():
-        if k in ('cochise43', 'greenlee1'):
+        if k in ('cochise14', 'cochise21', 'santa_cruz11', 'santa_cruz16', 'santa_cruz20'):
             for pt in v.boundaries.points:
                 print(f"{k},{pt.x},-{pt.y}")
             win.register_drawable(v.boundaries)
@@ -104,7 +104,7 @@ def main():
     state.process_precincts()
     count = 0
     for precinct in state.precincts:
-        match = re.match(r'^([a-zA-Z]+)\d*(\d)', precinct)
+        match = re.match(r'^([a-zA-Z_]+)\d*(\d)', precinct)
         if match.group(1) in test_county:
             state.precincts[precinct].assign_color(list(VGAColor)[int(match.group(2))-1].value, count)
             count += 1
@@ -112,7 +112,7 @@ def main():
                 count = 0
     #state.seed_initial_district()
     for k in test_map.keys():
-        match = re.match(r'^([a-zA-Z]+)', k)
+        match = re.match(r'^([a-zA-Z_]+)', k)
         if match.group() in test_county:
            if (state.neighbor_map[k] != test_map[k]):
                 print(f"{k}, {state.neighbor_map[k]}, {test_map[k]}")
