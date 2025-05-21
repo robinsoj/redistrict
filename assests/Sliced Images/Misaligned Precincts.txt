@@ -1,46 +1,13 @@
 + = Corner connecton
 * = Realign polygon
 
-3	gila = navajo, pinal, yavapai
+1	gila = yavapai
 
-gila2, 
-	['gila3', 'gila5'], 
-	['gila3', 'gila5', 'graham21', 'graham22', 'navajo1']
-gila5, 
-	['gila2', 'gila6', 'navajo1'], 
-	['gila2', 'gila6', 'navajo1', 'navajo3', 'navajo4', 'navajo5', 'navajo6']
-gila6, 
-	['gila3', 'gila5', 'gila7', 'gila9'], 
-	['gila3', 'gila5', 'gila7', 'gila9', 'navajo6', 'navajo7', 'navajo8']
-gila9, 
-	['gila6', 'gila10'], 
-	['coconino1', 'gila6', 'gila10', 'navajo8']
-navajo1, 
-	['gila5', 'navajo2', 'navajo3'], 
-	['apache4', 'apache8', 'gila2', 'gila5', 'navajo2', 'navajo3']
-navajo3, 
-	['navajo1', 'navajo2', 'navajo4', 'navajo10'], 
-	['gila5', 'navajo1', 'navajo2', 'navajo4', 'navajo10']
-navajo4, 
-	['navajo3', 'navajo5', 'navajo11'], 
-	['gila5', 'navajo3', 'navajo5', 'navajo11']
-navajo5, 
-	['navajo4', 'navajo6', 'navajo12'], 
-	['gila5', 'navajo4', 'navajo6', 'navajo12']
-navajo6, 
-	['navajo5', 'navajo7', 'navajo13'], 
-	['gila5', 'gila6', 'navajo5', 'navajo7', 'navajo13']
-navajo7, 
-	['navajo6', 'navajo8', 'navajo14'], 
-	['gila6', 'navajo6', 'navajo8', 'navajo14']
-navajo8, 
-	['navajo7', 'navajo15'], 
-	['coconino1', 'gila6', 'gila9', 'navajo7', 'navajo15']
 
 4	graham = greenlee, navajo, pima, pinal
 4	la_paz = maricopa, mohave, yavapai, yuma
 4	maricopa = pima, pinal, yavapai, yuma
-2	mohave = yavapai
+1	mohave = yavapai
 3	pima = pinal, santa_cruz, yuma
-20/33	Total
+17/32	Total
 
