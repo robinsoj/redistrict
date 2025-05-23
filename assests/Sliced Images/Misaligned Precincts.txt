@@ -1,10 +1,56 @@
 + = Corner connecton
 * = Realign polygon
 
-4	graham = greenlee, navajo, pima, pinal
 4	la_paz = maricopa, mohave, yavapai, yuma
+
+la_paz2, 
+	['la_paz3', 'la_paz6'], 
+	['la_paz3', 'la_paz6', 'maricopa268', 'maricopa290', 'maricopa318', 'maricopa346', 'maricopa374']
+la_paz6, 
+	['la_paz2', 'la_paz7', 'la_paz9'], 
+	['la_paz2', 'la_paz7', 'la_paz9', 'maricopa374', 'maricopa400', 'maricopa424', 'maricopa448', 'maricopa472', 'maricopa496', 'maricopa517']
+la_paz9, 
+	['la_paz6', 'la_paz10'], 
+	['la_paz6', 'la_paz10', 'maricopa517', 'maricopa534']
+maricopa268, 
+	[           'maricopa246', 'maricopa267', 'maricopa290'], 
+	['la_paz2', 'maricopa246', 'maricopa267', 'maricopa290']
+maricopa290, 
+	[           'maricopa268', 'maricopa289', 'maricopa318'], 
+	['la_paz2', 'maricopa268', 'maricopa289', 'maricopa318']
+maricopa318, 
+	[           'maricopa290', 'maricopa317', 'maricopa346'], 
+	['la_paz2', 'maricopa290', 'maricopa317', 'maricopa346']
+maricopa346, 
+	[           'maricopa318', 'maricopa345', 'maricopa374'], 
+	['la_paz2', 'maricopa318', 'maricopa345', 'maricopa374']
+maricopa374, 
+	[		       'maricopa346', 'maricopa373', 'maricopa400'], 
+	['la_paz2', 'la_paz6', 'maricopa346', 'maricopa373', 'maricopa400']
+maricopa400, 
+	[	    'maricopa374', 'maricopa399', 'maricopa424'], 
+	['la_paz6', 'maricopa374', 'maricopa399', 'maricopa424']
+maricopa424, 
+	[	    'maricopa400', 'maricopa423', 'maricopa448'], 
+	['la_paz6', 'maricopa400', 'maricopa423', 'maricopa448']
+maricopa448, 
+	[	    'maricopa424', 'maricopa447', 'maricopa472'], 
+	['la_paz6', 'maricopa424', 'maricopa447', 'maricopa472']
+maricopa472, 
+	[	    'maricopa448', 'maricopa471', 'maricopa496'], 
+	['la_paz6', 'maricopa448', 'maricopa471', 'maricopa496']
+maricopa496, 
+	[	    'maricopa472', 'maricopa495', 'maricopa517'], 
+	['la_paz6', 'maricopa472', 'maricopa495', 'maricopa517']
+maricopa517, 
+	[		       'maricopa496', 'maricopa516', 'maricopa534'], 
+	['la_paz6', 'la_paz9', 'maricopa496', 'maricopa516', 'maricopa534']
+maricopa534, 
+	[	    'maricopa517', 'maricopa533'], 
+	['la_paz9', 'maricopa517', 'maricopa533']
+
 4	maricopa = pima, pinal, yavapai, yuma
 1	mohave = yavapai
 3	pima = pinal, santa_cruz, yuma
-16/32	Total
+12/32	Total
 
