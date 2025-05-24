@@ -1,56 +1,160 @@
 + = Corner connecton
 * = Realign polygon
 
-4	la_paz = maricopa, mohave, yavapai, yuma
+3	maricopa = pinal, yavapai, yuma
 
-la_paz2, 
-	['la_paz3', 'la_paz6'], 
-	['la_paz3', 'la_paz6', 'maricopa268', 'maricopa290', 'maricopa318', 'maricopa346', 'maricopa374']
-la_paz6, 
-	['la_paz2', 'la_paz7', 'la_paz9'], 
-	['la_paz2', 'la_paz7', 'la_paz9', 'maricopa374', 'maricopa400', 'maricopa424', 'maricopa448', 'maricopa472', 'maricopa496', 'maricopa517']
-la_paz9, 
-	['la_paz6', 'la_paz10'], 
-	['la_paz6', 'la_paz10', 'maricopa517', 'maricopa534']
-maricopa268, 
-	[           'maricopa246', 'maricopa267', 'maricopa290'], 
-	['la_paz2', 'maricopa246', 'maricopa267', 'maricopa290']
-maricopa290, 
-	[           'maricopa268', 'maricopa289', 'maricopa318'], 
-	['la_paz2', 'maricopa268', 'maricopa289', 'maricopa318']
-maricopa318, 
-	[           'maricopa290', 'maricopa317', 'maricopa346'], 
-	['la_paz2', 'maricopa290', 'maricopa317', 'maricopa346']
-maricopa346, 
-	[           'maricopa318', 'maricopa345', 'maricopa374'], 
-	['la_paz2', 'maricopa318', 'maricopa345', 'maricopa374']
-maricopa374, 
-	[		       'maricopa346', 'maricopa373', 'maricopa400'], 
-	['la_paz2', 'la_paz6', 'maricopa346', 'maricopa373', 'maricopa400']
-maricopa400, 
-	[	    'maricopa374', 'maricopa399', 'maricopa424'], 
-	['la_paz6', 'maricopa374', 'maricopa399', 'maricopa424']
-maricopa424, 
-	[	    'maricopa400', 'maricopa423', 'maricopa448'], 
-	['la_paz6', 'maricopa400', 'maricopa423', 'maricopa448']
-maricopa448, 
-	[	    'maricopa424', 'maricopa447', 'maricopa472'], 
-	['la_paz6', 'maricopa424', 'maricopa447', 'maricopa472']
-maricopa472, 
-	[	    'maricopa448', 'maricopa471', 'maricopa496'], 
-	['la_paz6', 'maricopa448', 'maricopa471', 'maricopa496']
-maricopa496, 
-	[	    'maricopa472', 'maricopa495', 'maricopa517'], 
-	['la_paz6', 'maricopa472', 'maricopa495', 'maricopa517']
-maricopa517, 
-	[		       'maricopa496', 'maricopa516', 'maricopa534'], 
-	['la_paz6', 'la_paz9', 'maricopa496', 'maricopa516', 'maricopa534']
-maricopa534, 
-	[	    'maricopa517', 'maricopa533'], 
-	['la_paz9', 'maricopa517', 'maricopa533']
+maricopa1, 
+	['maricopa2', 'maricopa15'], 
+	['maricopa2', 'maricopa15', 'pima152', 'pinal12']
+maricopa15, 
+	['maricopa1', 'maricopa16', 'maricopa29'], 
+	['maricopa1', 'maricopa16', 'maricopa29', 'pinal12']
+maricopa29, 
+	['maricopa15', 'maricopa30', 'maricopa43'], 
+	['maricopa15', 'maricopa30', 'maricopa43', 'pinal24']
+maricopa43, 
+	['maricopa29', 'maricopa44', 'maricopa57'], 
+	['maricopa29', 'maricopa44', 'maricopa57', 'pinal24', 'pinal36']
+maricopa57, 
+	['maricopa43', 'maricopa58', 'maricopa71'], 
+	['maricopa43', 'maricopa58', 'maricopa71', 'pinal36', 'pinal48']
+maricopa71, 
+	['maricopa57', 'maricopa72', 'maricopa85'], 
+	['maricopa57', 'maricopa72', 'maricopa85', 'pinal48']
+maricopa85, 
+	['maricopa71', 'maricopa86', 'maricopa99'], 
+	['maricopa71', 'maricopa86', 'maricopa99', 'pinal48', 'pinal60']
+maricopa99, 
+	['maricopa85', 'maricopa100', 'maricopa113'], 
+	['maricopa85', 'maricopa100', 'maricopa113', 'pinal60', 'pinal72']
+maricopa113, 
+	['maricopa99', 'maricopa114', 'maricopa127'], 
+	['maricopa99', 'maricopa114', 'maricopa127', 'pinal72']
+maricopa127, 
+	['maricopa113', 'maricopa128', 'maricopa141'], 
+	['maricopa113', 'maricopa128', 'maricopa141', 'pinal72', 'pinal85']
+maricopa141, 
+	['maricopa127', 'maricopa142', 'maricopa155'], 
+	['maricopa127', 'maricopa142', 'maricopa155', 'pinal85', 'pinal96']
+maricopa155, 
+	['maricopa141', 'maricopa156', 'maricopa169'], 
+	['maricopa141', 'maricopa156', 'maricopa169', 'pinal96', 'pinal106']
+maricopa169, 
+	['maricopa155', 'maricopa170', 'maricopa189'], 
+	['maricopa155', 'maricopa170', 'maricopa189', 'pinal106']
+maricopa183, 
+	['maricopa184', 'maricopa204'], 
+	['maricopa184', 'maricopa204', 'pinal103', 'pinal111']
+maricopa184, 
+	['maricopa183', 'maricopa185', 'maricopa205'], 
+	['maricopa183', 'maricopa185', 'maricopa205', 'pinal103', 'pinal104']
+maricopa185, 
+	['maricopa184', 'maricopa186', 'maricopa206'], 
+	['maricopa184', 'maricopa186', 'maricopa206', 'pinal104']
+maricopa186, 
+	['maricopa185', 'maricopa187', 'maricopa207'], 
+	['maricopa185', 'maricopa187', 'maricopa207', 'pinal104', 'pinal105']
+maricopa187, 
+	['maricopa186', 'maricopa188', 'maricopa208'], 
+	['maricopa186', 'maricopa188', 'maricopa208', 'pinal105']
+maricopa188, 
+	['maricopa187', 'maricopa209'], 
+	['maricopa187', 'maricopa209', 'pinal105', 'pinal106']
+maricopa189, 
+	['maricopa169', 'maricopa190', 'maricopa211'], 
+	['maricopa169', 'maricopa190', 'maricopa211', 'pinal106', 'pinal112']
+maricopa203, 
+	['maricopa204', 'maricopa225'], 
+	['maricopa204', 'maricopa225', 'pinal111']
+maricopa225, 
+	['maricopa203', 'maricopa226', 'maricopa247'], 
+	['maricopa203', 'maricopa226', 'maricopa247', 'pinal117']
+maricopa247, 
+	['maricopa225', 'maricopa248', 'maricopa269'], 
+	['maricopa225', 'maricopa248', 'maricopa269', 'pinal117', 'pinal121']
+maricopa269, 
+	['maricopa247', 'maricopa270', 'maricopa297'], 
+	['maricopa247', 'maricopa270', 'maricopa297', 'pinal121']
+maricopa291, 
+	['maricopa292', 'maricopa319'], 
+	['gila4', 'maricopa292', 'maricopa319', 'pinal118']
+maricopa292, 
+	['maricopa291', 'maricopa293', 'maricopa320'], 
+	['maricopa291', 'maricopa293', 'maricopa320', 'pinal118', 'pinal119']
+maricopa293, 
+	['maricopa292', 'maricopa294', 'maricopa321'], 
+	['maricopa292', 'maricopa294', 'maricopa321', 'pinal119']
+maricopa294, 
+	['maricopa293', 'maricopa295', 'maricopa322'], 
+	['maricopa293', 'maricopa295', 'maricopa322', 'pinal119', 'pinal120']
+maricopa295, 
+	['maricopa294', 'maricopa296', 'maricopa323'], 
+	['maricopa294', 'maricopa296', 'maricopa323', 'pinal120']
+maricopa296, 
+	['maricopa295', 'maricopa297', 'maricopa324'], 
+	['maricopa295', 'maricopa297', 'maricopa324', 'pinal121']
+maricopa297, 
+	['maricopa269', 'maricopa296', 'maricopa298', 'maricopa325'], 
+	['maricopa269', 'maricopa296', 'maricopa298', 'maricopa325', 'pinal121']
+pinal12, 
+	[			    'pinal11', 'pinal24'], 
+	['maricopa1', 'maricopa15', 'pinal11', 'pinal24']
+pinal24, 
+	[			     'pinal12', 'pinal23', 'pinal36'], 
+	['maricopa29', 'maricopa43', 'pinal12', 'pinal23', 'pinal36']
+pinal36, 
+	[			     'pinal24', 'pinal35', 'pinal48'], 
+	['maricopa43', 'maricopa57', 'pinal24', 'pinal35', 'pinal48']
+pinal48, 
+	[					   'pinal36', 'pinal47', 'pinal60'], 
+	['maricopa57', 'maricopa71', 'maricopa85', 'pinal36', 'pinal47', 'pinal60']
+pinal60, 
+	[			     'pinal48', 'pinal59', 'pinal72'], 
+	['maricopa85', 'maricopa99', 'pinal48', 'pinal59', 'pinal72']
+pinal72, 
+	[					     'pinal60', 'pinal71', 'pinal85'], 
+	['maricopa99', 'maricopa113', 'maricopa127', 'pinal60', 'pinal71', 'pinal85']
+pinal85, 
+	[			       'pinal72', 'pinal84', 'pinal96'], 
+	['maricopa127', 'maricopa141', 'pinal72', 'pinal84', 'pinal96']
+pinal96, 
+	[			       'pinal85', 'pinal95', 'pinal106'], 
+	['maricopa141', 'maricopa155', 'pinal85', 'pinal95', 'pinal106']
+pinal103, 
+	[			       'pinal93', 'pinal102', 'pinal104'], 
+	['maricopa183', 'maricopa184', 'pinal93', 'pinal102', 'pinal104']
+pinal104, 
+	[					      'pinal94', 'pinal103', 'pinal105'], 
+	['maricopa184', 'maricopa185', 'maricopa186', 'pinal94', 'pinal103', 'pinal105']
+pinal105, 
+	[					      'pinal95', 'pinal104', 'pinal106'], 
+	['maricopa186', 'maricopa187', 'maricopa188', 'pinal95', 'pinal104', 'pinal106']
+pinal106, 
+	[			       'pinal96', 'pinal105', 'pinal112'], 
+	['maricopa188', 'maricopa189', 'pinal96', 'pinal105', 'pinal112']
+pinal111, 
+	[			       'pinal102', 'pinal110', 'pinal117'], 
+	['maricopa183', 'maricopa203', 'pinal102', 'pinal110', 'pinal117']
+pinal112, 
+	[	        'maricopa210', 'maricopa211', 'maricopa233', 'pinal106'], 
+	['maricopa189', 'maricopa210', 'maricopa211', 'maricopa233', 'pinal106']
+pinal117, 
+	[			       'pinal111', 'pinal116', 'pinal121'], 
+	['maricopa225', 'maricopa247', 'pinal111', 'pinal116', 'pinal121']
+pinal118, 
+	[					'pinal114', 'pinal119'], 
+	['gila4', 'maricopa291', 'maricopa292', 'pinal114', 'pinal119']
+pinal119, 
+	[					      'pinal115', 'pinal118', 'pinal120'], 
+	['maricopa292', 'maricopa293', 'maricopa294', 'pinal115', 'pinal118', 'pinal120']
+pinal120, 
+	[			       'pinal116', 'pinal119', 'pinal121'], 
+	['maricopa294', 'maricopa295', 'pinal116', 'pinal119', 'pinal121']
+pinal121, 
+	[					      'pinal117', 'pinal120'], 
+	['maricopa247', 'maricopa296', 'maricopa297', 'pinal117', 'pinal120']
 
-4	maricopa = pima, pinal, yavapai, yuma
 1	mohave = yavapai
 3	pima = pinal, santa_cruz, yuma
-12/32	Total
+7/32	Total
 
