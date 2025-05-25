@@ -3,42 +3,6 @@
 
 3	maricopa = pinal, yavapai, yuma
 
-maricopa1, 
-	['maricopa2', 'maricopa15'], 
-	['maricopa2', 'maricopa15', 'pima152', 'pinal12']
-maricopa15, 
-	['maricopa1', 'maricopa16', 'maricopa29'], 
-	['maricopa1', 'maricopa16', 'maricopa29', 'pinal12']
-maricopa29, 
-	['maricopa15', 'maricopa30', 'maricopa43'], 
-	['maricopa15', 'maricopa30', 'maricopa43', 'pinal24']
-maricopa43, 
-	['maricopa29', 'maricopa44', 'maricopa57'], 
-	['maricopa29', 'maricopa44', 'maricopa57', 'pinal24', 'pinal36']
-maricopa57, 
-	['maricopa43', 'maricopa58', 'maricopa71'], 
-	['maricopa43', 'maricopa58', 'maricopa71', 'pinal36', 'pinal48']
-maricopa71, 
-	['maricopa57', 'maricopa72', 'maricopa85'], 
-	['maricopa57', 'maricopa72', 'maricopa85', 'pinal48']
-maricopa85, 
-	['maricopa71', 'maricopa86', 'maricopa99'], 
-	['maricopa71', 'maricopa86', 'maricopa99', 'pinal48', 'pinal60']
-maricopa99, 
-	['maricopa85', 'maricopa100', 'maricopa113'], 
-	['maricopa85', 'maricopa100', 'maricopa113', 'pinal60', 'pinal72']
-maricopa113, 
-	['maricopa99', 'maricopa114', 'maricopa127'], 
-	['maricopa99', 'maricopa114', 'maricopa127', 'pinal72']
-maricopa127, 
-	['maricopa113', 'maricopa128', 'maricopa141'], 
-	['maricopa113', 'maricopa128', 'maricopa141', 'pinal72', 'pinal85']
-maricopa141, 
-	['maricopa127', 'maricopa142', 'maricopa155'], 
-	['maricopa127', 'maricopa142', 'maricopa155', 'pinal85', 'pinal96']
-maricopa155, 
-	['maricopa141', 'maricopa156', 'maricopa169'], 
-	['maricopa141', 'maricopa156', 'maricopa169', 'pinal96', 'pinal106']
 maricopa169, 
 	['maricopa155', 'maricopa170', 'maricopa189'], 
 	['maricopa155', 'maricopa170', 'maricopa189', 'pinal106']
@@ -96,30 +60,7 @@ maricopa296,
 maricopa297, 
 	['maricopa269', 'maricopa296', 'maricopa298', 'maricopa325'], 
 	['maricopa269', 'maricopa296', 'maricopa298', 'maricopa325', 'pinal121']
-pinal12, 
-	[			    'pinal11', 'pinal24'], 
-	['maricopa1', 'maricopa15', 'pinal11', 'pinal24']
-pinal24, 
-	[			     'pinal12', 'pinal23', 'pinal36'], 
-	['maricopa29', 'maricopa43', 'pinal12', 'pinal23', 'pinal36']
-pinal36, 
-	[			     'pinal24', 'pinal35', 'pinal48'], 
-	['maricopa43', 'maricopa57', 'pinal24', 'pinal35', 'pinal48']
-pinal48, 
-	[					   'pinal36', 'pinal47', 'pinal60'], 
-	['maricopa57', 'maricopa71', 'maricopa85', 'pinal36', 'pinal47', 'pinal60']
-pinal60, 
-	[			     'pinal48', 'pinal59', 'pinal72'], 
-	['maricopa85', 'maricopa99', 'pinal48', 'pinal59', 'pinal72']
-pinal72, 
-	[					     'pinal60', 'pinal71', 'pinal85'], 
-	['maricopa99', 'maricopa113', 'maricopa127', 'pinal60', 'pinal71', 'pinal85']
-pinal85, 
-	[			       'pinal72', 'pinal84', 'pinal96'], 
-	['maricopa127', 'maricopa141', 'pinal72', 'pinal84', 'pinal96']
-pinal96, 
-	[			       'pinal85', 'pinal95', 'pinal106'], 
-	['maricopa141', 'maricopa155', 'pinal85', 'pinal95', 'pinal106']
+
 pinal103, 
 	[			       'pinal93', 'pinal102', 'pinal104'], 
 	['maricopa183', 'maricopa184', 'pinal93', 'pinal102', 'pinal104']

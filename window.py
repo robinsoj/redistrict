@@ -90,11 +90,10 @@ def main():
     print("There are", len(precintMap), "precints in the JSON.")
 
     for k, v in precintMap.items():
-        if k in ('maricopa1', 'maricopa15', 'maricopa29', 'maricopa43', 'maricopa57', 'maricopa71', 'maricopa85', 'maricopa99', 'maricopa113', 
-                 'maricopa127', 'maricopa141', 'maricopa155', 'maricopa169', 'maricopa183', 'maricopa184', 'maricopa185', 'maricopa186', 
+        if k in ('maricopa169', 'maricopa183', 'maricopa184', 'maricopa185', 'maricopa186', 
                  'maricopa187', 'maricopa188', 'maricopa189', 'maricopa203', 'maricopa210', 'maricopa211', 'maricopa225', 'maricopa233', 
-                 'maricopa247', 'maricopa269', 'maricopa291', 'maricopa292', 'maricopa293', 'maricopa294', 'maricopa295', 'maricopa296', 
-                 'maricopa297', 'pinal12', 'pinal24', 'pinal36', 'pinal48', 'pinal60', 'pinal72', 'pinal85', 'pinal96', 'pinal103', 
+                 'maricopa247', 'maricopa269', 'maricopa291', 'maricopa292', 'maricopa293', 'maricopa294', 'maricopa295', 'maricopa296', 'maricopa297', 
+                 'pinal103', 
                  'pinal104', 'pinal105', 'pinal106', 'pinal111', 'pinal112', 'pinal117', 'pinal118', 'pinal119', 'pinal120', 'pinal121'):
             for pt in v.boundaries.points:
                 print(f"{k},{pt.x},-{pt.y}")
