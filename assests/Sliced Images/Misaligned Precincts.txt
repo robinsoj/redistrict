@@ -1,101 +1,37 @@
 + = Corner connecton
 * = Realign polygon
 
-3	maricopa = pinal, yavapai, yuma
-
-maricopa169, 
-	['maricopa155', 'maricopa170', 'maricopa189'], 
-	['maricopa155', 'maricopa170', 'maricopa189', 'pinal106']
-maricopa183, 
-	['maricopa184', 'maricopa204'], 
-	['maricopa184', 'maricopa204', 'pinal103', 'pinal111']
-maricopa184, 
-	['maricopa183', 'maricopa185', 'maricopa205'], 
-	['maricopa183', 'maricopa185', 'maricopa205', 'pinal103', 'pinal104']
-maricopa185, 
-	['maricopa184', 'maricopa186', 'maricopa206'], 
-	['maricopa184', 'maricopa186', 'maricopa206', 'pinal104']
-maricopa186, 
-	['maricopa185', 'maricopa187', 'maricopa207'], 
-	['maricopa185', 'maricopa187', 'maricopa207', 'pinal104', 'pinal105']
-maricopa187, 
-	['maricopa186', 'maricopa188', 'maricopa208'], 
-	['maricopa186', 'maricopa188', 'maricopa208', 'pinal105']
-maricopa188, 
-	['maricopa187', 'maricopa209'], 
-	['maricopa187', 'maricopa209', 'pinal105', 'pinal106']
-maricopa189, 
-	['maricopa169', 'maricopa190', 'maricopa211'], 
-	['maricopa169', 'maricopa190', 'maricopa211', 'pinal106', 'pinal112']
-maricopa203, 
-	['maricopa204', 'maricopa225'], 
-	['maricopa204', 'maricopa225', 'pinal111']
-maricopa225, 
-	['maricopa203', 'maricopa226', 'maricopa247'], 
-	['maricopa203', 'maricopa226', 'maricopa247', 'pinal117']
-maricopa247, 
-	['maricopa225', 'maricopa248', 'maricopa269'], 
-	['maricopa225', 'maricopa248', 'maricopa269', 'pinal117', 'pinal121']
-maricopa269, 
-	['maricopa247', 'maricopa270', 'maricopa297'], 
-	['maricopa247', 'maricopa270', 'maricopa297', 'pinal121']
-maricopa291, 
-	['maricopa292', 'maricopa319'], 
-	['gila4', 'maricopa292', 'maricopa319', 'pinal118']
-maricopa292, 
-	['maricopa291', 'maricopa293', 'maricopa320'], 
-	['maricopa291', 'maricopa293', 'maricopa320', 'pinal118', 'pinal119']
-maricopa293, 
-	['maricopa292', 'maricopa294', 'maricopa321'], 
-	['maricopa292', 'maricopa294', 'maricopa321', 'pinal119']
-maricopa294, 
-	['maricopa293', 'maricopa295', 'maricopa322'], 
-	['maricopa293', 'maricopa295', 'maricopa322', 'pinal119', 'pinal120']
-maricopa295, 
-	['maricopa294', 'maricopa296', 'maricopa323'], 
-	['maricopa294', 'maricopa296', 'maricopa323', 'pinal120']
-maricopa296, 
-	['maricopa295', 'maricopa297', 'maricopa324'], 
-	['maricopa295', 'maricopa297', 'maricopa324', 'pinal121']
-maricopa297, 
-	['maricopa269', 'maricopa296', 'maricopa298', 'maricopa325'], 
-	['maricopa269', 'maricopa296', 'maricopa298', 'maricopa325', 'pinal121']
-
-pinal103, 
-	[			       'pinal93', 'pinal102', 'pinal104'], 
-	['maricopa183', 'maricopa184', 'pinal93', 'pinal102', 'pinal104']
-pinal104, 
-	[					      'pinal94', 'pinal103', 'pinal105'], 
-	['maricopa184', 'maricopa185', 'maricopa186', 'pinal94', 'pinal103', 'pinal105']
-pinal105, 
-	[					      'pinal95', 'pinal104', 'pinal106'], 
-	['maricopa186', 'maricopa187', 'maricopa188', 'pinal95', 'pinal104', 'pinal106']
-pinal106, 
-	[			       'pinal96', 'pinal105', 'pinal112'], 
-	['maricopa188', 'maricopa189', 'pinal96', 'pinal105', 'pinal112']
-pinal111, 
-	[			       'pinal102', 'pinal110', 'pinal117'], 
-	['maricopa183', 'maricopa203', 'pinal102', 'pinal110', 'pinal117']
-pinal112, 
-	[	        'maricopa210', 'maricopa211', 'maricopa233', 'pinal106'], 
-	['maricopa189', 'maricopa210', 'maricopa211', 'maricopa233', 'pinal106']
-pinal117, 
-	[			       'pinal111', 'pinal116', 'pinal121'], 
-	['maricopa225', 'maricopa247', 'pinal111', 'pinal116', 'pinal121']
-pinal118, 
-	[					'pinal114', 'pinal119'], 
-	['gila4', 'maricopa291', 'maricopa292', 'pinal114', 'pinal119']
-pinal119, 
-	[					      'pinal115', 'pinal118', 'pinal120'], 
-	['maricopa292', 'maricopa293', 'maricopa294', 'pinal115', 'pinal118', 'pinal120']
-pinal120, 
-	[			       'pinal116', 'pinal119', 'pinal121'], 
-	['maricopa294', 'maricopa295', 'pinal116', 'pinal119', 'pinal121']
-pinal121, 
-	[					      'pinal117', 'pinal120'], 
-	['maricopa247', 'maricopa296', 'maricopa297', 'pinal117', 'pinal120']
-
 1	mohave = yavapai
+
+mohave1, 
+	[	    'mohave2', 'mohave5', 'yavapai27'], 
+	['la_paz9', 'mohave2', 'mohave5', 'yavapai27', 'yavapai36']
+mohave5, 
+	['mohave1', 'mohave6', 'mohave9'], 
+	['mohave1', 'mohave6', 'mohave9', 'yavapai45', 'yavapai53', 'yavapai58']
+mohave9, 
+	[	       'mohave5', 'mohave10', 'mohave13'], 
+	['coconino28', 'mohave5', 'mohave10', 'mohave13', 'yavapai58', 'yavapai63', 'yavapai65']
+
+yavapai36, 
+	[	    'yavapai27', 'yavapai35', 'yavapai45'], 
+	['mohave1', 'yavapai27', 'yavapai35', 'yavapai45']
+yavapai45, 
+	[	    'yavapai36', 'yavapai44', 'yavapai53'], 
+	['mohave5', 'yavapai36', 'yavapai44', 'yavapai53']
+yavapai53, 
+	[	    'yavapai45', 'yavapai52', 'yavapai58'], 
+	['mohave5', 'yavapai45', 'yavapai52', 'yavapai58']
+yavapai58, 
+	[		       'yavapai53', 'yavapai57', 'yavapai63'], 
+	['mohave5', 'mohave9', 'yavapai53', 'yavapai57', 'yavapai63']
+yavapai63, 
+	[	    'yavapai58', 'yavapai62', 'yavapai65'], 
+	['mohave9', 'yavapai58', 'yavapai62', 'yavapai65']
+yavapai65, 
+	[			  'yavapai63', 'yavapai64'], 
+	['coconino28', 'mohave9', 'yavapai63', 'yavapai64']
+
 3	pima = pinal, santa_cruz, yuma
-7/32	Total
+4/32	Total
 
