@@ -1,3 +1,0 @@
-Cochise: https://azgeo-open-data-agic.hub.arcgis.com/apps/cochise::election-precinct/explore
-Maricopa: https://maricopa.maps.arcgis.com/apps/webappviewer/index.html?id=e28b1463fcb84242ab5338b5a97d71b2
-https://data-maricopa.opendata.arcgis.com/datasets/Maricopa::maricopa-county-voting-precincts-2022-/explore
