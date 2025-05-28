@@ -3,6 +3,7 @@ from enum import Enum
 import random
 from colors import *
 from district_census import *
+from datetime import datetime
 
 class State:
     def __init__(self, name, districts, precincts):
@@ -38,15 +39,12 @@ class State:
     def two_true(self, a, b, c, d):
         return (a + b + c + d) == 2
     
-    def are_polygons_connected(self, polygon1, polygon2, report = False):
+    def are_polygons_connected(self, polygon1, polygon2):
         pg1_sides = polygon1.sides()
         pg2_sides = polygon2.sides()
         t = 1.1
         tolerance = Point(t, t)  # Define the fuzzy tolerance for gaps in pixels
 
-        if report:
-            print(pg1_sides)
-            print(pg2_sides)
         for side1 in pg1_sides:
             side1 = (self.normalize_point(side1[0]), self.normalize_point(side1[1]))
             for side2 in pg2_sides:
@@ -58,21 +56,6 @@ class State:
                 min_y1, max_y1 = min(side1[0].y, side1[1].y), max(side1[0].y, side1[1].y)
                 min_y2, max_y2 = min(side2[0].y, side2[1].y), max(side2[0].y, side2[1].y)
 
-                if report:
-                    print(side1, 
-                          side2,
-                          side1[0] - side2[0],
-                          side1[1] - side2[1],
-                          side1[0] - side2[1],
-                          side1[1] - side2[0],
-                          side1[0] - side2[0] < tolerance,
-                          side1[1] - side2[1] < tolerance,
-                          side1[0] - side2[1] < tolerance,
-                          side1[1] - side2[0] < tolerance,
-                          self.two_true((side1[0] - side2[0] < tolerance),
-                                        (side1[1] - side2[1] < tolerance),
-                                        (side1[0] - side2[1] < tolerance),
-                                        (side1[1] - side2[0] < tolerance)))
                 if ((side1[0] - side2[0] < tolerance) ^ (side1[1] - side2[1] < tolerance) ^ (side1[0] - side2[1] < tolerance)
                     ^ (side1[1] - side2[0] < tolerance)):
                     continue  # Skip if they only share a corner
@@ -151,18 +134,22 @@ class State:
         for p2 in self.precincts:
             #if precinct.name == 'apache2':
             #    print(precinct.name, p2, self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries))
-            if precinct.name != p2 and self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries,
-                                                                   precinct.name== 'coconino13' and p2 == 'navajo29' and False):
+            if precinct.name != p2 and self.are_polygons_connected(precinct.boundaries, self.precincts[p2].boundaries):
                 ret_val.append(p2)
         return ret_val
 
-    def process_precincts(self):
+    def process_precincts(self, cached_map = None):
         count = 0
+        if cached_map is None:
+            cached_map = {}
         for precinct in self.precincts.values():
             if count % 100 == 0:
-                print(f"Processed {count} precincts.")
+                print(f"Processed {count} precincts: {datetime.now()}")
             count += 1
-            neighbors = self.build_neighbor_map(precinct)
+            if precinct.name not in cached_map:
+                neighbors = self.build_neighbor_map(precinct)
+            else:
+                neighbors = cached_map[precinct.name]
             self.neighbor_map[precinct.name] = neighbors
         #print(self.neighbor_map)
         

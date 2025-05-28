@@ -1,21 +1,40 @@
-from tkinter import Tk, BOTH, Canvas
+from tkinter import Tk, BOTH, Canvas, Text, Scrollbar, NW, VERTICAL, Frame, LEFT, RIGHT
 from graphic_primatives import *
 from jsonload import *
 from precinct import *
 from state import *
 from test_map import *
 import re
+import sys
 
 class Window:
     def __init__(self, width, height):
         self.__root = Tk()
-        self.__root.title = "Congressional Redistricting"
+        self.__root.title("Congressional Redistricting")
+        self.__root.geometry(f"{width}x{height}")
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
-        #self.__canvas = Canvas(self.__root, width=width, height=height)
-        self.__canvas = Canvas(self.__root, width=width, height=height, background="black")
+
+        self.__main_frame = Frame(self.__root)
+        self.__main_frame.pack(fill=BOTH, expand=True, padx=10, pady=10)
+
+        self.__canvas = Canvas(self.__main_frame, width=600, height=600)
+        #self.__canvas = Canvas(self.__main_frame, width=width, height=height, background="black")
         self.__canvas.bind("<Button-1>", self.on_click)
         self.__canvas.bind("<B1-Motion>", self.on_drag)
-        self.__canvas.pack()
+        self.__canvas.pack(side=LEFT, padx=5, pady=5)
+
+        self.__text_frame = Frame(self.__main_frame)
+        self.__text_frame.pack(side=RIGHT, fill=BOTH, expand=True)
+
+        self.__text = Text(self.__text_frame, height=300, width=150, bg="white")
+        self.__text.pack(side=LEFT, fill="x", expand=True)
+        
+        self.__scrollbar = Scrollbar(self.__text_frame, orient=VERTICAL, command=self.__text.yview)
+        self.__scrollbar.pack(side='right', fill='y')
+        self.__text.config(yscrollcommand=self.__scrollbar.set)
+        
+        for i in range(1, 101):
+            self.__text.insert("end", f"Item {i}\n")
         self.__clickables = []
         self.__drawables = []
         self.__updateables = []
@@ -72,7 +91,7 @@ class Window:
     def report_drawables(self):
         print(len(self.__drawables))
 
-def main():
+def main(arg1):
     win = Window(820, 620)
     stateData = openJson("counties.json")
     print(stateData["Name"], "file was loaded")
@@ -87,13 +106,24 @@ def main():
     print("There are", len(precintMap), "precints in the JSON.")
 
     state = State(stateData["Name"], stateData["districts"], precintMap)
-
-    state.process_precincts()
+    for k, v in precintMap.items():
+        win.register_drawable(v.boundaries)
+    if arg1 == "":
+        state.process_precincts()
+    else:
+        state.process_precincts(createTestMap())
 
     state.seed_initial_district()
     print("Trying to determine", stateData["districts"], "congressional districts")
+    win.register_updateable(state)
     win.wait_for_close()
 
 
 if __name__ == '__main__':
-    main()
+    param1 = ""
+    try:
+        if sys.argv is not None:
+            param1 = sys.argv[1]
+    except:
+        print("Fresh mode")
+    main(param1)
