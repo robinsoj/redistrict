@@ -24,17 +24,15 @@ class Window:
         self.__canvas.pack(side=LEFT, padx=5, pady=5)
 
         self.__text_frame = Frame(self.__main_frame)
-        self.__text_frame.pack(side=RIGHT, fill=BOTH, expand=True)
+        self.__text_frame.pack(side=RIGHT, fill=BOTH, expand=False, anchor="n")
 
-        self.__text = Text(self.__text_frame, height=300, width=150, bg="white")
-        self.__text.pack(side=LEFT, fill="x", expand=True)
+        self.__text = Text(self.__text_frame, height=10, width=150, bg="white")
+        self.__text.pack(side=LEFT, fill="none", expand=False, anchor="n")
         
         self.__scrollbar = Scrollbar(self.__text_frame, orient=VERTICAL, command=self.__text.yview)
-        self.__scrollbar.pack(side='right', fill='y')
+        self.__scrollbar.pack(side='right', fill='x')
         self.__text.config(yscrollcommand=self.__scrollbar.set)
         
-        for i in range(1, 101):
-            self.__text.insert("end", f"Item {i}\n")
         self.__clickables = []
         self.__drawables = []
         self.__updateables = []
@@ -82,6 +80,8 @@ class Window:
             return
         
         for updateable in self.__updateables:
+            if type(updateable) == State:
+                self.update_district_numbers(updateable.generate_district_counts())
             updateable.update()
 
         self.__canvas.delete("all")
@@ -90,6 +90,10 @@ class Window:
 
     def report_drawables(self):
         print(len(self.__drawables))
+
+    def update_district_numbers(self, str):
+        self.__text.delete("1.0", "end")
+        self.__text.insert("end", str)
 
 def main(arg1):
     win = Window(820, 620)
@@ -113,11 +117,15 @@ def main(arg1):
     else:
         state.process_precincts(createTestMap())
 
-    state.seed_initial_district()
-    print("Trying to determine", stateData["districts"], "congressional districts")
-    win.register_updateable(state)
-    win.wait_for_close()
+    #actual logic begin
+    #state.seed_initial_district()
+    #print("Trying to determine", stateData["districts"], "congressional districts")
+    #win.register_updateable(state)
+    #win.wait_for_close()
+    #actual logic end
 
+    #populate all precincts to one district except for one.
+    #call find_adjacent_precincts until I find an error.
 
 if __name__ == '__main__':
     param1 = ""

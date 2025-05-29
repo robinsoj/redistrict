@@ -176,14 +176,20 @@ class State:
         self.unassigned_precincts.remove(random_precinct)
 
     def find_adjacent_precincts(self, district):
-        adjacent_precincts = []
+        border_precincts = set()
 
         for precinct in self.districts[district]:
-            for other_precinct in self.neighbor_map[precinct]:
-                if self.precincts[other_precinct].district != district:
-                    adjacent_precincts.append(other_precinct)
+            internal = True
+            for neighbor in self.neighbor_map[precinct]:
+                if self.precincts[neighbor].district != district:
+                    internal = False
+            if not internal:
+                border_precincts.add(neighbor)
+        
+        
+        print(f"{district} - {len(border_precincts)}")
 
-        return adjacent_precincts
+        return list(border_precincts)
 
     def select_district(self):
         max_voters = 100000000
@@ -202,13 +208,19 @@ class State:
             if self.current_district == self.district_count:
                 self.current_district = 0
         else:
-            return
             min_dist = self.select_district()
-            print(min_dist, self.census[min_dist].total_voters())
             adjacent_precincts = self.find_adjacent_precincts(min_dist)
             choice = random.choice(adjacent_precincts)
+            self.districts[self.precincts[choice].district].remove(choice)
+            self.districts[min_dist].append(choice)
             self.census[self.precincts[choice].district].remove_precinct(self.precincts[choice])
             self.update_district(choice, min_dist)
+    
+    def generate_district_counts(self):
+        ret_val = ""
+        for count in range(len(self.census)):
+            ret_val += f"{count+1}:  {self.census[count].total_voters():,d} - {len(self.districts[count])}\n"
+        return ret_val
 
 def main():
     print("In main")
