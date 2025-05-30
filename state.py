@@ -178,18 +178,81 @@ class State:
     def find_adjacent_precincts(self, district):
         border_precincts = set()
 
+        # Find precincts in the district that border another district
         for precinct in self.districts[district]:
             internal = True
             for neighbor in self.neighbor_map[precinct]:
                 if self.precincts[neighbor].district != district:
                     internal = False
             if not internal:
-                border_precincts.add(neighbor)
+                border_precincts.add(precinct)
         
+        ret_val = set()
         
-        print(f"{district} - {len(border_precincts)}")
+        for precinct in border_precincts:
+            for neighbor in self.neighbor_map[precinct]:
+                # Only consider neighbors not in the current district
+                if self.precincts[neighbor].district != district:
+                    # Check if removing neighbor from its district keeps it contiguous
+                    # and if adding it to the target district keeps it contiguous
+                    if (self._is_district_contiguous_after_removal(neighbor) and
+                        self._is_district_contiguous_after_addition(neighbor, district)):
+                        ret_val.add(neighbor)
+        
+        return list(ret_val)
 
-        return list(border_precincts)
+    def _is_district_contiguous_after_removal(self, precinct):
+        """
+        Check if the district of the given precinct remains contiguous after removing it.
+        Uses DFS to verify that all remaining precincts in the district are connected.
+        """
+        district = self.precincts[precinct].district
+        district_precincts = set(self.districts[district]) - {precinct}
+        
+        if not district_precincts:
+            return True  # Empty district is trivially contiguous
+        
+        # Start DFS from an arbitrary precinct in the district
+        start_precinct = next(iter(district_precincts))
+        visited = set()
+        
+        def dfs(current):
+            visited.add(current)
+            for neighbor in self.neighbor_map[current]:
+                if neighbor in district_precincts and neighbor not in visited:
+                    dfs(neighbor)
+        
+        dfs(start_precinct)
+        
+        # District is contiguous if all precincts were visited
+        if len(visited) != len(district_precincts):
+            return False
+        return True
+
+    def _is_district_contiguous_after_addition(self, precinct, target_district):
+        """
+        Check if adding the precinct to the target district keeps it contiguous.
+        Simulates adding the precinct and checks connectivity.
+        """
+        # Simulate adding the precinct to the target district
+        district_precincts = set(self.districts[target_district]) | {precinct}
+        
+        # Start DFS from an arbitrary precinct in the district
+        start_precinct = next(iter(district_precincts))
+        visited = set()
+        
+        def dfs(current):
+            visited.add(current)
+            for neighbor in self.neighbor_map[current]:
+                if neighbor in district_precincts and neighbor not in visited:
+                    dfs(neighbor)
+        
+        dfs(start_precinct)
+        
+        # District is contiguous if all precincts were visited
+        if len(visited) != len(district_precincts):
+            return False
+        return True
 
     def select_district(self):
         max_voters = 100000000

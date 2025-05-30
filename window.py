@@ -118,14 +118,29 @@ def main(arg1):
         state.process_precincts(createTestMap())
 
     #actual logic begin
-    #state.seed_initial_district()
-    #print("Trying to determine", stateData["districts"], "congressional districts")
-    #win.register_updateable(state)
-    #win.wait_for_close()
+    state.seed_initial_district()
+    print("Trying to determine", stateData["districts"], "congressional districts")
+    win.register_updateable(state)
+    win.wait_for_close()
     #actual logic end
 
     #populate all precincts to one district except for one.
     #call find_adjacent_precincts until I find an error.
+    #dist_list = []
+    #for precinct in state.precincts:
+    #    state.update_district(precinct, 0)
+    #    dist_list.append(precinct)
+    #state.districts.append(dist_list)
+    #dist_list2 = []
+    #state.update_district('maricopa51', 1)
+    #dist_list2.append('maricopa51')
+    #state.districts.append(dist_list2)
+    #choices = ['maricopa65', 'maricopa79', 'maricopa78', 'maricopa77', 'maricopa63']
+    #for item in choices:
+    #    state.districts[state.precincts[item].district].remove(item)
+    #    state.districts[1].append(item)
+    #    state.update_district(item, 1)
+    #print('maricopa50' in state.find_adjacent_precincts(1))
 
 if __name__ == '__main__':
     param1 = ""
