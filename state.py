@@ -15,6 +15,7 @@ class State:
         self.census = []
         self.current_district = 0
         self.unassigned_precincts = []
+        self.heuristic = None
         for name in precincts.keys():
             self.unassigned_precincts.append(name)
         self.neighbor_map = {}
@@ -284,6 +285,9 @@ class State:
         for count in range(len(self.census)):
             ret_val += f"{count+1}:  {self.census[count].total_voters():,d} - {len(self.districts[count])}\n"
         return ret_val
+    
+    def set_heuristic(self, value):
+        self.heuristic = value
 
 def main():
     print("In main")

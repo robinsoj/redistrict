@@ -1,4 +1,4 @@
-from tkinter import Tk, BOTH, Canvas, Text, Scrollbar, NW, VERTICAL, Frame, LEFT, RIGHT
+import tkinter as tk
 from graphic_primatives import *
 from jsonload import *
 from precinct import *
@@ -9,30 +9,45 @@ import sys
 
 class Window:
     def __init__(self, width, height):
-        self.__root = Tk()
+        self.__root = tk.Tk()
         self.__root.title("Congressional Redistricting")
         self.__root.geometry(f"{width}x{height}")
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
 
-        self.__main_frame = Frame(self.__root)
-        self.__main_frame.pack(fill=BOTH, expand=True, padx=10, pady=10)
+        self.__main_frame = tk.Frame(self.__root)
+        self.__main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-        self.__canvas = Canvas(self.__main_frame, width=600, height=600)
-        #self.__canvas = Canvas(self.__main_frame, width=width, height=height, background="black")
+        self.__canvas = tk.Canvas(self.__main_frame, width=600, height=600)
+        #self.__canvas = tk.Canvas(self.__main_frame, width=width, height=height, background="black")
         self.__canvas.bind("<Button-1>", self.on_click)
         self.__canvas.bind("<B1-Motion>", self.on_drag)
-        self.__canvas.pack(side=LEFT, padx=5, pady=5)
+        self.__canvas.pack(side=tk.LEFT, padx=5, pady=5)
 
-        self.__text_frame = Frame(self.__main_frame)
-        self.__text_frame.pack(side=RIGHT, fill=BOTH, expand=False, anchor="n")
+        self.__text_frame = tk.Frame(self.__main_frame)
+        self.__text_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=False, anchor=tk.N)
 
-        self.__text = Text(self.__text_frame, height=10, width=150, bg="white")
-        self.__text.pack(side=LEFT, fill="none", expand=False, anchor="n")
+        self.__text = tk.Text(self.__text_frame, height=10, width=20, bg="white")
+        self.__text.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
         
-        self.__scrollbar = Scrollbar(self.__text_frame, orient=VERTICAL, command=self.__text.yview)
-        self.__scrollbar.pack(side='right', fill='x')
+        self.__scrollbar = tk.Scrollbar(self.__text_frame, orient=tk.VERTICAL, command=self.__text.yview)
+        #self.__scrollbar.pack(side=tk.TOP, fill=tk.X)
         self.__text.config(yscrollcommand=self.__scrollbar.set)
         
+        self.__selected_option = tk.StringVar(value="Compact")
+
+        self.__radio_frame = tk.Frame(self.__text_frame)
+        self.__radio_frame.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
+
+        options = ["Compact", "Republican", "Independent", "Democrat"]
+        for option in options:
+            tk.Radiobutton(
+                self.__radio_frame, 
+                text=option, 
+                value=option, 
+                variable=self.__selected_option
+                ).pack(anchor="w", padx=10, pady=5)
+
+
         self.__clickables = []
         self.__drawables = []
         self.__updateables = []
@@ -82,6 +97,7 @@ class Window:
         for updateable in self.__updateables:
             if type(updateable) == State:
                 self.update_district_numbers(updateable.generate_district_counts())
+                updateable.set_heuristic(self.__selected_option.get())
             updateable.update()
 
         self.__canvas.delete("all")
