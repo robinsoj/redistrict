@@ -1,6 +1,7 @@
 from graphic_primatives import *
 from enum import Enum
 import random
+import math
 from colors import *
 from district_census import *
 from datetime import datetime
@@ -13,6 +14,7 @@ class State:
         self.district_count = districts
         #self.district_colors = []
         self.census = []
+        self.centroids = []
         self.current_district = 0
         self.unassigned_precincts = []
         self.heuristic = None
@@ -22,6 +24,7 @@ class State:
         random.seed()
         for i in range(self.district_count):
             self.census.append(District_Census())
+            self.centroids.append(Point(0, 0))
     
     def update_district(self, precinct, district_number, color_override = None):
         if color_override is None:
@@ -33,6 +36,8 @@ class State:
         #        return
         self.precincts[precinct].assign_color(color_override, district_number)
         self.census[district_number].add_precinct(self.precincts[precinct])
+        pg = Polygon(Color.ALICE_BLUE, [self.precincts[obj].boundaries.centroid for obj in self.precincts if self.precincts[obj].district == district_number])
+        self.centroids[district_number] = pg.centroid
 
     def normalize_point(self, pt):
         return Point(round(pt.x, 6), round(pt.y, 6))
@@ -272,13 +277,15 @@ class State:
             if self.current_district == self.district_count:
                 self.current_district = 0
         else:
-            min_dist = self.select_district()
-            adjacent_precincts = self.find_adjacent_precincts(min_dist)
-            choice = random.choice(adjacent_precincts)
+            min_district = self.select_district()
+            adjacent_precincts = self.find_adjacent_precincts(min_district)
+            choice = self.choose_precinct(adjacent_precincts, min_district)
+            c2 = random.choice(adjacent_precincts)
+            print(f"{choice} - {c2} - {choice in adjacent_precincts} - {c2 in adjacent_precincts}")
             self.districts[self.precincts[choice].district].remove(choice)
-            self.districts[min_dist].append(choice)
+            self.districts[min_district].append(choice)
             self.census[self.precincts[choice].district].remove_precinct(self.precincts[choice])
-            self.update_district(choice, min_dist)
+            self.update_district(choice, min_district)
     
     def generate_district_counts(self):
         ret_val = ""
@@ -286,6 +293,41 @@ class State:
             ret_val += f"{count+1}:  {self.census[count].total_voters():,d} - {len(self.districts[count])}\n"
         return ret_val
     
+    def generate_district_controls(self):
+        ret_val = ""
+        counts = {}
+        labels = ["Democrat", "Independent", "Republican"]
+        for label in labels:
+            counts[label] = 0
+        
+        for i in range(len(self.census)):
+            counts[self.census[i].district_party()] += 1
+        
+        for label in labels:
+            ret_val += f"{label}: {counts[label]}\n"
+        
+        return ret_val
+    
+    def choose_precinct(self, adjacent_precincts, district_number):
+        match self.heuristic:
+            case "Compact":
+                precincts = [(obj, self.precincts[obj].boundaries.centroid) for obj in adjacent_precincts]
+                min_distance = 1000000000
+                choice = ""
+                district_centroid = self.centroids[district_number]
+                for precinct, centroid in precincts:
+                    distance = math.sqrt((centroid[0] - district_centroid[0])**2 + (centroid[1] - district_centroid[1])**2)
+                    if distance < min_distance:
+                        min_distance = distance
+                        choice = precinct
+                return choice
+            case "Republican":
+                return random.choice(adjacent_precincts) #NYI
+            case "Independent":
+                return random.choice(adjacent_precincts) #NYI
+            case "Democrat":
+                return random.choice(adjacent_precincts) #NYI
+        return random.choice(adjacent_precincts)
     def set_heuristic(self, value):
         self.heuristic = value
 

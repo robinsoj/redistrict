@@ -1,3 +1,5 @@
+import jsonload as jl
+
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -85,6 +87,7 @@ class Polygon:
             self.points = points
         self.color = color
         self.fill_color = color
+        self.centroid = jl.polygon_centroid(self.points)
 
     def __gt__(self, other):
         return self.area() > other.area()

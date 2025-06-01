@@ -17,7 +17,7 @@ class Window:
         self.__main_frame = tk.Frame(self.__root)
         self.__main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-        self.__canvas = tk.Canvas(self.__main_frame, width=600, height=600)
+        self.__canvas = tk.Canvas(self.__main_frame, width=600, height=620)
         #self.__canvas = tk.Canvas(self.__main_frame, width=width, height=height, background="black")
         self.__canvas.bind("<Button-1>", self.on_click)
         self.__canvas.bind("<B1-Motion>", self.on_drag)
@@ -47,6 +47,8 @@ class Window:
                 variable=self.__selected_option
                 ).pack(anchor="w", padx=10, pady=5)
 
+        self.__text2 = tk.Text(self.__text_frame, height=10, width=20, bg="#f0f0f0", borderwidth=0)
+        self.__text2.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
 
         self.__clickables = []
         self.__drawables = []
@@ -96,7 +98,7 @@ class Window:
         
         for updateable in self.__updateables:
             if type(updateable) == State:
-                self.update_district_numbers(updateable.generate_district_counts())
+                self.update_district_numbers(updateable.generate_district_counts(), updateable.generate_district_controls())
                 updateable.set_heuristic(self.__selected_option.get())
             updateable.update()
 
@@ -107,15 +109,18 @@ class Window:
     def report_drawables(self):
         print(len(self.__drawables))
 
-    def update_district_numbers(self, str):
+    def update_district_numbers(self, str, str2):
         self.__text.delete("1.0", "end")
         self.__text.insert("end", str)
+        self.__text2.delete("1.0", "end")
+        self.__text2.insert("end", str2)
 
 def main(arg1):
-    win = Window(820, 620)
+    win = Window(900, 700)
     stateData = openJson("counties.json")
     print(stateData["Name"], "file was loaded")
     precintMap = {}
+    #lines = [Line(10, 10, 578,10), Line(578, 10, 578, 614), Line(10, 10, 10, 614), Line(10, 614, 578,614)]
     load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
                      'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
 
@@ -128,6 +133,8 @@ def main(arg1):
     state = State(stateData["Name"], stateData["districts"], precintMap)
     for k, v in precintMap.items():
         win.register_drawable(v.boundaries)
+    #for line in lines:
+    #    win.register_drawable(line)
     if arg1 == "":
         state.process_precincts()
     else:
