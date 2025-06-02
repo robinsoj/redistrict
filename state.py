@@ -25,6 +25,7 @@ class State:
         for i in range(self.district_count):
             self.census.append(District_Census())
             self.centroids.append(Point(0, 0))
+        self.last_moves = []
     
     def update_district(self, precinct, district_number, color_override = None):
         if color_override is None:
@@ -34,10 +35,14 @@ class State:
         #        pre.assign_color(color_override, district_number)
         #        self.census[district_number].add_precinct(pre)
         #        return
+        old_district = self.precincts[precinct].district
         self.precincts[precinct].assign_color(color_override, district_number)
         self.census[district_number].add_precinct(self.precincts[precinct])
         pg = Polygon(Color.ALICE_BLUE, [self.precincts[obj].boundaries.centroid for obj in self.precincts if self.precincts[obj].district == district_number])
         self.centroids[district_number] = pg.centroid
+        if old_district != -1:
+            pg = Polygon(Color.ALICE_BLUE, [self.precincts[obj].boundaries.centroid for obj in self.precincts if self.precincts[obj].district == old_district])
+            self.centroids[old_district] = pg.centroid
 
     def normalize_point(self, pt):
         return Point(round(pt.x, 6), round(pt.y, 6))
@@ -279,13 +284,20 @@ class State:
         else:
             min_district = self.select_district()
             adjacent_precincts = self.find_adjacent_precincts(min_district)
-            choice = self.choose_precinct(adjacent_precincts, min_district)
-            c2 = random.choice(adjacent_precincts)
-            print(f"{choice} - {c2} - {choice in adjacent_precincts} - {c2 in adjacent_precincts}")
+            done = False
+            while done != True:
+                choice = self.choose_precinct(adjacent_precincts, min_district)
+                adjacent_precincts.remove(choice)
+                if choice not in self.last_moves:
+                    done = True
+
+            self.last_moves = self.last_moves[-10:]
+
             self.districts[self.precincts[choice].district].remove(choice)
             self.districts[min_district].append(choice)
             self.census[self.precincts[choice].district].remove_precinct(self.precincts[choice])
             self.update_district(choice, min_district)
+            self.last_moves.append(choice)
     
     def generate_district_counts(self):
         ret_val = ""
@@ -311,16 +323,14 @@ class State:
     def choose_precinct(self, adjacent_precincts, district_number):
         match self.heuristic:
             case "Compact":
-                precincts = [(obj, self.precincts[obj].boundaries.centroid) for obj in adjacent_precincts]
-                min_distance = 1000000000
-                choice = ""
                 district_centroid = self.centroids[district_number]
-                for precinct, centroid in precincts:
-                    distance = math.sqrt((centroid[0] - district_centroid[0])**2 + (centroid[1] - district_centroid[1])**2)
-                    if distance < min_distance:
-                        min_distance = distance
-                        choice = precinct
-                return choice
+                precincts = [(obj, math.sqrt((district_centroid[0] - self.precincts[obj].boundaries.centroid[0])**2
+                                             + (district_centroid[1] - self.precincts[obj].boundaries.centroid[1])**2))
+                                             for obj in adjacent_precincts]
+                precincts_sorted = sorted(precincts, key=lambda x : x[1], reverse=False)
+                #choice = random.choice(precincts[:5])
+                choice = precincts_sorted[0]
+                return choice[0]
             case "Republican":
                 return random.choice(adjacent_precincts) #NYI
             case "Independent":
@@ -328,6 +338,7 @@ class State:
             case "Democrat":
                 return random.choice(adjacent_precincts) #NYI
         return random.choice(adjacent_precincts)
+    
     def set_heuristic(self, value):
         self.heuristic = value
 
