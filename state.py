@@ -18,14 +18,18 @@ class State:
         self.current_district = 0
         self.unassigned_precincts = []
         self.heuristic = None
+        total_census = 0
         for name in precincts.keys():
             self.unassigned_precincts.append(name)
+            total_census += precincts[name].rep + precincts[name].dem + precincts[name].oth
         self.neighbor_map = {}
         random.seed()
         for i in range(self.district_count):
             self.census.append(District_Census())
             self.centroids.append(Point(0, 0))
-        self.last_moves = []
+        self.voter_band = int(total_census / districts / 10) #All ditricts need to be within +/- 10% of the average number of voters
+        self.ideal_voters = int(total_census / districts)
+        self.balance_mode = False #True
     
     def update_district(self, precinct, district_number, color_override = None):
         if color_override is None:
@@ -38,10 +42,10 @@ class State:
         old_district = self.precincts[precinct].district
         self.precincts[precinct].assign_color(color_override, district_number)
         self.census[district_number].add_precinct(self.precincts[precinct])
-        pg = Polygon(Color.ALICE_BLUE, [self.precincts[obj].boundaries.centroid for obj in self.precincts if self.precincts[obj].district == district_number])
+        pg = Polygon(None, [self.precincts[obj].boundaries.centroid for obj in self.precincts if self.precincts[obj].district == district_number])
         self.centroids[district_number] = pg.centroid
         if old_district != -1:
-            pg = Polygon(Color.ALICE_BLUE, [self.precincts[obj].boundaries.centroid for obj in self.precincts if self.precincts[obj].district == old_district])
+            pg = Polygon(None, [self.precincts[obj].boundaries.centroid for obj in self.precincts if self.precincts[obj].district == old_district])
             self.centroids[old_district] = pg.centroid
 
     def normalize_point(self, pt):
@@ -266,14 +270,22 @@ class State:
         return True
 
     def select_district(self):
-        max_voters = 100000000
-        min_dist = -1
+        selected_district = []
+        minimum = 100000000
+        min_dist = 0
+        balance_mode = self.balance_mode
         for i in range(len(self.census)):
-            voters = self.census[i].total_voters()
-            if voters < max_voters:
-                max_voters = voters
-                min_dist = i
-        return min_dist
+            if balance_mode:
+                if self.census[i].total_voters() < minimum:
+                    minimum = self.census[i].total_voters()
+                    min_dist = i
+            else:
+                voters = self.census[i].total_voters()
+                if voters < self.ideal_voters + self.voter_band:
+                    selected_district.append(i)
+        if balance_mode:
+            selected_district = [min_dist]
+        return random.choice(selected_district)
     
     def update(self):
         if len(self.unassigned_precincts) > 0:
@@ -281,28 +293,48 @@ class State:
             self.current_district += 1
             if self.current_district == self.district_count:
                 self.current_district = 0
+        elif self.balance_mode:
+            illegal_count = 0;
+            for census in self.census:
+                if census.total_voters() not in range (self.ideal_voters-self.voter_band*2, self.ideal_voters+self.voter_band*2):
+                    illegal_count += 1
+            if illegal_count == 0:
+                self.balance_mode = False
+            min_district = self.select_district()
+            adjacent_precincts = self.find_adjacent_precincts(min_district)
+            choice = random.choice(adjacent_precincts)
+            self.districts[self.precincts[choice].district].remove(choice)
+            self.districts[min_district].append(choice)
+            self.census[self.precincts[choice].district].remove_precinct(self.precincts[choice])
+            self.update_district(choice, min_district)    
         else:
             min_district = self.select_district()
             adjacent_precincts = self.find_adjacent_precincts(min_district)
-            done = False
-            while done != True:
-                choice = self.choose_precinct(adjacent_precincts, min_district)
-                adjacent_precincts.remove(choice)
-                if choice not in self.last_moves:
-                    done = True
-
-            self.last_moves = self.last_moves[-10:]
+            choice = self.choose_precinct(adjacent_precincts, min_district)
 
             self.districts[self.precincts[choice].district].remove(choice)
             self.districts[min_district].append(choice)
             self.census[self.precincts[choice].district].remove_precinct(self.precincts[choice])
             self.update_district(choice, min_district)
-            self.last_moves.append(choice)
     
     def generate_district_counts(self):
         ret_val = ""
         for count in range(len(self.census)):
-            ret_val += f"{count+1}:  {self.census[count].total_voters():,d} - {len(self.districts[count])}\n"
+            rep = self.census[count].rep
+            dem = self.census[count].dem
+            tot = rep + dem
+            perc = rep/tot - .5
+            if perc < 0:
+                ch = 'D'
+                perc = abs(perc)
+            else:
+                ch = 'R'
+            perc = int(perc * 100)
+            ret_val += f"{count+1}:  {self.census[count].total_voters():,d} - {ch} +{perc}\n"
+        if len(self.unassigned_precincts) > 0:
+            ret_val += f"{len(self.unassigned_precincts)} left\n"
+        elif self.balance_mode:
+            ret_val += "Balancing mode"
         return ret_val
     
     def generate_district_controls(self):
@@ -324,10 +356,11 @@ class State:
         match self.heuristic:
             case "Compact":
                 district_centroid = self.centroids[district_number]
-                precincts = [(obj, math.sqrt((district_centroid[0] - self.precincts[obj].boundaries.centroid[0])**2
-                                             + (district_centroid[1] - self.precincts[obj].boundaries.centroid[1])**2))
-                                             for obj in adjacent_precincts]
-                precincts_sorted = sorted(precincts, key=lambda x : x[1], reverse=False)
+                precincts = [(obj, self.census[self.precincts[obj].district].total_voters(),
+                              math.sqrt((district_centroid[0] - self.precincts[obj].boundaries.centroid[0])**2
+                                        + (district_centroid[1] - self.precincts[obj].boundaries.centroid[1])**2))
+                                        for obj in adjacent_precincts]
+                precincts_sorted = sorted(precincts, key=lambda x: (-x[1], x[2]))
                 #choice = random.choice(precincts[:5])
                 choice = precincts_sorted[0]
                 return choice[0]
@@ -341,6 +374,11 @@ class State:
     
     def set_heuristic(self, value):
         self.heuristic = value
+
+    def draw(self, canvas):
+        for ct in self.centroids:
+            cr = Circle(ct[0], ct[1], 5, "black")
+            cr.draw(canvas)
 
 def main():
     print("In main")

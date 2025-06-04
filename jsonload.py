@@ -82,3 +82,40 @@ def polygon_centroid(vertices):
     
     return (cx, cy)
 
+def center_of_mass(points):
+    """
+    Calculate the center of mass for a list of points.
+    Points can be [(x, y)] or [(x, y, mass)].
+    If no mass is provided, assumes equal mass for all points.
+    
+    Args:
+        points: List of tuples, either (x, y) or (x, y, mass)
+    
+    Returns:
+        Tuple (x_com, y_com) representing the center of mass coordinates
+    """
+    if not points:
+        return None  # Handle empty list
+    
+    total_mass = 0.0
+    x_sum = 0.0
+    y_sum = 0.0
+    
+    for point in points:
+        if len(point) == 3:  # (x, y, mass)
+            x, y, mass = point
+        else:  # (x, y), assume mass = 1
+            x, y = point
+            mass = 1.0
+            
+        x_sum += x * mass
+        y_sum += y * mass
+        total_mass += mass
+    
+    if total_mass == 0:
+        return None  # Avoid division by zero
+    
+    x_com = x_sum / total_mass
+    y_com = y_sum / total_mass
+    
+    return (x_com, y_com)

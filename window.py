@@ -133,6 +133,7 @@ def main(arg1):
     state = State(stateData["Name"], stateData["districts"], precintMap)
     for k, v in precintMap.items():
         win.register_drawable(v.boundaries)
+    win.register_drawable(state)
     #for line in lines:
     #    win.register_drawable(line)
     if arg1 == "":
