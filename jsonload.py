@@ -84,7 +84,7 @@ def polygon_centroid(vertices):
 
 def center_of_mass(points):
     """
-    Calculate the center of mass for a list of points.
+    Calculate the center of mass for a list of points, ensuring the result lies within the convex hull.
     Points can be [(x, y)] or [(x, y, mass)].
     If no mass is provided, assumes equal mass for all points.
     
@@ -97,9 +97,11 @@ def center_of_mass(points):
     if not points:
         return None  # Handle empty list
     
+    # Extract coordinates and masses
     total_mass = 0.0
     x_sum = 0.0
     y_sum = 0.0
+    coords = []
     
     for point in points:
         if len(point) == 3:  # (x, y, mass)
@@ -111,6 +113,7 @@ def center_of_mass(points):
         x_sum += x * mass
         y_sum += y * mass
         total_mass += mass
+        coords.append([x, y])
     
     if total_mass == 0:
         return None  # Avoid division by zero
@@ -118,4 +121,85 @@ def center_of_mass(points):
     x_com = x_sum / total_mass
     y_com = y_sum / total_mass
     
-    return (x_com, y_com)
+    # If fewer than 3 points, return original COM
+    if len(points) < 3:
+        return (x_com, y_com)
+    
+    # Simple convex hull (Graham scan)
+    def orientation(p, q, r):
+        val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
+        if val == 0:
+            return 0  # Collinear
+        return 1 if val > 0 else -1  # Clockwise or counterclockwise
+    
+    def convex_hull(points):
+        if len(points) < 3:
+            return points
+        
+        # Find the bottom-most point
+        points = sorted(points, key=lambda p: (p[1], p[0]))
+        start = points[0]
+        points = points[1:]
+        
+        # Sort by polar angle with respect to start
+        points.sort(key=lambda p: (p[0] - start[0]) / (max(0.0001, ((p[0] - start[0])**2 + (p[1] - start[1])**2)**0.5)))
+        
+        # Graham scan
+        hull = [start]
+        for point in points:
+            while len(hull) > 1 and orientation(hull[-2], hull[-1], point) <= 0:
+                hull.pop()
+            hull.append(point)
+        return hull
+    
+    # Compute convex hull
+    try:
+        hull_points = convex_hull(coords)
+    except:
+        return (x_com, y_com)  # If hull fails (e.g., collinear points), return original COM
+    
+    # Check if point is inside convex hull using ray-casting
+    def is_point_in_hull(point, hull_points):
+        x, y = point
+        intersections = 0
+        for i in range(len(hull_points)):
+            p1 = hull_points[i]
+            p2 = hull_points[(i + 1) % len(hull_points)]
+            if p1[1] == p2[1]:  # Skip horizontal edges
+                continue
+            if min(p1[1], p2[1]) < y <= max(p1[1], p2[1]):
+                if x <= max(p1[0], p2[0]):
+                    x_intersect = p1[0] + (y - p1[1]) * (p2[0] - p1[0]) / (p2[1] - p1[1] + 0.0001)
+                    if x <= x_intersect:
+                        intersections += 1
+        return intersections % 2 == 1
+    
+    # If center of mass is inside the convex hull, return it
+    if is_point_in_hull((x_com, y_com), hull_points):
+        return (x_com, y_com)
+    
+    # Find closest point on or within convex hull
+    min_dist = float('inf')
+    closest_point = (x_com, y_com)
+    
+    # Check each vertex of the convex hull
+    for vertex in hull_points:
+        dist = ((x_com - vertex[0])**2 + (y_com - vertex[1])**2)**0.5
+        if dist < min_dist:
+            min_dist = dist
+            closest_point = (vertex[0], vertex[1])
+    
+    # Check points along edges of the convex hull
+    for i in range(len(hull_points)):
+        p1 = hull_points[i]
+        p2 = hull_points[(i + 1) % len(hull_points)]
+        # Parameterize the edge: p(t) = p1 + t*(p2 - p1), t in [0,1]
+        for t in [i/100 for i in range(101)]:  # 100 samples
+            x = p1[0] + t * (p2[0] - p1[0])
+            y = p1[1] + t * (p2[1] - p1[1])
+            dist = ((x_com - x)**2 + (y_com - y)**2)**0.5
+            if dist < min_dist:
+                min_dist = dist
+                closest_point = (x, y)
+    
+    return closest_point

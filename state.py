@@ -351,16 +351,34 @@ class State:
             ret_val += f"{label}: {counts[label]}\n"
         
         return ret_val
+
+    def sort_precincts(self, adjacent_precincts, district_centroid, func, mag1, mag2):
+        precincts = [(obj, func(obj, self),
+                        math.sqrt((district_centroid[0] - self.precincts[obj].boundaries.centroid[0])**2
+                                + (district_centroid[1] - self.precincts[obj].boundaries.centroid[1])**2))
+                                for obj in adjacent_precincts]
+        precincts_sorted = sorted(precincts, key=lambda x: (mag1 * x[1], mag2 * x[2]))
+        return precincts_sorted
     
     def choose_precinct(self, adjacent_precincts, district_number):
+        district_centroid = self.centroids[district_number]
+
+        def total_voters_weight(obj, self):
+            return self.census[self.precincts[obj].district].total_voters()
+
+        def republican_weight(obj, self):
+            return self.census[self.precincts[obj].district].total_rep()
+
+        def democrat_weight(obj, self):
+            return self.census[self.precincts[obj].district].total_dem()
+
+        def independent_weight(obj, self):
+            return self.census[self.precincts[obj].district].total_other()
+
         match self.heuristic:
             case "Compact":
-                district_centroid = self.centroids[district_number]
-                precincts = [(obj, self.census[self.precincts[obj].district].total_voters(),
-                              math.sqrt((district_centroid[0] - self.precincts[obj].boundaries.centroid[0])**2
-                                        + (district_centroid[1] - self.precincts[obj].boundaries.centroid[1])**2))
-                                        for obj in adjacent_precincts]
-                precincts_sorted = sorted(precincts, key=lambda x: (-x[1], x[2]))
+                precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, total_voters_weight, -1, 1)
+
                 #choice = random.choice(precincts[:5])
                 choice = precincts_sorted[0]
                 return choice[0]
