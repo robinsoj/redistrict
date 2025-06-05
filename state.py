@@ -375,6 +375,17 @@ class State:
         def independent_weight(obj, self):
             return self.census[self.precincts[obj].district].total_other()
 
+        rep = self.census[district_number].rep
+        dem = self.census[district_number].dem
+        tot = rep + dem
+        perc = rep/tot - .5
+        if perc < 0:
+            ch = 'D'
+            perc = abs(perc)
+        else:
+            ch = 'R'
+        perc = int(perc * 100)
+
         match self.heuristic:
             case "Compact":
                 precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, total_voters_weight, -1, 1)
@@ -383,11 +394,23 @@ class State:
                 choice = precincts_sorted[0]
                 return choice[0]
             case "Republican":
-                return random.choice(adjacent_precincts) #NYI
+                if (ch == 'D' and perc > 2) or (ch == 'R' and perc > 3):
+                    func = democrat_weight
+                else:
+                    func = republican_weight
+                precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
+                choice = precincts_sorted[0]
+                return choice[0]
             case "Independent":
                 return random.choice(adjacent_precincts) #NYI
             case "Democrat":
-                return random.choice(adjacent_precincts) #NYI
+                if (ch == 'R' and perc > 2) or (ch == 'D' and perc > 3):
+                    func = republican_weight
+                else:
+                    func = democrat_weight
+                precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
+                choice = precincts_sorted[0]
+                return choice[0]
         return random.choice(adjacent_precincts)
     
     def set_heuristic(self, value):
