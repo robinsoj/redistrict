@@ -38,7 +38,7 @@ class Window:
         self.__radio_frame = tk.Frame(self.__text_frame)
         self.__radio_frame.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
 
-        options = ["Compact", "Republican", "Independent", "Democrat"]
+        options = ["Compact", "Republican", "Democrat", "Competative"]
         for option in options:
             tk.Radiobutton(
                 self.__radio_frame, 

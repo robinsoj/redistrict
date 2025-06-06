@@ -5,6 +5,7 @@ import math
 from colors import *
 from district_census import *
 from datetime import datetime
+import re
 
 class State:
     def __init__(self, name, districts, precincts):
@@ -27,9 +28,6 @@ class State:
         for i in range(self.district_count):
             self.census.append(District_Census())
             self.centroids.append(Point(0, 0))
-        self.voter_band = int(total_census / districts / 10) #All ditricts need to be within +/- 10% of the average number of voters
-        self.ideal_voters = int(total_census / districts)
-        self.balance_mode = False #True
     
     def update_district(self, precinct, district_number, color_override = None):
         if color_override is None:
@@ -270,22 +268,44 @@ class State:
         return True
 
     def select_district(self):
-        selected_district = []
         minimum = 100000000
         min_dist = 0
-        balance_mode = self.balance_mode
+        low_total = minimum
         for i in range(len(self.census)):
-            if balance_mode:
-                if self.census[i].total_voters() < minimum:
-                    minimum = self.census[i].total_voters()
-                    min_dist = i
-            else:
-                voters = self.census[i].total_voters()
-                if voters < self.ideal_voters + self.voter_band:
-                    selected_district.append(i)
-        if balance_mode:
-            selected_district = [min_dist]
-        return random.choice(selected_district)
+            pull_it = False
+            rep = self.census[i].total_rep()
+            dem = self.census[i].total_dem()
+            total = self.census[i].total_voters()
+            match self.heuristic:
+                case "Compact":
+                    if total < minimum:
+                        pull_it = True
+                        amt = total
+                        low_total = total
+                case "Republican":
+                    cpvi = self.generate_cpvi(rep, dem)
+                    pattern = r'(?:R|D)\+(\d{1,2})'
+                    match = re.search(pattern, cpvi)
+                    if (match):
+                        strength = int(match.group(1))
+                        if ((cpvi[0] == 'R' or (cpvi[0] == 'D' and strength <= 2)) and (rep - dem) < minimum) and (total < low_total):
+                            low_total = total
+                            pull_it = True
+                            amt = rep - dem
+                case "Democrat":
+                    cpvi = self.generate_cpvi(rep, dem)
+                    pattern = r'(?:R|D)\+(\d{1,2})'
+                    match = re.match(cpvi, pattern)
+                    if (match):
+                        strength = match.group(1)
+                        if (cpvi[0] == 'D' or strength <= 2) and (dem - rep) < minimum:
+                            pull_it = True
+                            amt = dem - rep
+
+            if pull_it:
+                minimum = amt
+                min_dist = i
+        return min_dist
     
     def update(self):
         if len(self.unassigned_precincts) > 0:
@@ -293,20 +313,6 @@ class State:
             self.current_district += 1
             if self.current_district == self.district_count:
                 self.current_district = 0
-        elif self.balance_mode:
-            illegal_count = 0;
-            for census in self.census:
-                if census.total_voters() not in range (self.ideal_voters-self.voter_band*2, self.ideal_voters+self.voter_band*2):
-                    illegal_count += 1
-            if illegal_count == 0:
-                self.balance_mode = False
-            min_district = self.select_district()
-            adjacent_precincts = self.find_adjacent_precincts(min_district)
-            choice = random.choice(adjacent_precincts)
-            self.districts[self.precincts[choice].district].remove(choice)
-            self.districts[min_district].append(choice)
-            self.census[self.precincts[choice].district].remove_precinct(self.precincts[choice])
-            self.update_district(choice, min_district)    
         else:
             min_district = self.select_district()
             adjacent_precincts = self.find_adjacent_precincts(min_district)
@@ -322,19 +328,22 @@ class State:
         for count in range(len(self.census)):
             rep = self.census[count].rep
             dem = self.census[count].dem
-            tot = rep + dem
-            perc = rep/tot - .5
-            if perc < 0:
-                ch = 'D'
-                perc = abs(perc)
-            else:
-                ch = 'R'
-            perc = int(perc * 100)
-            ret_val += f"{count+1}:  {self.census[count].total_voters():,d} - {ch} +{perc}\n"
+            ret_val += f"{count+1}:  {self.census[count].total_voters():,d} - {self.generate_cpvi(rep, dem)}\n"
         if len(self.unassigned_precincts) > 0:
             ret_val += f"{len(self.unassigned_precincts)} left\n"
-        elif self.balance_mode:
-            ret_val += "Balancing mode"
+        return ret_val
+    
+    def generate_cpvi(self, rep, dem):
+        ret_val = ""
+        tot = rep + dem
+        perc = rep/tot - .5
+        if perc < 0:
+            ch = 'D'
+            perc = abs(perc)
+        else:
+            ch = 'R'
+        perc = int(perc * 100)
+        ret_val = f"{ch}+{perc}"
         return ret_val
     
     def generate_district_controls(self):
@@ -401,7 +410,7 @@ class State:
                 precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
                 choice = precincts_sorted[0]
                 return choice[0]
-            case "Independent":
+            case "Competative":
                 return random.choice(adjacent_precincts) #NYI
             case "Democrat":
                 if (ch == 'R' and perc > 2) or (ch == 'D' and perc > 3):
