@@ -267,44 +267,54 @@ class State:
             return False
         return True
 
+    def cpvi_sort(self, district, party, str_split):
+        pattern = r'(R|D)\+(\d{1,2})'
+        cpvi = district[3]
+        total_voters = district[4]
+        match = re.search(pattern, cpvi)
+        if not match:
+            return (3, 0, total_voters)
+        
+        p, str = match.group(1), int(match.group(2))
+
+        if p == party and str <= str_split:
+            return (0, str, total_voters)
+        elif p != party:
+            return (1, str, total_voters)
+        else:
+            return (2, str, total_voters)
+
     def select_district(self):
-        minimum = 100000000
+        minimum = float('inf')
         min_dist = 0
-        low_total = minimum
+        districts = []
+        total_voters = 0
+
         for i in range(len(self.census)):
-            pull_it = False
             rep = self.census[i].total_rep()
             dem = self.census[i].total_dem()
             total = self.census[i].total_voters()
-            match self.heuristic:
-                case "Compact":
-                    if total < minimum:
-                        pull_it = True
-                        amt = total
-                        low_total = total
-                case "Republican":
-                    cpvi = self.generate_cpvi(rep, dem)
-                    pattern = r'(?:R|D)\+(\d{1,2})'
-                    match = re.search(pattern, cpvi)
-                    if (match):
-                        strength = int(match.group(1))
-                        if ((cpvi[0] == 'R' or (cpvi[0] == 'D' and strength <= 2)) and (rep - dem) < minimum) and (total < low_total):
-                            low_total = total
-                            pull_it = True
-                            amt = rep - dem
-                case "Democrat":
-                    cpvi = self.generate_cpvi(rep, dem)
-                    pattern = r'(?:R|D)\+(\d{1,2})'
-                    match = re.match(cpvi, pattern)
-                    if (match):
-                        strength = match.group(1)
-                        if (cpvi[0] == 'D' or strength <= 2) and (dem - rep) < minimum:
-                            pull_it = True
-                            amt = dem - rep
-
-            if pull_it:
-                minimum = amt
+            total_voters += total
+            districts.append((i, rep, dem, self.generate_cpvi(rep, dem), total))
+            if total < minimum:
+                minimum = total
                 min_dist = i
+
+        average_voters = int (total_voters/len(self.census))
+
+        if self.census[min_dist].total_voters() < (average_voters * .90):
+            return min_dist
+
+        match self.heuristic:
+            case "Compact":
+                return min_dist
+            case "Republican":
+                sorted_districts = sorted(districts, key=lambda x : self.cpvi_sort(x, 'D', 2))
+                return sorted_districts[0][0]
+            case "Democrat":
+                sorted_districts = sorted(districts, key=lambda x : self.cpvi_sort(x, 'R', 2))
+                return sorted_districts[0][0]
+
         return min_dist
     
     def update(self):
