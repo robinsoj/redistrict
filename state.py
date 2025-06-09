@@ -290,12 +290,12 @@ class State:
         total_voters = district[4]
         match = re.search(pattern, cpvi)
         if not match:
-            return (3, 0, total_voters)
+            return (1, 0, -total_voters)
         
         p, strength = match.group(1), int(match.group(2))
         if strength > 4:
-            return (2, strength, total_voters)
-        return (1, strength, total_voters)
+            return (2, strength, -total_voters)
+        return (3, strength, -total_voters)
 
     def select_district(self):
         minimum = float('inf')
@@ -329,8 +329,8 @@ class State:
                 return sorted_districts[0][0]
             case "Competative":
                 sorted_districts = sorted(districts, key=lambda x : self.competative_sort(x), reverse=True)
-                print(sorted_districts)
-                return sorted_districts[0][0]
+                choice = random.choice(sorted_districts[0:3])
+                return choice[0]
 
         return min_dist
     
@@ -438,7 +438,11 @@ class State:
                 choice = precincts_sorted[0]
                 return choice[0]
             case "Competative":
-                precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, total_voters_weight, -1, 1)
+                if ch == 'D':
+                    func = republican_weight
+                else:
+                    func = democrat_weight
+                precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
                 return precincts_sorted[0][0]
             case "Democrat":
                 if (ch == 'R' and perc > 2) or (ch == 'D' and perc > 3):
@@ -446,7 +450,7 @@ class State:
                 else:
                     func = democrat_weight
                 precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
-                choice = precincts_sorted[0]
+                choice = random.choice(precincts_sorted[0:5])
                 return choice[0]
         return random.choice(adjacent_precincts)
     
