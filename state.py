@@ -273,7 +273,7 @@ class State:
         total_voters = district[4]
         match = re.search(pattern, cpvi)
         if not match:
-            return (3, 0, total_voters)
+            return (0, 1000, total_voters)
         
         p, str = match.group(1), int(match.group(2))
 
@@ -283,6 +283,19 @@ class State:
             return (1, str, total_voters)
         else:
             return (2, str, total_voters)
+
+    def competative_sort(self, district):
+        pattern = r'(R|D)\+(\d{1,2})'
+        cpvi  = district[3]
+        total_voters = district[4]
+        match = re.search(pattern, cpvi)
+        if not match:
+            return (3, 0, total_voters)
+        
+        p, strength = match.group(1), int(match.group(2))
+        if strength > 4:
+            return (2, strength, total_voters)
+        return (1, strength, total_voters)
 
     def select_district(self):
         minimum = float('inf')
@@ -313,6 +326,10 @@ class State:
                 return sorted_districts[0][0]
             case "Democrat":
                 sorted_districts = sorted(districts, key=lambda x : self.cpvi_sort(x, 'R', 2))
+                return sorted_districts[0][0]
+            case "Competative":
+                sorted_districts = sorted(districts, key=lambda x : self.competative_sort(x), reverse=True)
+                print(sorted_districts)
                 return sorted_districts[0][0]
 
         return min_dist
@@ -421,7 +438,8 @@ class State:
                 choice = precincts_sorted[0]
                 return choice[0]
             case "Competative":
-                return random.choice(adjacent_precincts) #NYI
+                precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, total_voters_weight, -1, 1)
+                return precincts_sorted[0][0]
             case "Democrat":
                 if (ch == 'R' and perc > 2) or (ch == 'D' and perc > 3):
                     func = republican_weight
