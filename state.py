@@ -28,6 +28,7 @@ class State:
         for i in range(self.district_count):
             self.census.append(District_Census())
             self.centroids.append(Point(0, 0))
+        self.draw_centroids = False
     
     def update_district(self, precinct, district_number, color_override = None):
         if color_override is None:
@@ -293,6 +294,8 @@ class State:
             return (1, 0, -total_voters)
         
         p, strength = match.group(1), int(match.group(2))
+        if strength == 0:
+            return (0, strength, -total_voters)
         if strength > 4:
             return (2, strength, -total_voters)
         return (3, strength, -total_voters)
@@ -322,10 +325,10 @@ class State:
             case "Compact":
                 return min_dist
             case "Republican":
-                sorted_districts = sorted(districts, key=lambda x : self.cpvi_sort(x, 'D', 2))
+                sorted_districts = sorted(districts, key=lambda x : self.cpvi_sort(x, 'D', 8))
                 return sorted_districts[0][0]
             case "Democrat":
-                sorted_districts = sorted(districts, key=lambda x : self.cpvi_sort(x, 'R', 2))
+                sorted_districts = sorted(districts, key=lambda x : self.cpvi_sort(x, 'R', 8))
                 return sorted_districts[0][0]
             case "Competative":
                 sorted_districts = sorted(districts, key=lambda x : self.competative_sort(x), reverse=True)
@@ -391,7 +394,8 @@ class State:
     def sort_precincts(self, adjacent_precincts, district_centroid, func, mag1, mag2):
         precincts = [(obj, func(obj, self),
                         math.sqrt((district_centroid[0] - self.precincts[obj].boundaries.centroid[0])**2
-                                + (district_centroid[1] - self.precincts[obj].boundaries.centroid[1])**2))
+                                + (district_centroid[1] - self.precincts[obj].boundaries.centroid[1])**2),
+                                self.precincts[obj].district)
                                 for obj in adjacent_precincts]
         precincts_sorted = sorted(precincts, key=lambda x: (mag1 * x[1], mag2 * x[2]))
         return precincts_sorted
@@ -426,8 +430,8 @@ class State:
             case "Compact":
                 precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, total_voters_weight, -1, 1)
 
-                #choice = random.choice(precincts[:5])
-                choice = precincts_sorted[0]
+                choice = random.choice(precincts_sorted[0:5])
+                #choice = precincts_sorted[0]
                 return choice[0]
             case "Republican":
                 if (ch == 'D' and perc > 2) or (ch == 'R' and perc > 3):
@@ -435,7 +439,9 @@ class State:
                 else:
                     func = republican_weight
                 precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
-                choice = precincts_sorted[0]
+                print(ch, perc, self.census, precincts_sorted)
+                1/0
+                choice = random.choice(precincts_sorted[0:5])
                 return choice[0]
             case "Competative":
                 if ch == 'D':
@@ -443,7 +449,8 @@ class State:
                 else:
                     func = democrat_weight
                 precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
-                return precincts_sorted[0][0]
+                choice = random.choice(precincts_sorted[0:5])
+                return choice[0]
             case "Democrat":
                 if (ch == 'R' and perc > 2) or (ch == 'D' and perc > 3):
                     func = republican_weight
@@ -458,9 +465,10 @@ class State:
         self.heuristic = value
 
     def draw(self, canvas):
-        for ct in self.centroids:
-            cr = Circle(ct[0], ct[1], 5, "black")
-            cr.draw(canvas)
+        if self.draw_centroids:
+            for ct in self.centroids:
+                cr = Circle(ct[0], ct[1], 5, "black")
+                cr.draw(canvas)
 
 def main():
     print("In main")
