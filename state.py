@@ -404,16 +404,16 @@ class State:
         district_centroid = self.centroids[district_number]
 
         def total_voters_weight(obj, self):
-            return self.census[self.precincts[obj].district].total_voters()
+            return self.precincts[obj].rep + self.precincts[obj].dem + self.precincts[obj].oth
 
         def republican_weight(obj, self):
-            return self.census[self.precincts[obj].district].total_rep()
+            return  self.precincts[obj].rep
 
         def democrat_weight(obj, self):
-            return self.census[self.precincts[obj].district].total_dem()
+            return self.precincts[obj].dem
 
         def independent_weight(obj, self):
-            return self.census[self.precincts[obj].district].total_other()
+            return self.precincts[obj].oth
 
         rep = self.census[district_number].rep
         dem = self.census[district_number].dem
@@ -439,9 +439,8 @@ class State:
                 else:
                     func = republican_weight
                 precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
-                print(ch, perc, self.census, precincts_sorted)
-                1/0
-                choice = random.choice(precincts_sorted[0:5])
+                weights = [1 / (i + 1) for i in range(len(precincts_sorted))]
+                choice = random.choices(precincts_sorted, weights=weights, k=1)[0]
                 return choice[0]
             case "Competative":
                 if ch == 'D':
@@ -449,7 +448,8 @@ class State:
                 else:
                     func = democrat_weight
                 precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
-                choice = random.choice(precincts_sorted[0:5])
+                weights = [1 / (i + 1) for i in range(len(precincts_sorted))]
+                choice = random.choices(precincts_sorted, weights=weights, k=1)[0]
                 return choice[0]
             case "Democrat":
                 if (ch == 'R' and perc > 2) or (ch == 'D' and perc > 3):
@@ -457,7 +457,8 @@ class State:
                 else:
                     func = democrat_weight
                 precincts_sorted = self.sort_precincts(adjacent_precincts, district_centroid, func, -1, 1)
-                choice = random.choice(precincts_sorted[0:5])
+                weights = [1 / (i + 1) for i in range(len(precincts_sorted))]
+                choice = random.choices(precincts_sorted, weights=weights, k=1)[0]
                 return choice[0]
         return random.choice(adjacent_precincts)
     
