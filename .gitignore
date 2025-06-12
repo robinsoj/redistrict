@@ -1,2 +1,6 @@
 __pycache__/
 assests/
+"sides output.txt"
+beautify.py
+counties_original.json
+Program.cs

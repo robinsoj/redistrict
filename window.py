@@ -120,51 +120,25 @@ def main(arg1):
     stateData = openJson("counties.json")
     print(stateData["Name"], "file was loaded")
     precintMap = {}
-    #lines = [Line(10, 10, 578,10), Line(578, 10, 578, 614), Line(10, 10, 10, 614), Line(10, 614, 578,614)]
-    load_counties = ['apache', 'cochise', 'coconino', 'gila', 'graham', 'greenlee', 'la_paz', 'maricopa', 'mohave',
-                     'navajo', 'pima', 'pinal', 'santa_cruz', 'yavapai', 'yuma']
 
-    #stateData['districts'] = 1
     for county in stateData["counties"]:
-        if county["county"] in load_counties:
-            precintMap.update(createCountyPolygons(county))
+        precintMap.update(createCountyPolygons(county))
     print("There are", len(precintMap), "precints in the JSON.")
 
     state = State(stateData["Name"], stateData["districts"], precintMap)
     for k, v in precintMap.items():
         win.register_drawable(v.boundaries)
     win.register_drawable(state)
-    #for line in lines:
-    #    win.register_drawable(line)
+
     if arg1 == "":
         state.process_precincts()
     else:
         state.process_precincts(createTestMap())
 
-    #actual logic begin
     state.seed_initial_district()
     print("Trying to determine", stateData["districts"], "congressional districts")
     win.register_updateable(state)
     win.wait_for_close()
-    #actual logic end
-
-    #populate all precincts to one district except for one.
-    #call find_adjacent_precincts until I find an error.
-    #dist_list = []
-    #for precinct in state.precincts:
-    #    state.update_district(precinct, 0)
-    #    dist_list.append(precinct)
-    #state.districts.append(dist_list)
-    #dist_list2 = []
-    #state.update_district('maricopa51', 1)
-    #dist_list2.append('maricopa51')
-    #state.districts.append(dist_list2)
-    #choices = ['maricopa65', 'maricopa79', 'maricopa78', 'maricopa77', 'maricopa63']
-    #for item in choices:
-    #    state.districts[state.precincts[item].district].remove(item)
-    #    state.districts[1].append(item)
-    #    state.update_district(item, 1)
-    #print('maricopa50' in state.find_adjacent_precincts(1))
 
 if __name__ == '__main__':
     param1 = ""

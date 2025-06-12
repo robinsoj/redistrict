@@ -470,12 +470,3 @@ class State:
             for ct in self.centroids:
                 cr = Circle(ct[0], ct[1], 5, "black")
                 cr.draw(canvas)
-
-def main():
-    print("In main")
-    print(list(Color)[0].value)
-    #for color in Color:
-    #    print(color.value)
-
-if __name__ == "__main__":
-    main()
